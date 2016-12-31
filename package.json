@@ -1,0 +1,25 @@
+{
+  "name": "product-contacts",
+  "version": "1.0.0",
+  "description": "A contacts project",
+  "main": "srv.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/oswystan/product-contacts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oswystan/product-contacts/issues"
+  },
+  "homepage": "https://github.com/oswystan/product-contacts#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "log4js": "^1.1.0",
+    "pg": "^6.1.2",
+  }
+}

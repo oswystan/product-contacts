@@ -2,7 +2,7 @@
   "name": "product-contacts",
   "version": "1.0.0",
   "description": "A contacts project",
-  "main": "srv.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -10,11 +10,17 @@
  *********************************************************************************
  */
 
+const max_rows = 15;
+
 exports = module.exports = function (cli) {
     this.client = cli;
 
     function query(sql, res) {
         cli.query(sql, function (err, result) {
+            if (err) {
+                res.send(err);
+                return;
+            }
             if (result.rows.length) {
                 res.send(result.rows);
             } else {
@@ -23,9 +29,20 @@ exports = module.exports = function (cli) {
         });
     }
 
+    function max(val, max_val) {
+        return val && val <= max_val ? val : max_val;
+    }
+
     this.list = function (req, res) {
-        var sql = 'select * from departments';
-        query(sql, res);
+        var sql = `select * from departments 
+            offset $1 limit $2;`;
+
+        var val = [
+            req.query.offset || 0, 
+            max(req.query.limit, max_rows), 
+        ];
+        
+        query({text: sql, values: val}, res);
     };
 
     this.get = function (req, res) {

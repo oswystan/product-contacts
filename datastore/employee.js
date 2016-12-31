@@ -24,7 +24,7 @@ exports = module.exports = function (cli) {
             if (result.rows.length) {
                 res.send(result.rows);
             } else {
-                res.send({});
+                res.send([]);
             }
         });
     }
@@ -33,12 +33,41 @@ exports = module.exports = function (cli) {
         return val && val <= max_val ? val : max_val;
     }
 
+    //=====
+    // sql + where + order + limit
+    //=====
     this.list = function (req, res) {
-        var sql = `select * from  employees order by id
-            offset $1 limit $2`;
+        var sql = "select * from employees";
+        var limit = " offset $1 limit $2";
+        var where = null;
+        var order = " order by id";
+
+        var q = req.query;
+
+        if (q.name) {
+            where = " where name like '" + q.name + "%%'";
+        }
+        if (q.department) {
+            if (where) {
+                where += " and department = " + q.department;
+            } else {
+                where = " where department = " + q.department;
+            }
+        }
+        if (q.orderby) {
+            order = " order by " + q.orderby;
+        }
+
+        if (where) {
+            sql += where;
+        }
+        sql += order;
+        sql += limit;
+        console.log(sql);
+
         var val = [
-            req.query.offset || 0, 
-            max(req.query.limit, max_rows),
+            q.offset || 0, 
+            max(q.limit, max_rows),
         ];
 
         query({text: sql, values: val}, res);

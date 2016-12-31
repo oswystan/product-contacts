@@ -39,7 +39,7 @@ insert into employees values(default, 'laozhao', 1, '18038479249', '9475398', 'l
 insert into employees values(default, 'laojia', 1, '18038479249', '9475398', 'laowang@xxx.com', '#1-2-304', 'boss');
 insert into employees values(default, 'laolu', 1, '18038479249', '9475398', 'laowang@xxx.com', '#1-2-304', 'boss');
 insert into employees values(default, 'laoxu', 1, '18038479249', '9475398', 'laowang@xxx.com', '#1-2-304', 'boss');
-insert into employees values(default, 'laopeng', 1, '18038479249', '9475398', 'laowang@xxx.com', '#1-2-304', 'boss');
+insert into employees values(default, 'laopeng', 2, '18038479249', '9475398', 'laowang@xxx.com', '#1-2-304', 'boss');
 
 
 insert into departments values(default, 'RnD',  3);

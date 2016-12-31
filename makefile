@@ -9,8 +9,8 @@ all: db
 
 db:
 	@echo "initializing database ..."
-	psql -f postgre.sql
-	psql -f mock_data.sql
+	psql -f ./datastore/postgre.sql
+	psql -f ./datastore/mock_data.sql
 	@echo "done"
 
 test:

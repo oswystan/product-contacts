@@ -13,26 +13,24 @@
 exports = module.exports = function (cli) {
     this.client = cli;
 
-    this.list = function (req, res) {
-        var sql = 'select * from departments';
-        this.client.query(sql, function (err, result) {
+    function query(sql, res) {
+        cli.query(sql, function (err, result) {
             if (result.rows.length) {
                 res.send(result.rows);
             } else {
                 res.send({});
             }
         });
+    }
+
+    this.list = function (req, res) {
+        var sql = 'select * from departments';
+        query(sql, res);
     };
 
     this.get = function (req, res) {
         var sql = 'select * from departments where id=' + req.params.id;
-        this.client.query(sql, function (err, result) {
-            if (result.rows.length) {
-                res.send(result.rows[0]);
-            } else {
-                res.send({});
-            }
-        });
+        query(sql, res);
     };
 
     this.post = function (req, res) {
@@ -43,13 +41,7 @@ exports = module.exports = function (cli) {
             req.body.leader || 0, 
         ];
 
-        this.client.query({text: sql, values: val}, function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send(result.rows[0]);
-            }
-        });
+        query({text: sql, values: val}, res);
     };
 
     this.put = function (req, res) {
@@ -62,13 +54,7 @@ exports = module.exports = function (cli) {
             req.body.id
         ];
 
-        this.client.query({text: sql, values: val}, function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send(result.rows[0]);
-            }
-        });
+        query({text: sql, values: val}, res);
     };
 
     this.del = function (req, res) {
@@ -77,13 +63,7 @@ exports = module.exports = function (cli) {
             req.body.id
         ];
 
-        this.client.query({text: sql, values: val}, function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send(result.rows[0]);
-            }
-        });
+        query({text: sql, values: val}, res);
     };
 };
 

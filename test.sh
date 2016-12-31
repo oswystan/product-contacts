@@ -2,6 +2,9 @@
 
 function do_employee() {
     #function_body
+    curl -X GET "http://localhost:8000/e"
+    echo ""
+    echo "==============="
     data='{
         "name" : "wangwu",
         "department": 1,
@@ -25,8 +28,6 @@ function do_employee() {
         "position":"#1-1-1",
         "role":"swe"
     }'
-    echo ""
-    echo "==============="
     curl -X PUT -d "$data" -H "Content-Type: application/json" "http://localhost:8000/e"
     echo ""
     echo "==============="
@@ -36,7 +37,10 @@ function do_employee() {
 }
 
 function do_department() {
-    #function_body
+    curl -X GET "http://localhost:8000/d"
+    echo ""
+    echo "==============="
+
     data='{
         "id": 3,
         "name" : "marketing",
@@ -61,5 +65,5 @@ function do_department() {
     echo "==============="
 }
 
-do_employee
+#do_employee
 do_department

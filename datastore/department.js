@@ -10,22 +10,19 @@
  *********************************************************************************
  */
 
-const max_rows = 15;
+var dberr = require('./error');
 
 exports = module.exports = function (cli) {
     this.client = cli;
+    const max_rows = 15;
 
     function query(sql, res) {
         cli.query(sql, function (err, result) {
             if (err) {
-                res.send(err);
+                res.send(dberr.db_internal(err));
                 return;
             }
-            if (result.rows.length) {
-                res.send(result.rows);
-            } else {
-                res.send({});
-            }
+            res.send(dberr.succ(result.rows));
         });
     }
 
@@ -34,7 +31,7 @@ exports = module.exports = function (cli) {
     }
 
     this.list = function (req, res) {
-        var sql = `select * from departments 
+        var sql = `select * from departments
             offset $1 limit $2;`;
 
         var val = [

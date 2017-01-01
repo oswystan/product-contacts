@@ -8,17 +8,19 @@
 all: db
 
 db:
-	@echo "initializing database ..."
-	psql -f ./datastore/postgre.sql
-	psql -f ./datastore/mock_data.sql
-	@echo "done"
+	@echo "===> initializing database ..."
+	@psql -f ./datastore/postgre.sql
+	@psql -f ./datastore/mock_data.sql
+	@echo "<=== done"
 
 test:
-	@echo "run testcase ..."
+	@echo "===> run testcase ..."
 	./test.sh
-	@echo "done"
+	@echo "<=== done"
 
 clean:
+	@echo "===> cleaning ..."
 	@psql -c "drop database if exists contacts;"
+	@echo "<=== done"
 
 #######################################################################

@@ -55,6 +55,9 @@ exports = module.exports = {
             res.send(dberr.no_such_table());
         }
     },
+    query: function (req, res) {
+        database.query(req, res);
+    },
 };
 
 /************************************* END **************************************/

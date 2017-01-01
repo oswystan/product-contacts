@@ -18,6 +18,10 @@ exports = module.exports = {
             res.sendFile(__dirname + "/index.html");
         });
 
+        app.get("/query", function (req, res) {
+            ctrl.query(req, res);
+        });
+
         app.get('/e/:id', function (req, res) {
             ctrl.get('employees', req, res);
         });

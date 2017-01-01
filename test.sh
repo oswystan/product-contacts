@@ -65,5 +65,18 @@ function do_department() {
     echo "==============="
 }
 
-#do_employee
+function query() {
+    data='{
+        "where": "department=1",
+        "orderby": "id",
+        "offset": 1,
+        "limit":9,
+        "fields": "*",
+        "tab": "employees"
+    }'
+    curl -X GET -d "$data" -H "Content-Type: application/json" "http://localhost:8000/query"
+}
+
+do_employee
 do_department
+query

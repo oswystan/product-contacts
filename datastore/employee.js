@@ -14,7 +14,7 @@ var dberr = require('./error');
 
 exports = module.exports = function (cli) {
     this.client = cli;
-    const max_rows = 15;
+    var cfg = cli.cfg;
 
     function query(sql, res) {
         cli.query(sql, function (err, result) {
@@ -63,7 +63,7 @@ exports = module.exports = function (cli) {
 
         var val = [
             q.offset || 0, 
-            max(q.limit, max_rows),
+            max(q.limit, cfg.max_rows),
         ];
 
         query({text: sql, values: val}, res);

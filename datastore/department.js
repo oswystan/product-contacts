@@ -13,7 +13,6 @@
 var dberr = require('./error');
 
 exports = module.exports = function (cli) {
-    this.client = cli;
     const max_rows = 15;
 
     function query(sql, res) {
@@ -41,6 +40,10 @@ exports = module.exports = function (cli) {
         
         query({text: sql, values: val}, res);
     };
+    this.count = function (id, done) {
+        var sql = 'select count(id) as cnt from employees where id=' + id;
+        cli.query(sql, done);
+    },
 
     this.get = function (req, res) {
         var sql = 'select * from departments where id=' + req.params.id;
@@ -55,7 +58,19 @@ exports = module.exports = function (cli) {
             req.body.leader || 0, 
         ];
 
-        query({text: sql, values: val}, res);
+        function done(err, result) {
+            if (err) {
+                res.send(dberr.db_internal(err));
+            } else {
+                console.log(result.rows);
+                if (result.rows[0].cnt <= 0) {
+                    res.send(dberr.invalid_input());
+                    return;
+                }
+                query({text: sql, values: val}, res);
+            }
+        }
+        this.count(req.body.leader, done);
     };
 
     this.put = function (req, res) {

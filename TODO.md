@@ -11,7 +11,6 @@
 - before delete a employee, modify the departments.leader to null.
 - when delete a department, modify the employees.department to null.
 - make a uniform output like **[DONE]**
-- beautify then output
 
 ````
 {
@@ -19,5 +18,9 @@
     err_desc: , 
     data:[]
 }
-```
+````
+
+- beautify then output
+- make query more flexable: fields, order by, where conditions, offset and limit
+
 

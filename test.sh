@@ -67,12 +67,12 @@ function do_department() {
 
 function query() {
     data="{
-        \"where\": \"name like 'lao%%' and department=1\",
+        \"tab\"    : \"employees\", 
+        \"fields\" : \"id, name\",
+        \"where\"  : \"name like 'lao%%' and department=1\",
         \"orderby\": \"id desc\",
-        \"offset\": 0,
-        \"limit\":9,
-        \"fields\": \"id, name\",
-        \"tab\": \"employees\"
+        \"offset\" : 0,
+        \"limit\"  : 9
     }"
     curl -X GET -d "$data" -H "Content-Type: application/json" "http://localhost:8000/query"
 }

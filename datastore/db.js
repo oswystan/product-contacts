@@ -15,9 +15,26 @@ var employee = require('./employee');
 var department = require('./department');
 var dberr = require('./error');
 var dbcfg = require('./config');
+var checker = require('./checker');
 
 exports = module.exports = function (){
     var cfg = new dbcfg();
+
+    function check_query(obj) {
+        var c = new checker();
+        var ret = 
+            c.begin()
+            .val(obj.tab, 'tab').not_null().is_string()
+            .val(obj.fields, 'fields').not_null().is_string()
+            .val(obj.where, 'where').is_string()
+            .val(obj.orderby, 'orderby').is_string()
+            .val(obj.offset, 'offset').is_number()
+            .val(obj.limit, 'limit').is_number()
+            .val(obj.all, 'all').is_bool()
+            .end();
+        delete c;
+        return ret;
+    }
 
     this.connect = function () {
         var client = new pg.Client({
@@ -32,8 +49,16 @@ exports = module.exports = function (){
         this.employees = new employee(this.cli);
         this.departments = new department(this.cli);
     };
+
     this.query = function (req, res) {
         var p = req.body;
+        var err = check_query(p);
+        if (err) {
+            console.log(p);
+            res.send(dberr.invalid_input(err));
+            return;
+        }
+
         var sql = "select " + p.fields + " from " + p.tab;
         if ('where' in p) {
             sql += " where " + p.where;

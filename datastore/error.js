@@ -29,8 +29,8 @@ module.exports = {
         return { err:  0x02, desc: "no such records", data: [] };   
     },
 
-    invalid_input: function (){
-        return {err:  0x03, desc: "invalid input", data: []};
+    invalid_input: function (s){
+        return {err:  0x03, desc: s ? s :"invalid input", data: []};
     },
 
     unknown_err: function (){

@@ -114,6 +114,13 @@ exports = module.exports = function (cli) {
     };
 
     this.put = function (req, res) {
+        var p = req.body;
+        var err = check_values(p);
+        if (err) {
+            res.send(dberr.invalid_input(err));
+            return;
+        }
+
         var sql = `update employees 
             set name=$1, department=$2, mobile=$3, tel=$4, mail=$5, position=$6, role=$7
             where id = $8 returning *;`;

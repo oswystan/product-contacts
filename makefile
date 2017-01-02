@@ -3,7 +3,7 @@
 ##
 ## 
 #######################################################################
-.PHONY: all build
+.PHONY: all db test q clean
 
 all: db q
 
@@ -19,8 +19,10 @@ test:
 	@echo "<=== done"
 
 q:
+	@echo "===> list data in database ..."
 	@psql contacts -c "select id, trim(name) as name, department, trim(mobile) as mobile from employees;"
 	@psql contacts -c "select * from departments;"
+	@echo "<=== done"
 
 clean:
 	@echo "===> cleaning ..."

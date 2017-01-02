@@ -18,6 +18,10 @@ test:
 	./test.sh
 	@echo "<=== done"
 
+q:
+	@psql contacts -c "select * from employees;"
+	@psql contacts -c "select * from departments;"
+
 clean:
 	@echo "===> cleaning ..."
 	@psql -c "drop database if exists contacts;"

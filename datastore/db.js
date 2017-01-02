@@ -22,7 +22,7 @@ exports = module.exports = function (){
 
     function check_query(obj) {
         var c = new checker();
-        var ret = 
+        var err = 
             c.begin()
             .val(obj.tab, 'tab').not_null().is_string()
             .val(obj.fields, 'fields').not_null().is_string()
@@ -33,7 +33,7 @@ exports = module.exports = function (){
             .val(obj.all, 'all').is_bool()
             .end();
         delete c;
-        return ret;
+        return err;
     }
 
     this.connect = function () {

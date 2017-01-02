@@ -62,7 +62,6 @@ exports = module.exports = function (cli) {
             if (err) {
                 res.send(dberr.db_internal(err));
             } else {
-                console.log(result.rows);
                 if (result.rows[0].cnt <= 0) {
                     res.send(dberr.invalid_input());
                     return;

@@ -11,6 +11,7 @@
  */
 
 var dberr = require('./error');
+var checker = require('./checker');
 
 exports = module.exports = function (cli) {
     this.client = cli;
@@ -28,6 +29,19 @@ exports = module.exports = function (cli) {
 
     function max(val, max_val) {
         return val && val <= max_val ? val : max_val;
+    }
+
+    function check_values(obj) {
+        var c = new checker();
+        var err = 
+        c.begin()
+            .val(obj.department, 'department').not_null().is_number()
+            .val(obj.tel, 'tel').not_null().is_phone()
+            .val(obj.mail, 'mail').not_null().is_mail()
+            .val(obj.mobile, 'mobile').not_null().is_mobile()
+        .end();
+        delete c;
+        return err;
     }
 
     //=====
@@ -75,18 +89,25 @@ exports = module.exports = function (cli) {
     };
 
     this.post = function (req, res) {
+        var p = req.body;
+        var err = check_values(p);
+        if (err) {
+            res.send(dberr.invalid_input(err));
+            return;
+        }
+
         var sql = `insert into employees 
             (name, department, mobile, tel, mail, position, role) 
             values 
             ($1, $2, $3, $4, $5, $6, $7) returning *;`;
         var val = [
-            req.body.name || '', 
-            req.body.department || 0, 
-            req.body.mobile || '', 
-            req.body.tel || '',
-            req.body.mail || '',
-            req.body.position || '',
-            req.body.role || ''
+            p.name || '', 
+            p.department || 0, 
+            p.mobile || '', 
+            p.tel || '',
+            p.mail || '',
+            p.position || '',
+            p.role || ''
         ];
         query({text: sql, values: val}, res);
     };

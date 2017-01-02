@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 
 function do_employee() {
-    #function_body
     curl -X GET "http://localhost:8000/e"
     echo ""
     echo "==============="
     data='{
         "name" : "wangwu",
         "department": 1,
-        "mobil": "123456789",
-        "tel": "12345678",
+        "mobile": "123456789",
+        "tel": "123456",
         "mail": "wangwu@xxx.com",
         "position":"#1-1-1",
         "role":"swe"
@@ -77,6 +76,6 @@ function query() {
     curl -X GET -d "$data" -H "Content-Type: application/json" "http://localhost:8000/query"
 }
 
-#do_employee
-#do_department
+do_employee
+do_department
 query

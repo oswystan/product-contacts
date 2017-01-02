@@ -21,8 +21,8 @@ module.exports = {
         return {err: e.code, desc: e.routine, data: []};
     },
 
-    no_such_table: function() {
-        return {err:  0x01, desc: "no such table", data: []};
+    no_such_table: function(s) {
+        return {err:  0x01, desc: "no such table " + (s ? s : "!"), data: []};
     },
 
     no_such_records: function () {

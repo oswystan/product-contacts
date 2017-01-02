@@ -20,7 +20,7 @@ exports = module.exports = {
         if (database[tab]) {
             database[tab].get(req, res);
         } else {
-            res.send(dberr.no_such_table());
+            res.send(dberr.no_such_table(tab));
         }
     },
 
@@ -28,7 +28,7 @@ exports = module.exports = {
         if (database[tab]) {
             database[tab].list(req, res);
         } else {
-            res.send(dberr.no_such_table());
+            res.send(dberr.no_such_table(tab));
         }
     },
 
@@ -36,7 +36,7 @@ exports = module.exports = {
         if (database[tab]) {
             database[tab].post(req, res);
         } else {
-            res.send(dberr.no_such_table());
+            res.send(dberr.no_such_table(tab));
         }
     },
 
@@ -44,7 +44,7 @@ exports = module.exports = {
         if (database[tab]) {
             database[tab].put(req, res);
         } else {
-            res.send(dberr.no_such_table());
+            res.send(dberr.no_such_table(tab));
         }
     },
 
@@ -52,7 +52,7 @@ exports = module.exports = {
         if (database[tab]) {
             database[tab].del(req, res);
         } else {
-            res.send(dberr.no_such_table());
+            res.send(dberr.no_such_table(tab));
         }
     },
     query: function (req, res) {

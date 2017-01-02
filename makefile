@@ -3,14 +3,14 @@
 ##
 ## 
 #######################################################################
-.PHONY: all db test q clean
+.PHONY: all db test q clean c
 
 all: db q
 
 db:
 	@echo "===> initializing database ..."
 	@psql -f ./datastore/postgre.sql > /dev/null
-	@psql -f ./datastore/mock_data.sql > /dev/null
+	#@psql -f ./datastore/mock_data.sql > /dev/null
 	@echo "<=== done"
 
 test:
@@ -29,4 +29,9 @@ clean:
 	@psql -c "drop database if exists contacts;"
 	@echo "<=== done"
 
+c:
+	@echo "===> cleaning data..."
+	@psql contacts -c "delete from departments;"
+	@psql contacts -c "delete from employees;"
+	@echo "<=== done"
 #######################################################################

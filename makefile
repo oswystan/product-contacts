@@ -15,7 +15,7 @@ db:
 
 test:
 	@echo "===> run testcase ..."
-	./test.sh
+	@mocha
 	@echo "<=== done"
 
 q:

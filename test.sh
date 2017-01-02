@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 function do_employee() {
-    curl -X GET "http://localhost:8000/e"
-    echo ""
-    echo "==============="
+    #curl -X GET "http://localhost:8000/e"
+    #echo ""
+    #echo "==============="
     data='{
         "name" : "wangwu",
         "department": 1,
-        "mobile": "123456789",
+        "mobil": "123456789",
         "tel": "123456",
         "mail": "wangwu@xxx.com",
         "position":"#1-1-1",
@@ -17,22 +17,22 @@ function do_employee() {
     echo ""
     echo "==============="
 
-    data='{
-        "id": 4,
-        "name" : "wangwuxxx",
-        "department": 1,
-        "mobil": "123456789",
-        "tel": "12345678",
-        "mail": "wangwu@xxx.com",
-        "position":"#1-1-1",
-        "role":"swe"
-    }'
-    curl -X PUT -d "$data" -H "Content-Type: application/json" "http://localhost:8000/e"
-    echo ""
-    echo "==============="
-    curl -X DELETE -d "$data" -H "Content-Type: application/json" "http://localhost:8000/e"
-    echo ""
-    echo "==============="
+    #data='{
+        #"id": 4,
+        #"name" : "wangwuxxx",
+        #"department": 1,
+        #"mobil": "123456789",
+        #"tel": "12345678",
+        #"mail": "wangwu@xxx.com",
+        #"position":"#1-1-1",
+        #"role":"swe"
+    #}'
+    #curl -X PUT -d "$data" -H "Content-Type: application/json" "http://localhost:8000/e"
+    #echo ""
+    #echo "==============="
+    #curl -X DELETE -d "$data" -H "Content-Type: application/json" "http://localhost:8000/e"
+    #echo ""
+    #echo "==============="
 }
 
 function do_department() {
@@ -77,5 +77,5 @@ function query() {
 }
 
 do_employee
-do_department
-query
+#do_department
+#query

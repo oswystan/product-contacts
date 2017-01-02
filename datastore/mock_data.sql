@@ -45,9 +45,6 @@ insert into employees values(default, 'laopeng', 2, '18038479249', '9475398', 'l
 insert into departments values(default, 'RnD',  3);
 insert into departments values(default, 'sales', 3);
 
-select id, name from employees;
-select * from departments;
-
 commit;
 
 ---------------------------------------------------------------------------------

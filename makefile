@@ -5,12 +5,12 @@
 #######################################################################
 .PHONY: all build
 
-all: db
+all: db q
 
 db:
 	@echo "===> initializing database ..."
-	@psql -f ./datastore/postgre.sql
-	@psql -f ./datastore/mock_data.sql
+	@psql -f ./datastore/postgre.sql > /dev/null
+	@psql -f ./datastore/mock_data.sql > /dev/null
 	@echo "<=== done"
 
 test:
@@ -19,7 +19,7 @@ test:
 	@echo "<=== done"
 
 q:
-	@psql contacts -c "select * from employees;"
+	@psql contacts -c "select id, trim(name) as name, department, trim(mobile) as mobile from employees;"
 	@psql contacts -c "select * from departments;"
 
 clean:

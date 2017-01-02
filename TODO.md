@@ -1,10 +1,10 @@
 ##TODO list
 - input data valiation
-    - date
-    - mobile phone, tel
-    - mail
+    - **[DONE]** date
+    - **[DONE]** mobile phone, tel 
+    - **[DONE]** mail
     - employees.department IN departments.id
-    - departments.leader IN employees.id
+    - **[DONE]** departments.leader IN employees.id
 
 
 ## FEATURES

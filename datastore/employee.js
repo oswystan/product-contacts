@@ -35,10 +35,11 @@ exports = module.exports = function (cli) {
         var c = new checker();
         var err = 
         c.begin()
+            .val(obj.name, 'name').not_null()
             .val(obj.department, 'department').not_null().is_number()
-            .val(obj.tel, 'tel').not_null().is_phone()
-            .val(obj.mail, 'mail').not_null().is_mail()
-            .val(obj.mobile, 'mobile').not_null().is_mobile()
+            .val(obj.tel, 'tel').is_phone()
+            .val(obj.mail, 'mail').is_mail()
+            .val(obj.mobile, 'mobile').is_mobile()
         .end();
         delete c;
         return err;
@@ -102,7 +103,7 @@ exports = module.exports = function (cli) {
             ($1, $2, $3, $4, $5, $6, $7) returning *;`;
         var val = [
             p.name || '', 
-            p.department || 0, 
+            p.department || 0,
             p.mobile || '', 
             p.tel || '',
             p.mail || '',

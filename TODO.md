@@ -22,5 +22,5 @@
 
 - beautify then output
 - **[DONE]** make query more flexable: fields, order by, where conditions, offset and limit  
-
+- **[OPEN]** automating test cases;
 

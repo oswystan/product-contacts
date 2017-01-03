@@ -22,7 +22,7 @@ create user pg_contacts with createdb login password '123456';
 create table employees (
     id              serial not null,
     name            char(32) not null,
-    department      int default 0,
+    department      int default null,
     mobile          char(32) ,
     tel             char(32) ,
     mail            char(64) ,
@@ -34,12 +34,62 @@ create table employees (
 create table departments (
     id              serial not null,
     name            char(32) not null,
-    leader          int default 0 not null,
+    leader          int default null,
 
     primary key(id)
 );
 alter table employees owner to pg_contacts;
 alter table departments owner to pg_contacts;
+
+
+-- triggers
+create or replace function check_eid() returns trigger as $$
+declare
+    rec record;
+    cur cursor for select count(id) as cnt from employees where id = new.leader;
+
+begin
+    if new.leader is null then
+        return new;
+    end if;
+
+    open cur;
+    fetch cur into rec;
+    if rec.cnt <= 0 then
+        raise exception 'can not found employee with id=%', new.leader;
+    end if;
+
+    return new;
+
+end;
+$$ language plpgsql;
+
+create or replace function check_did() returns trigger as $$
+declare
+    rec record;
+    cur cursor for select count(id) as cnt from departments where id = new.department;
+
+begin
+    if new.department is null then
+        return new;
+    end if;
+
+    open cur;
+    fetch cur into rec;
+    if rec.cnt <= 0 then
+        raise exception 'can not found employee with id=%', new.department;
+    end if;
+
+    return new;
+
+end;
+$$ language plpgsql;
+
+create trigger check_eid before insert or update on departments
+    for each row execute procedure check_eid();
+
+create trigger check_did before insert or update on employees
+    for each row execute procedure check_did();
 
 -- INDEX
 create unique index idx_employee_id on employees (id);

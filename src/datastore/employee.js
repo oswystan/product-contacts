@@ -20,6 +20,7 @@ exports = module.exports = function (cli) {
     function query(sql, res) {
         cli.query(sql, function (err, result) {
             if (err) {
+                console.log(err);
                 res.send(dberr.db_internal(err));
                 return;
             }
@@ -36,7 +37,7 @@ exports = module.exports = function (cli) {
         var err = 
         c.begin()
             .val(obj.name, 'name').not_null()
-            .val(obj.department, 'department').not_null().is_number()
+            .val(obj.department, 'department').is_number()
             .val(obj.tel, 'tel').is_phone()
             .val(obj.mail, 'mail').is_mail()
             .val(obj.mobile, 'mobile').is_mobile()
@@ -103,7 +104,7 @@ exports = module.exports = function (cli) {
             ($1, $2, $3, $4, $5, $6, $7) returning *;`;
         var val = [
             p.name || '', 
-            p.department || 0,
+            p.department || null,
             p.mobile || '', 
             p.tel || '',
             p.mail || '',

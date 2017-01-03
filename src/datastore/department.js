@@ -55,7 +55,7 @@ exports = module.exports = function (cli) {
             values ($1, $2) returning *;`;
         var val = [
             req.body.name || '', 
-            req.body.leader || 0, 
+            req.body.leader || null, 
         ];
 
         function done(err, result) {

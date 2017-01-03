@@ -15,6 +15,7 @@ var chttp = require('chai-http');
 var expect = chai.expect;
 var should = chai.should();
 chai.use(chttp);
+chai.config.showDiff = true;
 
 var root = "http://localhost:8000";
 
@@ -50,6 +51,7 @@ describe('employee', function () {
                 expect(err).to.be.null;
                 expect(res).to.be.json;
                 expect(res).to.have.status(200);
+                expect(res.body.err).to.equal(0);
                 done();
             });
     });
@@ -59,7 +61,6 @@ describe('employee', function () {
             .post(url)
             .send({
                 name: "laowang",
-                department: 1,
                 mobile: "123456789",
                 tel: "123456",
                 position: "#3-1-1",
@@ -69,6 +70,7 @@ describe('employee', function () {
             expect(err).to.be.null;
             expect(res).to.be.json;
             expect(res).to.have.status(200);
+            expect(res.body.err).to.equal(0);
             done();
         });
     });

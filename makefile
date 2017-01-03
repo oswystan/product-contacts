@@ -20,8 +20,8 @@ test:
 
 q:
 	@echo "===> list data in database ..."
-	@psql contacts -c "select id, trim(name) as name, department, trim(mobile) as mobile from employees;"
-	@psql contacts -c "select * from departments;"
+	@psql contacts -c "select id, trim(name) as name, department, trim(mobile) as mobile from employees order by id asc;"
+	@psql contacts -c "select * from departments order by id asc;"
 	@echo "<=== done"
 
 clean:

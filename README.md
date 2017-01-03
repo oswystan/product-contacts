@@ -1,23 +1,23 @@
 ## FEATURES
 
 - Restful API for employee ACID
-	- **[DONE]** json output with paging supported
-	- **[DONE]** input data valiation
-	- employees.department IN departments.id
-	- set departments.leader to null when delete this leader in employees;
+	- [X] json output with paging supported
+	- [X] input data valiation
+	- [ ] employees.department IN departments.id
+	- [ ] set departments.leader to null when delete this leader in employees;
 
 - Restful API fro department ACID
-	- **[DONE]** json output with paging supported
-	- **[DONE]** input data valiation
+	- [X] json output with paging supported
+	- [X] input data valiation
 		- mail, phone number
 		- fileds can not be null
-	- department.leader MUSTBE IN employees.id
-	- set set employees.department to null when delete this department.
+	- [ ] department.leader MUSTBE IN employees.id
+	- [ ] set set employees.department to null when delete this department.
 
 - Restful API for advanced query
-	- **[DONE]** son output with paging supported
-	- **[DONE]** input data valiation
-	- **[DONE]** query parameters:
+	- [X] son output with paging supported
+	- [X] input data valiation
+	- [X] query parameters:
 		- table
 		- fields need to be show
 		- conditions
@@ -25,21 +25,21 @@
 		- offset & limit for paging
 
 - Web page for ACIDs
-	- employess list
-	- department list
-	- add / modify information
-	- login:
+	- [ ] employess list
+	- [ ] department list
+	- [ ] add / modify information
+	- [ ] login:
 		- http BASIC auth
 		- guest: only query
 		- admin: all that needed
 
-- forever running
-- database backup
-- automated test case
-- https supported
+- [ ] forever running
+- [ ] database backup
+- [X] automated test case
+- [ ] https supported
 
 ## issues
-- beautify the json output
+- [ ] beautify the json output
 
 
 ## reference

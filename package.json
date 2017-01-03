@@ -2,9 +2,10 @@
   "name": "product-contacts",
   "version": "1.0.0",
   "description": "A contacts project",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

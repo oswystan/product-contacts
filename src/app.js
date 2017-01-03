@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 /*
  *********************************************************************************
  *                     Copyright (C) 2016 wystan
  *
  *       filename: app.js
- *    description: 
+ *    description:
  *        created: 2016-03-28 23:00:17
  *         author: wystan
  *
@@ -26,6 +25,8 @@ function main() {
     app.listen(8000);
 }
 
-main();
+module.exports = function () {
+    this.run = main;
+}
 
 /************************************END****************************************/

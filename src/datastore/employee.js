@@ -12,25 +12,11 @@
 
 var dberr = require('./error');
 var checker = require('./checker');
+var util = require('./utils');
 
 exports = module.exports = function (cli) {
     this.client = cli;
     var cfg = cli.cfg;
-
-    function query(sql, res) {
-        cli.query(sql, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(dberr.db_internal(err));
-                return;
-            }
-            res.send(dberr.succ(result.rows));
-        });
-    }
-
-    function max(val, max_val) {
-        return val && val <= max_val ? val : max_val;
-    }
 
     function check_values(obj) {
         var c = new checker();
@@ -79,15 +65,15 @@ exports = module.exports = function (cli) {
 
         var val = [
             q.offset || 0, 
-            max(q.limit, cfg.max_rows),
+            util.max(q.limit, cfg.max_rows),
         ];
 
-        query({text: sql, values: val}, res);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
 
     this.get = function (req, res) {
         var sql = 'select * from employees where id=' + req.params.id;
-        query(sql, res);
+        util.do_query(cli, sql, res);
     };
 
     this.post = function (req, res) {
@@ -111,7 +97,7 @@ exports = module.exports = function (cli) {
             p.position || '',
             p.role || ''
         ];
-        query({text: sql, values: val}, res);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
 
     this.put = function (req, res) {
@@ -127,7 +113,7 @@ exports = module.exports = function (cli) {
             where id = $8 returning *;`;
         var val = [
             req.body.name || '', 
-            req.body.department || 0, 
+            req.body.department || null, 
             req.body.mobile || '', 
             req.body.tel || '',
             req.body.mail || '',
@@ -136,7 +122,7 @@ exports = module.exports = function (cli) {
             req.body.id
         ];
 
-        query({text: sql, values: val}, res);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
 
     this.del = function (req, res) {
@@ -145,7 +131,7 @@ exports = module.exports = function (cli) {
             req.body.id
         ];
 
-        query({text: sql, values: val}, res);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
 };
 

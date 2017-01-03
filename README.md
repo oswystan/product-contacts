@@ -3,7 +3,7 @@
 - Restful API for employee ACID
 	- [X] json output with paging supported
 	- [X] input data valiation
-	- [ ] employees.department IN departments.id
+	- [X] employees.department IN departments.id
 	- [ ] set departments.leader to null when delete this leader in employees;
 
 - Restful API fro department ACID
@@ -11,7 +11,7 @@
 	- [X] input data valiation
 		- mail, phone number
 		- fileds can not be null
-	- [ ] department.leader MUSTBE IN employees.id
+	- [X] department.leader MUSTBE IN employees.id
 	- [ ] set set employees.department to null when delete this department.
 
 - Restful API for advanced query

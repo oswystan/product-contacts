@@ -43,6 +43,7 @@ describe('home', function () {
 
 describe('employee', function () {
     var url = "/e";
+    var d = {};
 
     it('GET', function (done) {
         chai.request(root)
@@ -71,22 +72,120 @@ describe('employee', function () {
             expect(res).to.be.json;
             expect(res).to.have.status(200);
             expect(res.body.err).to.equal(0);
+            expect(res.body.data.length).to.equal(1);
+            d = res.body.data[0];
             done();
         });
     });
 
-    it('PUT');
-    it('DELETE');
+    it('PUT', function (done) {
+        chai.request(root)
+            .put(url)
+            .send(d)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.err).to.equal(0);
+                done();
+            });
+    });
+    it('DELETE', function (done) {
+        chai.request(root)
+            .delete(url)
+            .send(d)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.err).to.equal(0);
+                done();
+            });
+    });
 });
 
 describe('department', function () {
-    it('GET');
-    it('POST');
-    it('PUT');
-        it('DELETE');
+    var url = "/d";
+    var d = {};
+
+    it('GET', function (done) {
+        chai.request(root)
+            .get(url)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.err).to.equal(0);
+                expect(res.body.data.length).to.equal(0);
+                done();
+            });
+    });
+    it('POST', function (done) {
+        chai.request(root)
+            .post(url)
+            .send({
+                name: "RnD"
+            })
+        .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.be.json;
+            expect(res).to.have.status(200);
+            expect(res.body.err).to.equal(0);
+            expect(res.body.data.length).to.equal(1);
+            d = res.body.data[0];
+            done();
+        }); 
+    });
+    it('PUT', function (done) {
+        chai.request(root)
+            .put(url)
+            .send(d)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.err).to.equal(0);
+                expect(res.body.data.length).to.equal(1);
+                done();
+            });
+    });
+    it('DELETE', function (done) {
+        chai.request(root)
+            .delete(url)
+            .send(d)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.err).to.equal(0);
+                done();
+            });
+    });
 });
 
 describe('advanced query', function () {
-    it('GET');
+    var url = "/query";
+    var d = {
+        tab: "employees",
+        fields: "*", 
+        where: "1=1",
+        orderby: "id asc",
+        offset: 0,
+        limit: 10
+    };
+    it('GET', function (done) {
+        chai.request(root)
+            .get(url)
+            .send(d)
+            .end(function (err, res) {
+                expect(err).to.be.null;
+                expect(res).to.be.json;
+                expect(res).to.have.status(200);
+                expect(res.body.err).to.equal(0);
+                expect(res.body.data.length).to.equal(0);
+                done();
+            });
+    });
 });
+
 /************************************* END **************************************/

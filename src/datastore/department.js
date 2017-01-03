@@ -11,23 +11,10 @@
  */
 
 var dberr = require('./error');
+var util = require('./utils');
 
 exports = module.exports = function (cli) {
     var cfg = cli.cfg
-
-    function query(sql, res) {
-        cli.query(sql, function (err, result) {
-            if (err) {
-                res.send(dberr.db_internal(err));
-                return;
-            }
-            res.send(dberr.succ(result.rows));
-        });
-    }
-
-    function max(val, max_val) {
-        return val && val <= max_val ? val : max_val;
-    }
 
     this.list = function (req, res) {
         var sql = `select * from departments
@@ -35,19 +22,15 @@ exports = module.exports = function (cli) {
 
         var val = [
             req.query.offset || 0, 
-            max(req.query.limit, cfg.max_rows), 
+            util.max(req.query.limit, cfg.max_rows), 
         ];
         
-        query({text: sql, values: val}, res);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
-    this.count = function (id, done) {
-        var sql = 'select count(id) as cnt from employees where id=' + id;
-        cli.query(sql, done);
-    },
 
     this.get = function (req, res) {
         var sql = 'select * from departments where id=' + req.params.id;
-        query(sql, res);
+        util.do_query(cli, sql, res);
     };
 
     this.post = function (req, res) {
@@ -58,18 +41,7 @@ exports = module.exports = function (cli) {
             req.body.leader || null, 
         ];
 
-        function done(err, result) {
-            if (err) {
-                res.send(dberr.db_internal(err));
-            } else {
-                if (result.rows[0].cnt <= 0) {
-                    res.send(dberr.invalid_input());
-                    return;
-                }
-                query({text: sql, values: val}, res);
-            }
-        }
-        this.count(req.body.leader, done);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
 
     this.put = function (req, res) {
@@ -78,11 +50,11 @@ exports = module.exports = function (cli) {
             where id = $3 returning *;`;
         var val = [
             req.body.name || '', 
-            req.body.leader || 0, 
+            req.body.leader || null, 
             req.body.id
         ];
 
-        query({text: sql, values: val}, res);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
 
     this.del = function (req, res) {
@@ -91,7 +63,7 @@ exports = module.exports = function (cli) {
             req.body.id
         ];
 
-        query({text: sql, values: val}, res);
+        util.do_query(cli, {text: sql, values: val}, res);
     };
 };
 

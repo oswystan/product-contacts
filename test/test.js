@@ -87,6 +87,7 @@ describe('employee', function () {
                 expect(res).to.be.json;
                 expect(res).to.have.status(200);
                 expect(res.body.err).to.equal(0);
+                expect(res.body.data.length).to.equal(1);
                 done();
             });
     });
@@ -99,6 +100,7 @@ describe('employee', function () {
                 expect(res).to.be.json;
                 expect(res).to.have.status(200);
                 expect(res.body.err).to.equal(0);
+                expect(res.body.data.length).to.equal(1);
                 done();
             });
     });
@@ -116,7 +118,7 @@ describe('department', function () {
                 expect(res).to.be.json;
                 expect(res).to.have.status(200);
                 expect(res.body.err).to.equal(0);
-                expect(res.body.data.length).to.equal(0);
+                expect(res.body.data.length).to.be.least(0);
                 done();
             });
     });
@@ -158,6 +160,7 @@ describe('department', function () {
                 expect(res).to.be.json;
                 expect(res).to.have.status(200);
                 expect(res.body.err).to.equal(0);
+                expect(res.body.data.length).to.equal(1);
                 done();
             });
     });
@@ -182,7 +185,7 @@ describe('advanced query', function () {
                 expect(res).to.be.json;
                 expect(res).to.have.status(200);
                 expect(res.body.err).to.equal(0);
-                expect(res.body.data.length).to.equal(0);
+                expect(res.body.data.length).to.be.least(0);
                 done();
             });
     });

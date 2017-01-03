@@ -10,7 +10,7 @@ all: db q
 db:
 	@echo "===> initializing database ..."
 	@psql -f ./src/datastore/postgre.sql > /dev/null
-	#@psql -f ./src/datastore/mock_data.sql > /dev/null
+	@psql -f ./src/datastore/mock_data.sql > /dev/null
 	@echo "<=== done"
 
 test:

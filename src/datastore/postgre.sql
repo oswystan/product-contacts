@@ -56,8 +56,10 @@ begin
     open cur;
     fetch cur into rec;
     if rec.cnt <= 0 then
+        close cur;
         raise exception 'can not found employee with id=%', new.leader;
     end if;
+    close cur;
 
     return new;
 
@@ -77,8 +79,10 @@ begin
     open cur;
     fetch cur into rec;
     if rec.cnt <= 0 then
+        close cur;
         raise exception 'can not found employee with id=%', new.department;
     end if;
+    close cur;
 
     return new;
 

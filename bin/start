@@ -3,7 +3,7 @@
  *********************************************************************************
  *                     Copyright (C) 2017 wystan
  *
- *       filename: index.js
+ *       filename: start
  *    description:
  *        created: 2017-01-03 09:17:30
  *         author: wystan
@@ -13,7 +13,7 @@
 
 
 
-var app = require("./src/app");
+var app = require("../src/app");
 
 var contacts = new app();
 contacts.run();

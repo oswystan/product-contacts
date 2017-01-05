@@ -10,6 +10,8 @@
  *********************************************************************************
  */
 
+var https = require('https');
+var fs = require('fs');
 var express = require('express');
 var bodyparser = require("body-parser");
 var log = require('log4js').getLogger("contacts");
@@ -23,8 +25,15 @@ function main() {
     app.use(auth());
     router.init(app);
 
+    var credentials = {
+        key: fs.readFileSync(__dirname + '/keys/key.pem', 'utf8'),
+        cert: fs.readFileSync(__dirname + '/keys/cert.pem', 'utf8')
+    };
+
+    var server = https.createServer(credentials, app)
+
     log.info('contacts server started ...');
-    app.listen(8000);
+    server.listen(8000);
 }
 
 module.exports = function () {

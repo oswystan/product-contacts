@@ -38,10 +38,9 @@
 ```
 sudo npm install forever -g
 forever ./index.js
-
 ```
 
-- [ ] database backup
+- [x] database backup
 - [x] automated test case
 - [x] https supported
 

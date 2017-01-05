@@ -1,0 +1,6 @@
+{
+    "db": "contacts",
+    "user": "pg_contacts",
+    "password": "123456",
+    "max_rows": 15
+}

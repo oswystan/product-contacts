@@ -12,13 +12,17 @@
 
 var express = require('express');
 var bodyparser = require("body-parser");
+var basic_auth = require('basic-auth-connect');
 var log = require('log4js').getLogger("contacts");
 var app = express();
 
 var router = require("./router");
+var auth = require("./auth");
+var user_auth = new auth();
 
 function main() {
     app.use(bodyparser.json());
+    app.use(basic_auth(user_auth.auth));
     router.init(app);
 
     log.info('contacts server started ...');

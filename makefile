@@ -15,7 +15,7 @@ db:
 
 test:
 	@echo "===> run testcase ..."
-	@mocha
+	@./node_modules/mocha/bin/mocha
 	@echo "<=== done"
 
 q:

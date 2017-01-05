@@ -23,6 +23,7 @@ describe('home', function () {
     it("GET /", function (done) {
         chai.request(root)
             .get("/")
+            .auth('admin', 'admin0')
             .end(function (err, res) {
                 expect(err).to.be.null;
                 expect(res).to.be.html;
@@ -33,6 +34,7 @@ describe('home', function () {
     it("can NOT POST /", function (done) {
         chai.request(root)
             .get("/")
+            .auth('admin', 'admin0')
             .end(function (err, res) {
                 should.not.exist(err);
                 done();
@@ -48,6 +50,7 @@ describe('employee', function () {
     it('GET', function (done) {
         chai.request(root)
             .get(url)
+            .auth('admin', 'admin0')
             .end(function (err, res) {
                 expect(err).to.be.null;
                 expect(res).to.be.json;
@@ -60,6 +63,7 @@ describe('employee', function () {
     it('POST', function (done) {
         chai.request(root)
             .post(url)
+            .auth('admin', 'admin0')
             .send({
                 name: "laowang",
                 mobile: "123456789",
@@ -81,6 +85,7 @@ describe('employee', function () {
     it('PUT', function (done) {
         chai.request(root)
             .put(url)
+            .auth('admin', 'admin0')
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -94,6 +99,7 @@ describe('employee', function () {
     it('DELETE', function (done) {
         chai.request(root)
             .delete(url)
+            .auth('admin', 'admin0')
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -113,6 +119,7 @@ describe('department', function () {
     it('GET', function (done) {
         chai.request(root)
             .get(url)
+            .auth('admin', 'admin0')
             .end(function (err, res) {
                 expect(err).to.be.null;
                 expect(res).to.be.json;
@@ -125,6 +132,7 @@ describe('department', function () {
     it('POST', function (done) {
         chai.request(root)
             .post(url)
+            .auth('admin', 'admin0')
             .send({
                 name: "RnD"
             })
@@ -136,11 +144,12 @@ describe('department', function () {
             expect(res.body.data.length).to.equal(1);
             d = res.body.data[0];
             done();
-        }); 
+        });
     });
     it('PUT', function (done) {
         chai.request(root)
             .put(url)
+            .auth('admin', 'admin0')
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -154,6 +163,7 @@ describe('department', function () {
     it('DELETE', function (done) {
         chai.request(root)
             .delete(url)
+            .auth('admin', 'admin0')
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -170,7 +180,7 @@ describe('advanced query', function () {
     var url = "/query";
     var d = {
         tab: "employees",
-        fields: "*", 
+        fields: "*",
         where: "1=1",
         orderby: "id asc",
         offset: 0,
@@ -179,6 +189,7 @@ describe('advanced query', function () {
     it('GET', function (done) {
         chai.request(root)
             .get(url)
+            .auth('admin', 'admin0')
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;

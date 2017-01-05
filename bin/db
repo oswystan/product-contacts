@@ -9,9 +9,10 @@
 ##
 ###########################################################################
 
-backup_dir="../backup"
+backup_dir="./backup"
 db="contacts"
 sql="db-`date '+%Y%m%d%H%M%S'`.sql"
+me=`basename $0`
 
 function do_backup() {
     echo "start backup..."
@@ -37,9 +38,10 @@ function do_restore() {
 
 function usage() {
 cat << !EOF
+
 usage: 
-    - db backup
-    - db restore <backup.sql>
+    - $me backup
+    - $me restore <backup.sql>
 
 !EOF
 }

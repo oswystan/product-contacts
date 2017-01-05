@@ -28,7 +28,7 @@
 	- [ ] employess list
 	- [ ] department list
 	- [ ] add / modify information
-	- [ ] login:
+	- [x] login:
 		- http BASIC auth
 		- guest: only query
 		- admin: all that needed
@@ -36,7 +36,7 @@
 - [ ] forever running
 - [ ] database backup
 - [x] automated test case
-- [ ] https supported
+- [x] https supported
 
 ## issues
 - [ ] beautify the json output

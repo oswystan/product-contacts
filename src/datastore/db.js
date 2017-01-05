@@ -3,7 +3,7 @@
  *                     Copyright (C) 2016 wystan
  *
  *       filename: db.js
- *    description: 
+ *    description:
  *        created: 2016-12-31 22:04:35
  *         author: wystan
  *
@@ -22,7 +22,7 @@ exports = module.exports = function (){
 
     function check_query(obj) {
         var c = new checker();
-        var err = 
+        var err =
             c.begin()
             .val(obj.tab, 'tab').not_null().is_string()
             .val(obj.fields, 'fields').not_null().is_string()
@@ -51,6 +51,10 @@ exports = module.exports = function (){
     };
 
     this.query = function (req, res) {
+        if (req.user_role != 1) {
+            res.send(dberr.denied("only used for admin"));
+            return;
+        }
         var p = req.body;
         var err = check_query(p);
         if (err) {

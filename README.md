@@ -33,7 +33,14 @@
 		- guest: only query
 		- admin: all that needed
 
-- [ ] forever running
+- [x] forever running
+
+```
+sudo npm install forever -g
+forever ./index.js
+
+```
+
 - [ ] database backup
 - [x] automated test case
 - [x] https supported

@@ -14,8 +14,8 @@ create database contacts;
 
 
 -- USER
-drop user if exists pg_contacts;
-create user pg_contacts with createdb login password '123456';
+drop user if exists contacts_admin;
+create user contacts_admin with createdb login password '123456';
 
 
 -- TABLE
@@ -38,8 +38,8 @@ create table departments (
 
     primary key(id)
 );
-alter table employees owner to pg_contacts;
-alter table departments owner to pg_contacts;
+alter table employees owner to contacts_admin;
+alter table departments owner to contacts_admin;
 
 
 -- triggers

@@ -17,7 +17,7 @@ var should = chai.should();
 chai.use(chttp);
 chai.config.showDiff = true;
 
-var root = "http://localhost:8000";
+var root = "http://localhost:8001";
 
 describe('home', function () {
     it("GET /", function (done) {

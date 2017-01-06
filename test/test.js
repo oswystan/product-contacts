@@ -17,7 +17,9 @@ var should = chai.should();
 chai.use(chttp);
 chai.config.showDiff = true;
 
-var root = "http://localhost:8001";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+var root = "https://localhost:8000";
 
 describe('home', function () {
     it("GET /", function (done) {

@@ -31,12 +31,10 @@ function main() {
         cert: fs.readFileSync(__dirname + '/keys/cert.pem', 'utf8')
     };
 
-    var http_server = http.createServer(app);
-    var https_server = https.createServer(credentials, app);
+    var server = https.createServer(credentials, app);
 
     log.info('contacts server started ...');
-    http_server.listen(8001);
-    https_server.listen(8000);
+    server.listen(8000);
 }
 
 module.exports = function () {

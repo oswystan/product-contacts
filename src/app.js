@@ -22,6 +22,7 @@ var router = require("./router");
 var auth = require("./auth");
 
 function main() {
+    app.set('json spaces', 40);
     app.use(bodyparser.json());
     app.use(auth());
     router.init(app);

@@ -3,7 +3,7 @@
  *                     Copyright (C) 2017 wystan
  *
  *       filename: utils.js
- *    description: 
+ *    description:
  *        created: 2017-01-03 15:53:09
  *         author: wystan
  *
@@ -35,7 +35,7 @@ module.exports = Util = {
                 return;
             }
             Util.trim_result(result.rows);
-            res.send(dberr.succ(result.rows));
+            res.json(dberr.succ(result.rows));
         });
     }
 };

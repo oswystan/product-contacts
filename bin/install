@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+###########################################################################
+##                     Copyright (C) 2017 wystan
+##
+##       filename: install
+##    description: 
+##        created: 2017-01-10 11:10:08
+##         author: wystan
+##
+###########################################################################
+
+abs_path=""
+conf="contacts.conf"
+
+function check_root() {
+    if [ $USER != "root" ]; then
+        echo "pls run this by root"
+        exit 1
+    fi
+}
+
+function check_node() {
+    node -v > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "ERROR: install nodejs first"
+        exit 1
+    fi
+}
+
+
+function get_abs_path() {
+    p=`dirname $0`
+    c=`echo $p|cut -c 1`
+    cc=`echo $p|cut -c 1-2`
+
+    if [ $p = '.' ]; then
+        abs_path=$PWD/start
+    elif [ $c = '/' ]; then
+        abs_path=$p/start
+    elif [ $cc = "./" ]; then
+        cc=`echo $p|cut -c 3-`
+        abs_path="$PWD/$cc/start"
+    else
+        abs_path="$PWD/$p/start"
+    fi
+}
+
+function gen_conf() {
+    cat <<!EOF > $conf
+description "contacts server"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+
+console none
+exec $abs_path
+!EOF
+}
+
+function install_conf() {
+    echo "install conf..."
+    mv $conf /etc/init/
+    start contacts
+}
+
+
+
+function main() {
+    #check_root
+    check_node
+    get_abs_path
+    gen_conf
+    #install_conf
+}
+
+###########################################################################
+main
+

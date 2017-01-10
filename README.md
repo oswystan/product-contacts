@@ -40,6 +40,23 @@ sudo npm install forever -g
 forever ./index.js
 ```
 
+- [x] start on system boot up
+
+```
+### add a new conf file under dir: /etc/init/contacts.conf
+description "contacts server"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+
+console none
+exec /path/to/contacts/bin/start
+
+```
+
 - [x] database backup
 - [x] automated test case
 - [x] https supported

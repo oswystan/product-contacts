@@ -35,10 +35,7 @@
 
 - [x] forever running
 
-```
-sudo npm install forever -g
-forever ./index.js
-```
+It can be run when the system bootup as a system service. It also can be respawned if it is killed or exit. 
 
 - [x] start on system boot up
 

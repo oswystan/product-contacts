@@ -77,12 +77,12 @@ function install_db() {
 
 
 function main() {
-    #check_root
+    check_root
     check_node
     get_abs_path
     gen_conf
     install_db
-    #install_conf
+    install_conf
 }
 
 ###########################################################################

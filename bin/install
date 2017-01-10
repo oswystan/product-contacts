@@ -34,14 +34,14 @@ function get_abs_path() {
     cc=`echo $p|cut -c 1-2`
 
     if [ $p = '.' ]; then
-        abs_path=$PWD/start
+        abs_path=$PWD
     elif [ $c = '/' ]; then
-        abs_path=$p/start
+        abs_path=$p
     elif [ $cc = "./" ]; then
         cc=`echo $p|cut -c 3-`
-        abs_path="$PWD/$cc/start"
+        abs_path="$PWD/$cc"
     else
-        abs_path="$PWD/$p/start"
+        abs_path="$PWD/$p"
     fi
 }
 
@@ -56,7 +56,7 @@ respawn
 respawn limit 10 5
 
 console none
-exec $abs_path
+exec $abs_path/start
 !EOF
 }
 
@@ -66,6 +66,14 @@ function install_conf() {
     start contacts
 }
 
+function install_db() {
+    psql -f $abs_path/../src/datastore/postgre.sql
+    if [ $? -ne 0 ]; then
+        echo "ERROR: fail to install database"
+        exit 1;
+    fi
+}
+
 
 
 function main() {
@@ -73,6 +81,7 @@ function main() {
     check_node
     get_abs_path
     gen_conf
+    install_db
     #install_conf
 }
 

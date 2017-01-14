@@ -30,7 +30,9 @@ module.exports = Util = {
     do_query: function (cli, sql, res) {
         cli.query(sql, function (err, result) {
             if (err) {
+                console.log("=====================");
                 console.log(err);
+                console.log("=====================");
                 res.send(dberr.db_internal(err));
                 return;
             }

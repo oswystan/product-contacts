@@ -12,7 +12,7 @@
 
 module.exports = function() {
     this.dbname   = "contacts";
-    this.user     = "pg_contacts";
+    this.user     = "contacts_admin";
     this.password = "123456";
     this.max_rows = 4;
 };

@@ -18,7 +18,7 @@ module.exports = {
         return {err: code, desc: str_desc, data: []};
     },
     db_internal: function (e) {
-        return {err: e.code, desc: e.routine, data: []};
+        return {err: e.code, desc: e.message, data: []};
     },
 
     no_such_table: function(s) {

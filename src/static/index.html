@@ -7,35 +7,65 @@
             body {
                 font-family: skia;
             }
-            #header, #footer {
-                height:100px;
+            #header, #footer, #main {
+                min-width: 600px;
                 background: #BBBBBB;
             }
 
+            #footer {
+                text-align: center;
+                line-height: 50px;
+                color: #666666;
+            }
+            #header ul {
+                margin: 0 0 0 16px;
+                padding: 0;
+                display:inline-block;
+                list-style-type: none;
+            }
+            #header ul li {
+                margin: 20px 0 0 0;
+                padding: 0;
+                display: inline-block;
+                text-decoration: none;
+            }
+            #header a {
+                padding: 14px 30px;
+                font-size: 1.2em;
+                color: #eeeeee;
+                background: #888888;
+                display: inline-block;
+                text-decoration: none;
+            }
+            #header a:hover {
+                background:#999999;
+            }
+
             #main {
-                height:100px;
                 background: #CCCCCC;
+                padding: 50px; 
+                text-align: center;
             }
 
             input {
-                padding: 6px;
+                padding: 10px;
                 font-family: skia;
-                font-size: 1.5em;
+                font-size: 1.1em;
                 border-style: solid;
                 border-width: 1px;
                 border-color: #cbcbcb;
                 border-radius: 2px;
             }
 
-            .submit {
+            input[type="submit"] {
                 border-radius: 2px;
                 border-style: solid;
                 border-width: 1px;
                 border-color: #cbcbcb;
                 color: #FFF;
                 background: #e47700;
-                padding: 6px;
-                font-size: 1.5em;
+                padding: 10px 30px;
+                font-size: 1.1em;
                 text-decoration: none;
             }
         </style>
@@ -44,15 +74,22 @@
     <body>
         
         <div id="header">
+            <ul>
+                <li><a href="javascript:void(0)">EMPLOYEE</a></li>
+                <li><a href="javascript:void(0)">DEPARTMENT</a></li>
+            </ul>
         </div>
 
         <div id="main" style="display:show">
-            <input type="text" name="" id="username" value="" />
-            <input type="password" name="" id="password" value="" />
-            <a class='submit' href="javascript:void(0)">LOGIN</a>
+            <form action="" method="post">
+                <input type="text" name="" id="username" value="" placeholder="user name"/>
+                <input type="password" name="" id="password" value="" placeholder="password"/>
+                <input type="submit" name="" id="" value="LOGIN" />
+            </form>
         </div>
 
         <div id="footer">
+            Copyright(C) oswystan
         </div>
     
     </body>

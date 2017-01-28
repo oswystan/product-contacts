@@ -43,7 +43,7 @@
 
             #main {
                 background: #CCCCCC;
-                padding: 50px; 
+                padding: 50px 20px; 
                 text-align: center;
             }
 
@@ -68,6 +68,25 @@
                 font-size: 1.1em;
                 text-decoration: none;
             }
+
+            table, th, td, tr {
+                border-style: solid;
+                border-width: 1px;
+                border-color: #999;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 10px 30px;
+                text-align: center;
+            }
+            th {
+                background: #999;
+                color: #eeeeee;
+            }
+            td {
+                background: #eee;
+                color: #555;
+            }
         </style>
     </head>
 
@@ -81,13 +100,33 @@
         </div>
 
         <div id="main" style="display:show">
+            <table cellspacing="0" cellpadding="0">
+                <tr>
+                    <th>IDs</th>
+                    <th>NAME</th>
+                    <th>PHONE</th>
+                    <th>EMAIL</th>
+                    <th>ADDRESS</th>
+                    <th>POSITION</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>oswysstan</td>
+                    <td>1111</td>
+                    <td>ddd@dd.com</td>
+                    <td>xxxxx country xx province xx street</td>
+                    <td>#22-3-320</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="login" style="display:none">
             <form action="" method="post">
                 <input type="text" name="" id="username" value="" placeholder="user name"/>
                 <input type="password" name="" id="password" value="" placeholder="password"/>
                 <input type="submit" name="" id="" value="LOGIN" />
             </form>
         </div>
-
         <div id="footer">
             Copyright(C) oswystan
         </div>

@@ -4,12 +4,21 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title>contacts</title>
         <style type="text/css" media="all">
-            body {
+            body, input {
                 font-family: skia;
             }
-            #header, #footer, #main {
+            a {
+                text-decoration: none;
+                color: #1E90FF;
+            }
+            #header, #footer {
                 min-width: 600px;
                 background: #BBBBBB;
+            }
+            .container {
+                padding:10px 14px;
+                background: #cccccc;
+                text-align: center;
             }
 
             #footer {
@@ -36,18 +45,13 @@
                 background: #888888;
                 display: inline-block;
                 text-decoration: none;
+                border-radius: 4px 4px 0 0;
             }
             #header a:hover {
                 background:#999999;
             }
 
-            #main {
-                background: #CCCCCC;
-                padding: 50px 20px; 
-                text-align: center;
-            }
-
-            input {
+            input[type="text"], input[type="password"] {
                 padding: 10px;
                 font-family: skia;
                 font-size: 1.1em;
@@ -59,14 +63,33 @@
 
             input[type="submit"] {
                 border-radius: 2px;
-                border-style: solid;
-                border-width: 1px;
-                border-color: #cbcbcb;
+                border-style: none;
                 color: #FFF;
-                background: #e47700;
                 padding: 10px 30px;
                 font-size: 1.1em;
                 text-decoration: none;
+                cursor: hand;
+            }
+            input[type="button"] {
+                border-radius: 2px;
+                border-style: none;
+                color: #FFF;
+                padding: 10px 30px;
+                font-size: 1.1em;
+                text-decoration: none;
+                cursor: hand;            
+            }
+            input[danger] {
+                background: #e02a2a;
+            }
+            input[normal] {
+                background: #3985ff;
+            }
+            input[perfer] {
+                background: #00be38;
+            }
+            input[warn] {
+                background: #e47700;
             }
 
             table, th, td, tr {
@@ -74,6 +97,9 @@
                 border-width: 1px;
                 border-color: #999;
                 border-collapse: collapse;
+            }
+            table {
+                width: 100%;
             }
             th, td {
                 padding: 10px 30px;
@@ -87,6 +113,31 @@
                 background: #eee;
                 color: #555;
             }
+
+            table[horizontal] th {
+                text-align: right;
+                width:100px;
+            }
+            table[horizontal] td {
+                text-align: left;
+            }
+            table[horizontal] td[operation] {
+                text-align: center;
+            }
+            table[horizontal] td input[type="text"] {
+                width:100%;
+            }
+
+            td[paging] a {
+                padding: 6px 14px;
+                border-radius: 2px;
+                text-decoration: none;
+                color: #1E90FF;
+            }
+            td[paging] a:hover {
+                background: #cccccc;
+            }
+
         </style>
     </head>
 
@@ -96,13 +147,97 @@
             <ul>
                 <li><a href="javascript:void(0)">EMPLOYEE</a></li>
                 <li><a href="javascript:void(0)">DEPARTMENT</a></li>
+                <li><a href="javascript:void(0)">ADVANCED</a></li>
             </ul>
         </div>
 
-        <div id="main" style="display:show">
+        <!--
+        ====================================================================
+        = LOGIN
+        ====================================================================
+        -->
+        <div class="container" id="login" style="display:show;" >
+            <form action="" method="post">
+                <input type="text" name="" id="username" value="" placeholder="user name"/>
+                <input type="password" name="" id="password" value="" placeholder="password"/>
+                <input type="submit" name="" id="" value="LOGIN" perfer />
+            </form>
+        </div>
+
+        <!--
+        ====================================================================
+        = employee releated
+        ====================================================================
+        -->
+        <div class="container" id="show-employee" style="display: show;">
+            <form action="" method="post">
+            <table horizontal>
+                <tr>
+                    <th>ID</th>
+                    <td> #1 </td>
+                </tr>
+                <tr>
+                    <th>NAME</th>
+                    <td><input type="text" value="oswystan" disabled></td>
+                </tr>
+                <tr>
+                    <th>ROLE</th>
+                    <td><input type="text" value="SWE" disabled></td>
+                </tr>
+                <tr>
+                    <th>TEL</th>
+                    <td><input type="text" value="10198899" disabled></td>
+                </tr>
+                <tr>
+                    <th>MOBILE</th>
+                    <td><input type="text" value="123456789012" disabled></td>
+                </tr>
+                <tr>
+                    <th>EMAIL</th>
+                    <td><input type="text" value="oswystan@sss.com" disabled></td>
+                </tr>
+                <tr>
+                    <th>POSITION</th>
+                    <td><input type="text" value="#3-1-204" disabled></td>
+                </tr>
+                <tr>
+                    <th>ADDRESS</th>
+                    <td><input type="text" value="CHINA, BJ, HAIDIAN QingHua university" disabled></td>
+                </tr>
+                <tr>
+                    <th>DEPARTMENT</th>
+                    <td>
+                        RnD
+                        <input type="button" value="SELECT..." >
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" operation>
+                        <input type="button" value="MODIFY" warn />
+                        <input type="submit" value="SUBMIT" perfer />
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </div>
+
+        <div class="container" id="list-employee" style="display:show">
+            <table search="1">
+                <tr>
+                    <td>
+                        <input type="radio" name="search_by" value="ID" checked>ID
+                        <input type="radio" name="search_by" value="name">NAME
+                        <input type="text" placeholder="search...">
+                        <input type="button" value="SEARCH" normal>
+                        <input type="button" value="ADD" perfer>
+                        <input type="button" value="DEL" danger>
+                    </td>
+                </tr>
+            </table>
             <table cellspacing="0" cellpadding="0">
                 <tr>
-                    <th>IDs</th>
+                    <th><input type="checkbox"></th>
+                    <th>ID</th>
                     <th>NAME</th>
                     <th>PHONE</th>
                     <th>EMAIL</th>
@@ -110,23 +245,173 @@
                     <th>POSITION</th>
                 </tr>
                 <tr>
+                    <td><input type="checkbox"></td>
                     <td>1</td>
-                    <td>oswysstan</td>
+                    <td><a href="javascript:void(0)">Jay</a></td>
                     <td>1111</td>
                     <td>ddd@dd.com</td>
                     <td>xxxxx country xx province xx street</td>
                     <td>#22-3-320</td>
                 </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>2</td>
+                    <td><a href="javascript:void(0)">Jacky</a></td>
+                    <td>1111</td>
+                    <td>ddd@dd.com</td>
+                    <td>xxxxx country xx province xx street</td>
+                    <td>#22-3-320</td>
+                </tr>
+                <tr>
+                    <td colspan="7" last paging>
+                        <a href="javascript:void(0)">|<</a>
+                        <a href="javascript:void(0)">1</a>
+                        <a href="javascript:void(0)">2</a>
+                        <a href="javascript:void(0)">3</a>
+                        <a href="javascript:void(0)">4</a>
+                        <a href="javascript:void(0)">>|</a>
+                    </td>
+                </tr>
             </table>
         </div>
 
-        <div id="login" style="display:none">
+
+        <!--
+        ====================================================================
+        = departments releated
+        ====================================================================
+        -->
+        <div class="container" id="show-department" style="display: show;">
             <form action="" method="post">
-                <input type="text" name="" id="username" value="" placeholder="user name"/>
-                <input type="password" name="" id="password" value="" placeholder="password"/>
-                <input type="submit" name="" id="" value="LOGIN" />
+            <table horizontal>
+                <tr>
+                    <th>ID</th>
+                    <td> #1 </td>
+                </tr>
+                <tr>
+                    <th>NAME</th>
+                    <td><input type="text" value="oswystan" disabled></td>
+                </tr>
+                <tr>
+                    <th>LEADER</th>
+                    <td>
+                        Jacky
+                        <input type="button" value="SELECT..." >
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" operation>
+                        <input type="button" value="MODIFY" warn />
+                        <input type="submit" value="SUBMIT" perfer />
+                    </td>
+                </tr>
+            </table>
             </form>
         </div>
+
+        <div class="container" id="list-department" style="display:show">
+            <table search="1">
+                <tr>
+                    <td>
+                        <input type="radio" name="search_by" value="ID" checked>ID
+                        <input type="radio" name="search_by" value="name">NAME
+                        <input type="text" placeholder="search...">
+                        <input type="button" value="SEARCH" normal>
+                        <input type="button" value="ADD" perfer>
+                        <input type="button" value="DEL" danger>
+                    </td>
+                </tr>
+            </table>
+            <table cellspacing="0" cellpadding="0">
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>LEADER</th>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td><a href="javascript:void(0)">RnD</a></td>
+                    <td>Jacky</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td><a href="javascript:void(0)">RnD</a></td>
+                    <td>Jacky</td>
+                </tr>
+                <tr>
+                    <td colspan="7" last paging>
+                        <a href="javascript:void(0)">|<</a>
+                        <a href="javascript:void(0)">1</a>
+                        <a href="javascript:void(0)">2</a>
+                        <a href="javascript:void(0)">3</a>
+                        <a href="javascript:void(0)">4</a>
+                        <a href="javascript:void(0)">>|</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--
+        ====================================================================
+        = advanced search
+        ====================================================================
+        -->
+        <div class="container" id="list-department" style="display:show">
+            <table search="1">
+                <tr>
+                    <td>
+                        SELECT
+                        <input type="text" value="" placeholder="fields..">
+                        FROM
+                        <input type="text" value="" placeholder="table..">
+                        WHERE
+                        <input type="text" value="" placeholder="conditions..">
+                        ORDER BY
+                        <input type="text" value="" placeholder="orderby..">
+                        <input type="button" value="GO" normal>
+                    </td>
+                </tr>
+            </table>
+            <table cellspacing="0" cellpadding="0">
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>LEADER</th>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td><a href="javascript:void(0)">RnD</a></td>
+                    <td>Jacky</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>1</td>
+                    <td><a href="javascript:void(0)">RnD</a></td>
+                    <td>Jacky</td>
+                </tr>
+                <tr>
+                    <td colspan="7" last paging>
+                        <a href="javascript:void(0)">|<</a>
+                        <a href="javascript:void(0)">1</a>
+                        <a href="javascript:void(0)">2</a>
+                        <a href="javascript:void(0)">3</a>
+                        <a href="javascript:void(0)">4</a>
+                        <a href="javascript:void(0)">>|</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--
+        ====================================================================
+        = footer
+        ====================================================================
+        -->
         <div id="footer">
             Copyright(C) oswystan
         </div>

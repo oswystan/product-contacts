@@ -3,7 +3,7 @@
  *                     Copyright (C) 2016 wystan
  *
  *       filename: router.js
- *    description: 
+ *    description:
  *        created: 2016-12-31 19:11:58
  *         author: wystan
  *
@@ -15,7 +15,7 @@ var ctrl = require('./controller');
 exports = module.exports = {
     init: function (app) {
         app.get("/", function (req, res) {
-            res.sendFile(__dirname + "/index.html");
+            res.sendFile(__dirname + "/static/index.html");
         });
 
         app.get("/query", function (req, res) {

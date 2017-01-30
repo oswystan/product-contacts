@@ -70,7 +70,8 @@
                 text-decoration: none;
                 cursor: hand;
             }
-            input[type="button"] {
+
+            input[type="button"], .btn {
                 border-radius: 2px;
                 border-style: none;
                 color: #FFF;
@@ -78,17 +79,18 @@
                 font-size: 1.1em;
                 text-decoration: none;
                 cursor: hand;            
+                display: inline-block;
             }
-            input[danger] {
+            input[danger], .btn[danger] {
                 background: #e02a2a;
             }
-            input[normal] {
+            input[normal], .btn[normal]{
                 background: #3985ff;
             }
-            input[perfer] {
+            input[perfer], .btn[perfer]{
                 background: #00be38;
             }
-            input[warn] {
+            input[warn], .btn[warn] {
                 background: #e47700;
             }
 
@@ -145,31 +147,35 @@
         
         <div id="header">
             <ul>
-                <li><a href="javascript:void(0)">EMPLOYEE</a></li>
-                <li><a href="javascript:void(0)">DEPARTMENT</a></li>
-                <li><a href="javascript:void(0)">ADVANCED</a></li>
+                <li><a href="#employee.list">EMPLOYEE</a></li>
+                <li><a href="#department.list">DEPARTMENT</a></li>
+                <li><a href="#adv.list">ADVANCED</a></li>
             </ul>
         </div>
+
+        <div id='main' class="container"></div>
 
         <!--
         ====================================================================
         = LOGIN
         ====================================================================
         -->
-        <div class="container" id="login" style="display:show;" >
+
+
+        <script id="login" type="text/html">
             <form action="" method="post">
-                <input type="text" name="" id="username" value="" placeholder="user name"/>
-                <input type="password" name="" id="password" value="" placeholder="password"/>
-                <input type="submit" name="" id="" value="LOGIN" perfer />
+                <input type="text" name="username" value="" placeholder="user name"/>
+                <input type="password" name="password" value="" placeholder="password"/>
+                <input type="submit" name="submit" id="" value="LOGIN" perfer />
             </form>
-        </div>
+        </script>
 
         <!--
         ====================================================================
         = employee releated
         ====================================================================
         -->
-        <div class="container" id="show-employee" style="display: show;">
+        <script type="text/html" id="employee">
             <form action="" method="post">
             <table horizontal>
                 <tr>
@@ -178,31 +184,31 @@
                 </tr>
                 <tr>
                     <th>NAME</th>
-                    <td><input type="text" value="oswystan" disabled></td>
+                    <td><input name="name" type="text" value="{{name}}" disabled></td>
                 </tr>
                 <tr>
                     <th>ROLE</th>
-                    <td><input type="text" value="SWE" disabled></td>
+                    <td><input name="role" type="text" value="{{role}}" disabled></td>
                 </tr>
                 <tr>
                     <th>TEL</th>
-                    <td><input type="text" value="10198899" disabled></td>
+                    <td><input name="tel" type="text" value="{{tel}}" disabled></td>
                 </tr>
                 <tr>
                     <th>MOBILE</th>
-                    <td><input type="text" value="123456789012" disabled></td>
+                    <td><input name="mobile" type="text" value="{{mobile}}" disabled></td>
                 </tr>
                 <tr>
                     <th>EMAIL</th>
-                    <td><input type="text" value="oswystan@sss.com" disabled></td>
+                    <td><input name="email" type="text" value="{{email}}" disabled></td>
                 </tr>
                 <tr>
                     <th>POSITION</th>
-                    <td><input type="text" value="#3-1-204" disabled></td>
+                    <td><input name="position" type="text" value="{{position}}" disabled></td>
                 </tr>
                 <tr>
                     <th>ADDRESS</th>
-                    <td><input type="text" value="CHINA, BJ, HAIDIAN QingHua university" disabled></td>
+                    <td><input name="address" type="text" value="{{position}}" disabled></td>
                 </tr>
                 <tr>
                     <th>DEPARTMENT</th>
@@ -213,24 +219,24 @@
                 </tr>
                 <tr>
                     <td colspan="2" operation>
-                        <input type="button" value="MODIFY" warn />
+                        <input name="modify" type="button" value="MODIFY" warn />
                         <input type="submit" value="SUBMIT" perfer />
                     </td>
                 </tr>
             </table>
             </form>
-        </div>
+        </script>
 
-        <div class="container" id="list-employee" style="display:show">
+        <script type="text/html" id="list-employee">
             <table search="1">
                 <tr>
                     <td>
                         <input type="radio" name="search_by" value="ID" checked>ID
                         <input type="radio" name="search_by" value="name">NAME
-                        <input type="text" placeholder="search...">
-                        <input type="button" value="SEARCH" normal>
-                        <input type="button" value="ADD" perfer>
-                        <input type="button" value="DEL" danger>
+                        <input type="text" name="key_val" placeholder="search...">
+                        <a class="btn" name="search" href="javascript:void(0)" normal>SEARCH</a>
+                        <a class="btn" name="add" href="#employee.post" perfer>ADD</a>
+                        <a class="btn" name="del" href="javascript:void(0)" danger>DEL</a>
                     </td>
                 </tr>
             </table>
@@ -273,7 +279,7 @@
                     </td>
                 </tr>
             </table>
-        </div>
+        </script>
 
 
         <!--
@@ -281,7 +287,7 @@
         = departments releated
         ====================================================================
         -->
-        <div class="container" id="show-department" style="display: show;">
+        <script type="text/html" id="department">
             <form action="" method="post">
             <table horizontal>
                 <tr>
@@ -307,18 +313,18 @@
                 </tr>
             </table>
             </form>
-        </div>
+        </script>
 
-        <div class="container" id="list-department" style="display:show">
+        <script type="text/html" id="list-department">
             <table search="1">
                 <tr>
                     <td>
                         <input type="radio" name="search_by" value="ID" checked>ID
                         <input type="radio" name="search_by" value="name">NAME
                         <input type="text" placeholder="search...">
-                        <input type="button" value="SEARCH" normal>
-                        <input type="button" value="ADD" perfer>
-                        <input type="button" value="DEL" danger>
+                        <a class="btn" name="search" href="javascript:void(0)" normal>SEARCH</a>
+                        <a class="btn" name="add" href="#department.post" perfer>ADD</a>
+                        <a class="btn" name="del" href="javascript:void(0)" danger>DEL</a>
                     </td>
                 </tr>
             </table>
@@ -352,14 +358,14 @@
                     </td>
                 </tr>
             </table>
-        </div>
+        </script>
 
         <!--
         ====================================================================
         = advanced search
         ====================================================================
         -->
-        <div class="container" id="list-department" style="display:show">
+        <script type="text/html" id="advance">
             <table search="1">
                 <tr>
                     <td>
@@ -405,7 +411,7 @@
                     </td>
                 </tr>
             </table>
-        </div>
+        </script>
 
         <!--
         ====================================================================
@@ -418,4 +424,9 @@
     
     </body>
 
+    <script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/art_template.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/underscore.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/backbone.js" type="text/javascript" charset="utf-8"></script>
+    <script data-main="modules/app.js" src="lib/require.js" type="text/javascript" charset="utf-8"></script>
 </html>

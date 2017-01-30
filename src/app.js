@@ -25,6 +25,7 @@ function main() {
     app.set('json spaces', 40);
     app.use(bodyparser.json());
     app.use(auth());
+    app.use(express.static(__dirname + "/static"));
     router.init(app);
 
     var credentials = {
@@ -34,8 +35,8 @@ function main() {
 
     var server = https.createServer(credentials, app);
 
-    log.info('contacts server started ...');
     server.listen(8000);
+    log.info('contacts server started ...');
 }
 
 module.exports = function () {

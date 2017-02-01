@@ -180,7 +180,7 @@
             <table horizontal>
                 <tr>
                     <th>ID</th>
-                    <td> #1 </td>
+                    <td> {{id}} </td>
                 </tr>
                 <tr>
                     <th>NAME</th>
@@ -208,7 +208,7 @@
                 </tr>
                 <tr>
                     <th>ADDRESS</th>
-                    <td><input name="address" type="text" value="{{position}}" disabled></td>
+                    <td><input name="address" type="text" value="{{address}}" disabled></td>
                 </tr>
                 <tr>
                     <th>DEPARTMENT</th>
@@ -219,7 +219,9 @@
                 </tr>
                 <tr>
                     <td colspan="2" operation>
+                        {{if id != '#'}}
                         <input name="modify" type="button" value="MODIFY" warn />
+                        {{/if}}
                         <input type="submit" value="SUBMIT" perfer />
                     </td>
                 </tr>

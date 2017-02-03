@@ -200,15 +200,11 @@
                 </tr>
                 <tr>
                     <th>EMAIL</th>
-                    <td><input name="email" type="text" value="{{email}}" disabled></td>
+                    <td><input name="email" type="text" value="{{mail}}" disabled></td>
                 </tr>
                 <tr>
                     <th>POSITION</th>
                     <td><input name="position" type="text" value="{{position}}" disabled></td>
-                </tr>
-                <tr>
-                    <th>ADDRESS</th>
-                    <td><input name="address" type="text" value="{{address}}" disabled></td>
                 </tr>
                 <tr>
                     <th>DEPARTMENT</th>
@@ -233,9 +229,9 @@
             <table search="1">
                 <tr>
                     <td>
-                        <input type="radio" name="search_by" value="ID" checked>ID
-                        <input type="radio" name="search_by" value="name">NAME
-                        <input type="text" name="key_val" placeholder="search...">
+                        <input type="radio" name="search_by" value="ID" {{if _cond_.type == "ID"}} checked {{/if}}>ID
+                        <input type="radio" name="search_by" value="name" {{if _cond_.type == "name"}} checked {{/if}}>NAME
+                        <input type="text" name="key_val" placeholder="search..." value="{{_cond_.val}}">
                         <a class="btn" name="search" href="javascript:void(0)" normal>SEARCH</a>
                         <a class="btn" name="add" href="#employee.post" perfer>ADD</a>
                         <a class="btn" name="del" href="javascript:void(0)" danger>DEL</a>
@@ -244,40 +240,35 @@
             </table>
             <table cellspacing="0" cellpadding="0">
                 <tr>
-                    <th><input type="checkbox"></th>
+                    <th><input type="checkbox" name="select_all"></th>
                     <th>ID</th>
                     <th>NAME</th>
-                    <th>PHONE</th>
-                    <th>EMAIL</th>
-                    <th>ADDRESS</th>
+                    <th>MOBILE</th>
+                    <th>MAIL</th>
+                    <th>ROLE</th>
                     <th>POSITION</th>
                 </tr>
+                {{each data as val idx}}
                 <tr>
-                    <td><input type="checkbox"></td>
-                    <td>1</td>
-                    <td><a href="javascript:void(0)">Jay</a></td>
-                    <td>1111</td>
-                    <td>ddd@dd.com</td>
-                    <td>xxxxx country xx province xx street</td>
-                    <td>#22-3-320</td>
+                    <td><input type="checkbox" value="{{val.id}}"></td>
+                    <td>{{val.id}}</td>
+                    <td><a href="#employee.put/{{val.id}}">{{val.name}}</a></td>
+                    <td>{{val.mobile}}</td>
+                    <td>{{val.mail}}</td>
+                    <td>{{val.role}}</td>
+                    <td>{{val.position}}</td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>2</td>
-                    <td><a href="javascript:void(0)">Jacky</a></td>
-                    <td>1111</td>
-                    <td>ddd@dd.com</td>
-                    <td>xxxxx country xx province xx street</td>
-                    <td>#22-3-320</td>
-                </tr>
+                {{/each}}
                 <tr>
                     <td colspan="7" last paging>
                         <a href="javascript:void(0)">|<</a>
+                        {{if _cond_.total > 0}}
                         <a href="javascript:void(0)">1</a>
                         <a href="javascript:void(0)">2</a>
                         <a href="javascript:void(0)">3</a>
                         <a href="javascript:void(0)">4</a>
                         <a href="javascript:void(0)">5</a>
+                        {{/if}}
                         <a href="javascript:void(0)">>|</a>
                     </td>
                 </tr>

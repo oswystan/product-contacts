@@ -26,7 +26,7 @@ create table employees (
     mobile          char(32) ,
     tel             char(32) ,
     mail            char(64) ,
-    position        char(128) ,
+    position        char(128),
     role            char(64),
 
     primary key(id)

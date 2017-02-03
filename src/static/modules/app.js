@@ -7,11 +7,22 @@ var deps = [
 
 define(deps, function() {
     var ev_bus = {};
+    var app = {};
     _.extend(ev_bus, Backbone.Events);
+    _.extend(app, Backbone.Events);
+
+    app.render_error = function(res) {
+        console.log(res);
+    };
 
     var Router = Backbone.Router.extend({
         routes: {
+            "*entity.put/:id":"do_put",
             "*actions": "do_it"
+        },
+
+        do_put: function(entity, id) {
+            ev_bus.trigger(entity+".put", id);
         },
 
         do_it: function (actions) {
@@ -33,4 +44,5 @@ define(deps, function() {
     }
 
     ev_bus.trigger("login");
+    app.listenTo(ev_bus, "error", app.render_error);
 });

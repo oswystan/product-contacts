@@ -14,7 +14,7 @@ module.exports = function() {
     this.dbname   = "contacts";
     this.user     = "contacts_admin";
     this.password = "123456";
-    this.max_rows = 4;
+    this.max_rows = 15;
 };
 
 /************************************* END **************************************/

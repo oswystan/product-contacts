@@ -13,8 +13,8 @@
 var dberr = require('./error');
 
 module.exports = Util = {
-    max: function (a, b) {
-        return a > b ? a : b;
+    min: function (a, b) {
+        return a > b ? b : a;
     },
 
     trim_result: function (rows) {

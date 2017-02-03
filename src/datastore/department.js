@@ -3,7 +3,7 @@
  *                     Copyright (C) 2016 wystan
  *
  *       filename: department.js
- *    description: 
+ *    description:
  *        created: 2016-12-31 21:46:46
  *         author: wystan
  *
@@ -20,11 +20,18 @@ exports = module.exports = function (cli) {
         var sql = `select * from departments
             offset $1 limit $2;`;
 
+        var q = req.query;
+        if (q.limit) {
+            q.limit = Number.parseInt(q.limit);
+        } else {
+            q.limit = cfg.max_rows;
+        }
+
         var val = [
-            req.query.offset || 0, 
-            util.max(req.query.limit, cfg.max_rows), 
+            q.offset || 0,
+            util.min(q.limit, cfg.max_rows),
         ];
-        
+
         util.do_query(cli, {text: sql, values: val}, res);
     };
 
@@ -37,20 +44,20 @@ exports = module.exports = function (cli) {
         var sql = `insert into departments (name, leader)
             values ($1, $2) returning *;`;
         var val = [
-            req.body.name || '', 
-            req.body.leader || null, 
+            req.body.name || '',
+            req.body.leader || null,
         ];
 
         util.do_query(cli, {text: sql, values: val}, res);
     };
 
     this.put = function (req, res) {
-        var sql = `update departments 
+        var sql = `update departments
             set name=$1, leader=$2
             where id = $3 returning *;`;
         var val = [
-            req.body.name || '', 
-            req.body.leader || null, 
+            req.body.name || '',
+            req.body.leader || null,
             req.body.id
         ];
 

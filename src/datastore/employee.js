@@ -3,7 +3,7 @@
  *                     Copyright (C) 2016 wystan
  *
  *       filename: employee.js
- *    description: 
+ *    description:
  *        created: 2016-12-31 21:46:17
  *         author: wystan
  *
@@ -20,7 +20,7 @@ exports = module.exports = function (cli) {
 
     function check_values(obj) {
         var c = new checker();
-        var err = 
+        var err =
         c.begin()
             .val(obj.name, 'name').not_null()
             .val(obj.department, 'department').is_number()
@@ -57,6 +57,11 @@ exports = module.exports = function (cli) {
         if (q.orderby) {
             order = " order by " + q.orderby;
         }
+        if (q.limit) {
+            q.limit = Number.parseInt(q.limit);
+        } else {
+            q.limit = cfg.max_rows;
+        }
 
         if (where) {
             sql += where;
@@ -66,8 +71,8 @@ exports = module.exports = function (cli) {
         sql += limit;
 
         var val = [
-            q.offset || 0, 
-            util.max(q.limit, cfg.max_rows),
+            q.offset || 0,
+            util.min(q.limit, cfg.max_rows),
         ];
 
         if (val[0] == 0) {
@@ -90,14 +95,14 @@ exports = module.exports = function (cli) {
             return;
         }
 
-        var sql = `insert into employees 
-            (name, department, mobile, tel, mail, position, role) 
-            values 
+        var sql = `insert into employees
+            (name, department, mobile, tel, mail, position, role)
+            values
             ($1, $2, $3, $4, $5, $6, $7) returning *;`;
         var val = [
-            p.name || '', 
+            p.name || '',
             p.department || null,
-            p.mobile || '', 
+            p.mobile || '',
             p.tel || '',
             p.mail || '',
             p.position || '',
@@ -114,13 +119,13 @@ exports = module.exports = function (cli) {
             return;
         }
 
-        var sql = `update employees 
+        var sql = `update employees
             set name=$1, department=$2, mobile=$3, tel=$4, mail=$5, position=$6, role=$7
             where id = $8 returning *;`;
         var val = [
-            req.body.name || '', 
-            req.body.department || null, 
-            req.body.mobile || '', 
+            req.body.name || '',
+            req.body.department || null,
+            req.body.mobile || '',
             req.body.tel || '',
             req.body.mail || '',
             req.body.position || '',

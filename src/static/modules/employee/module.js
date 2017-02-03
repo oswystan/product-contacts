@@ -5,7 +5,7 @@ define(function() {
 
     var condition = function() {
         this.offset = 0;
-        this.limit = 15;
+        this.limit = 1;
         this.total = 0;
         this.type = "ID";
         this.val = "";
@@ -88,6 +88,23 @@ define(function() {
         });
     };
 
+    mod.get_pages = function() {
+        var max_page = 5;
+        var pg = [];
+        var cur = Math.ceil(cond.offset / cond.limit);
+        if (cur == 0) {
+            cur++;
+        }
+        var total = Math.ceil(cond.total / cond.limit);
+        var cnt = total-cur+1 > max_page ? max_page : total-cur+1;
+        console.log(total, cur, max_page, cnt);
+        for (var i = 0; i < cnt; i++) {
+            pg.push(cur+i);
+        }
+        console.log(pg);
+        return pg;
+    };
+
     mod.render_list = function(res) {
         if (res.err == 0) {
             if (res.total) {
@@ -96,6 +113,7 @@ define(function() {
             if (!res._cond_) {
                 res._cond_ = cond;
             }
+            res._pg_ = mod.get_pages();
             last_res = res;
 
             var html = template("list-employee", res);
@@ -109,24 +127,27 @@ define(function() {
                 main.find('[name="key_val"]').val("");
             });
 
-            main.find(':checkbox[name="select_all"]').unbind('click').click(function(event){
+            main.find(':checkbox[name="select_all"]').unbind('click').click(function(event) {
                 if ($(this).is(":checked")) {
                     main.find(':checkbox[name!="select_all"]').prop("checked", true);
                 } else {
                     main.find(':checkbox[name!="select_all"]').prop("checked", false);
                 }
             });
+
+            main.find('a[name="page"]').unbind('click').click(function () {
+                var page = Number.parseInt(this.value);
+            });
             main.find('[name="search"]').unbind('click').click(mod.do_list);
-            main.find('[name="del"]').unbind('click').click(function(){
+            main.find('[name="del"]').unbind('click').click(function() {
                 var dl = [];
-                main.find(':checkbox[name!="select_all"]').each(function(){
-                    if($(this).is(":checked")) {
+                main.find(':checkbox[name!="select_all"]').each(function() {
+                    if ($(this).is(":checked")) {
                         dl.push(this.value);
                     }
                 });
                 mod.do_del(dl);
             });
-            
         } else {
             mod.bus.trigger("error", res);
         }

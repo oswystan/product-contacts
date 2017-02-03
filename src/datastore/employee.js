@@ -37,6 +37,7 @@ exports = module.exports = function (cli) {
     //=====
     this.list = function (req, res) {
         var sql = "select * from employees";
+        var sqlc = "select count(id) as cnt from employees";
         var limit = " offset $1 limit $2";
         var where = null;
         var order = " order by id";
@@ -59,6 +60,7 @@ exports = module.exports = function (cli) {
 
         if (where) {
             sql += where;
+            sqlc += where;
         }
         sql += order;
         sql += limit;
@@ -68,7 +70,11 @@ exports = module.exports = function (cli) {
             util.max(q.limit, cfg.max_rows),
         ];
 
-        util.do_query(cli, {text: sql, values: val}, res);
+        if (val[0] == 0) {
+            util.do_query(cli, {text: sql, values: val}, sqlc, res);
+        } else {
+            util.do_query(cli, {text: sql, values: val}, res);
+        }
     };
 
     this.get = function (req, res) {

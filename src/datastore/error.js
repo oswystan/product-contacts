@@ -11,8 +11,12 @@
  */
 
 module.exports = {
-    succ: function (d) {
-        return {err: 0, desc: "success", data: d};
+    succ: function (d, t) {
+        if (!t) {
+            return {err: 0, desc: "success", data: d};
+        } else {
+            return {err: 0, desc: "success", total: t, data: d};
+        }
     },
     error: function (code, str_desc) {
         return {err: code, desc: str_desc, data: []};

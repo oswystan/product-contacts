@@ -27,18 +27,47 @@ module.exports = Util = {
             }
         }
     },
-    do_query: function (cli, sql, res) {
-        cli.query(sql, function (err, result) {
-            if (err) {
-                console.log("=====================");
-                console.log(err);
-                console.log("=====================");
-                res.send(dberr.db_internal(err));
-                return;
-            }
-            Util.trim_result(result.rows);
-            res.json(dberr.succ(result.rows));
-        });
+    do_query: function (cli, sql, sqlc, res) {
+        if (!res) {
+            res = sqlc;
+        }
+        if (typeof sqlc == "string") {
+            cli.query(sqlc, function(err, result) {
+                if (err) {
+                    console.log("=====================");
+                    console.log(err);
+                    console.log("=====================");
+                    res.send(dberr.db_internal(err));
+                    return;
+                }
+                var total = result.rows[0].cnt;
+
+                cli.query(sql, function (err, result) {
+                    if (err) {
+                        console.log("=====================");
+                        console.log(err);
+                        console.log("=====================");
+                        res.send(dberr.db_internal(err));
+                        return;
+                    }
+                    Util.trim_result(result.rows);
+                    res.json(dberr.succ(result.rows, total));
+                });
+            });
+        } else {
+            cli.query(sql, function (err, result) {
+                if (err) {
+                    console.log("=====================");
+                    console.log(err);
+                    console.log("=====================");
+                    res.send(dberr.db_internal(err));
+                    return;
+                }
+                Util.trim_result(result.rows);
+                res.json(dberr.succ(result.rows));
+            });
+        }
+        
     }
 };
 

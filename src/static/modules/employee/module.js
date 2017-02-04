@@ -85,6 +85,51 @@ define(function() {
         });
     };
 
+    mod.db_post = function(data) {
+        var url = "/e";
+        $.post({
+            url: url,
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(res, status, xhr) {
+                if (res.data.length > 0) {
+                    mod.render(res.data[0]);
+                } else {
+                    mod.bus.trigger("error", res);
+                }
+            },
+        }).fail(function(xhr, status) {
+            var res = {
+                err: -1,
+                desc: "connection error",
+            };
+            mod.bus.trigger("error", res);
+        });
+    };
+
+    mod.db_put = function(data) {
+        var url = "/e";
+        $.ajax({
+            url: url,
+            type: "PUT",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(res, status, xhr) {
+                if (res.data.length > 0) {
+                    mod.render(res.data[0]);
+                } else {
+                    mod.bus.trigger("error", res);
+                }
+            },
+        }).fail(function(xhr, status) {
+            var res = {
+                err: -1,
+                desc: "connection error",
+            };
+            mod.bus.trigger("error", res);
+        });
+    };
+
     mod.get_pages = function() {
         var max_page = 5;
         var half = Math.floor(max_page/2);
@@ -125,11 +170,13 @@ define(function() {
         //TODO use ajax to interact with server
         console.log("do post =>");
         console.log(new_employee);
+        mod.db_post(new_employee);
         return false;
     };
+
     mod.do_put = function() {
-        console.log("do put =>");
-        console.log(last_employee);
+        console.log("do put=>");
+        mod.db_put(last_employee);
         return false;
     };
     mod.render_list = function(res) {

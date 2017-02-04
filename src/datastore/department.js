@@ -17,8 +17,9 @@ exports = module.exports = function (cli) {
     var cfg = cli.cfg
 
     this.list = function (req, res) {
-        var sql = `select * from departments
+        var sql = `select * from departments order by id asc
             offset $1 limit $2;`;
+        var sqlc = "select count(id) as cnt from departments";
 
         var q = req.query;
         if (q.limit) {
@@ -32,7 +33,11 @@ exports = module.exports = function (cli) {
             util.min(q.limit, cfg.max_rows),
         ];
 
-        util.do_query(cli, {text: sql, values: val}, res);
+        if (val[0] == 0) {
+            util.do_query(cli, {text: sql, values: val}, sqlc, res);
+        } else {
+            util.do_query(cli, {text: sql, values: val}, res);
+        }
     };
 
     this.get = function (req, res) {

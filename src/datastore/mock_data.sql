@@ -23,6 +23,16 @@ insert into employees values(default, 'laopeng', null, '18038479249', '9475398',
 
 insert into departments values(default, 'RnD',  1);
 insert into departments values(default, 'sales', 2);
+insert into departments values(default, 'market', 2);
+insert into departments values(default, 'account', 2);
+insert into departments values(default, 'factory', 2);
+insert into departments values(default, 'support', 2);
+insert into departments values(default, 'service', 2);
+insert into departments values(default, 'dep-1', 2);
+insert into departments values(default, 'dep-2', 2);
+insert into departments values(default, 'dep-3', 2);
+insert into departments values(default, 'dep-4', 2);
+insert into departments values(default, 'dep-5', 2);
 
 update employees set department = 1 where id < 4;
 update employees set department = 2 where id >= 4;

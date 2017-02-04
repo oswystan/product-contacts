@@ -291,22 +291,24 @@
             <table horizontal>
                 <tr>
                     <th>ID</th>
-                    <td> #1 </td>
+                    <td> {{id}} </td>
                 </tr>
                 <tr>
                     <th>NAME</th>
-                    <td><input type="text" value="oswystan" disabled></td>
+                    <td><input type="text" name="name" value="{{name}}" {{if id != "#"}} disabled {{/if}}></td>
                 </tr>
                 <tr>
                     <th>LEADER</th>
                     <td>
-                        Jacky
+                        <input type="text" name="leader" value="{{leader}}" {{if id != "#"}} disabled {{/if}}>
                         <input type="button" value="SELECT..." >
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" operation>
-                        <input type="button" value="MODIFY" warn />
+                        {{if id != "#"}}
+                        <input type="button" name="modify" value="MODIFY" warn />
+                        {{/if}}
                         <input type="submit" value="SUBMIT" perfer />
                     </td>
                 </tr>
@@ -318,9 +320,9 @@
             <table search="1">
                 <tr>
                     <td>
-                        <input type="radio" name="search_by" value="ID" checked>ID
-                        <input type="radio" name="search_by" value="name">NAME
-                        <input type="text" placeholder="search...">
+                        <input type="radio" name="search_by" value="ID" {{if _search_.type == "ID"}} checked {{/if}}>ID
+                        <input type="radio" name="search_by" value="name" {{if _search_.type == "name"}} checked {{/if}}>NAME
+                        <input type="text" name="key_val" placeholder="search..." value="{{_search_.val}}">
                         <a class="btn" name="search" href="javascript:void(0)" normal>SEARCH</a>
                         <a class="btn" name="add" href="#department.post" perfer>ADD</a>
                         <a class="btn" name="del" href="javascript:void(0)" danger>DEL</a>
@@ -329,32 +331,30 @@
             </table>
             <table cellspacing="0" cellpadding="0">
                 <tr>
-                    <th><input type="checkbox"></th>
+                    <th><input type="checkbox" name="select_all"></th>
                     <th>ID</th>
                     <th>NAME</th>
                     <th>LEADER</th>
                 </tr>
+                {{if data && data.length > 0}}
+                {{each data as val idx}}
                 <tr>
-                    <td><input type="checkbox"></td>
-                    <td>1</td>
-                    <td><a href="javascript:void(0)">RnD</a></td>
-                    <td>Jacky</td>
+                    <td><input type="checkbox" value="{{val.id}}"></td>
+                    <td>{{val.id}}</td>
+                    <td><a href="#department.put/{{val.id}}">{{val.name}}</a></td>
+                    <td>{{val.leader}}</td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>1</td>
-                    <td><a href="javascript:void(0)">RnD</a></td>
-                    <td>Jacky</td>
-                </tr>
+                {{/each}}
+                {{/if}}
                 <tr>
                     <td colspan="7" last paging>
-                        <a href="javascript:void(0)">|<</a>
-                        <a href="javascript:void(0)">1</a>
-                        <a href="javascript:void(0)">2</a>
-                        <a href="javascript:void(0)">3</a>
-                        <a href="javascript:void(0)">4</a>
-                        <a href="javascript:void(0)">5</a>
-                        <a href="javascript:void(0)">>|</a>
+                        <a href="javascript:void(0)" name="page" value="1">|<</a>
+                        {{if _pg_.total > 0}}
+                        {{each _pg_.pages as val idx}}
+                        <a href="javascript:void(0)" name="page" value="{{val}}"  {{if _pg_.cur_pg == val}} current {{/if}}>{{val}}</a>
+                        {{/each}}
+                        {{/if}}
+                        <a href="javascript:void(0)" name="page" value="-1">>|</a>
                     </td>
                 </tr>
             </table>
@@ -421,7 +421,6 @@
         <div id="footer">
             copyright (c) oswystan
         </div>
-    
     </body>
 
     <script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>

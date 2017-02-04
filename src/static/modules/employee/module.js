@@ -1,56 +1,86 @@
 define(function() {
     var mod = {
-        bus: null
+        bus: null,
     };
-
-    var condition = function() {
-        this.offset = 0;
-        this.limit = 15;
-        this.total = 0;
-        this.type = "ID";
-        this.val = "";
-        this.cur_pg = 1;
-    }
-
     _.extend(mod, Backbone.Events);
 
-    var cond = new condition();
-
-    var last_res = {
-        err: 0,
-        data: [],
-        _cond_: new condition()
+    var last_list = {};
+    var last_model = {};
+    var model = function() {
+        this.id = "#";
+        this.name = "";
+        this.tel = "";
+        this.mobile = "";
+        this.mail = "";
+        this.position = "";
+        this.role = "";
+        this.department = "";
     };
-    var last_employee = {};
+    var new_model = new model();
+    var search = {
+        type: "ID",
+        val: "",
+    };
+    var pagination = {
+        total: 0,
+        offset: 0,
+        limit: 10,
+        cur_pg: 1,
+        pages:[],
+        max: 5,
+    };
 
-    var new_employee = {};
-
-    function module_reset(v) {
-        v.id = "#";
-        v.name = "";
-        v.role = "";
-        v.mobile = "";
-        v.tel = "";
-        v.mail = "";
-        v.position = "";
+    //=================================
+    // utils
+    //=================================
+    function ajax_fail () {
+        var res = {
+            err: -1,
+            desc: "connection error",
+        };
+        mod.bus.trigger("error", res);
+    };
+    function change_dt(m) {
+        if (typeof m.department == "string") {
+            m.department = Number.parseInt(m.department);
+        }
     }
-    module_reset(new_employee);
+    function get_pages() {
+        var pg = [];
+        var half = Math.floor(pagination.max/2);
+        var start = 1;
+        if (pagination.cur_pg - half > 0) {
+            start = pagination.cur_pg - half;
+        }
 
-    mod.put = function(id) {
+        var cnt = pagination.max;
+        if (pagination.total-start+1 < pagination.max) {
+            cnt = pagination.total-start+1;
+        }
+        for (var i = 0; i < cnt; i++) {
+            pg.push(start+i);
+        }
+        return pg;
+    }
+
+    //=================================
+    // module entrance
+    //=================================
+    mod.list = function() {
+        mod.render_list(last_list);
+    };
+    mod.post = function() {
+        mod.render(new_model);
+    };
+    mod.put = function (id) {
         var url = "/e/" + id;
         mod.db_get(url);
     };
 
-    mod.post = function() {
-        mod.render(new_employee);
-    };
-
-    mod.list = function() {
-        mod.render_list(last_res);
-    };
-
-    mod.db_list = function(url) {
-
+    //=================================
+    // back-end database operation
+    //=================================
+    mod.db_list = function (url) {
         $.get({
             url: url,
             data: null,
@@ -58,16 +88,10 @@ define(function() {
                 mod.render_list(res);
             },
         }).fail(function(xhr, status) {
-            var res = {
-                err: -1,
-                desc: "connection error",
-            };
-            mod.bus.trigger("error", res);
+            ajax_fail();
         });
     };
-
-    mod.db_get = function(url) {
-
+    mod.db_get = function (url) {
         $.get({
             url: url,
             data: null,
@@ -77,15 +101,10 @@ define(function() {
                 }
             },
         }).fail(function(xhr, status) {
-            var res = {
-                err: -1,
-                desc: "connection error",
-            };
-            mod.bus.trigger("error", res);
+            ajax_fail();
         });
     };
-
-    mod.db_post = function(data) {
+    mod.db_post = function (data) {
         var url = "/e";
         $.post({
             url: url,
@@ -94,20 +113,16 @@ define(function() {
             success: function(res, status, xhr) {
                 if (res.data.length > 0) {
                     mod.render(res.data[0]);
+                    new_model = new model();
                 } else {
                     mod.bus.trigger("error", res);
                 }
             },
         }).fail(function(xhr, status) {
-            var res = {
-                err: -1,
-                desc: "connection error",
-            };
-            mod.bus.trigger("error", res);
+            ajax_fail();
         });
     };
-
-    mod.db_put = function(data) {
+    mod.db_put = function (data) {
         var url = "/e";
         $.ajax({
             url: url,
@@ -122,15 +137,10 @@ define(function() {
                 }
             },
         }).fail(function(xhr, status) {
-            var res = {
-                err: -1,
-                desc: "connection error",
-            };
-            mod.bus.trigger("error", res);
+            ajax_fail();
         });
     };
-
-    mod.db_del = function(data) {
+    mod.db_del = function (data) {
         var url = "/e";
         var dl = [];
         for (var i = 0; i < data.length; i++) {
@@ -159,143 +169,119 @@ define(function() {
         }
     };
 
-    mod.get_pages = function() {
-        var max_page = 5;
-        var half = Math.floor(max_page/2);
-        var pg = [];
-        var cur = Math.ceil((cond.offset + 1) / cond.limit);
-        if (cur == 0) {
-            cur++;
+    //================================
+    // GUI operations
+    //================================
+    mod.do_list = function () {
+        console.log("do list");
+        console.log(search);
+        var url = "/e?offset=" + pagination.offset + "&limit=" + pagination.limit;
+        if (search.type == "name" && search.val != "") {
+            url += "&name=" + search.val;
+        } else if (search.type == "ID" && search.val != "") {
+            url += "&id=" + search.val;
         }
-        var total = Math.ceil(cond.total / cond.limit);
-        var start = 1;
-        if (cur - half > 0) {
-            start = cur - half;
-        }
-        var cnt = total-start+1 > max_page ? max_page : total-start+1;
-        for (var i = 0; i < cnt; i++) {
-            pg.push(start+i);
-        }
-        cond.cur_pg = cur;
-        return pg;
-    };
-
-
-    mod.do_list = function() {
-        var url = "/e?offset=" + cond.offset + "&limit=" + cond.limit;
-        if (cond.type == "name" && cond.val != "") {
-            url += "&name=" + cond.val;
-        } else if (cond.type == "ID" && cond.val != "") {
-            url += "&id=" + cond.val;
-        }
-
         mod.db_list(url);
     };
-    mod.do_del = function(dl) {
+    mod.do_get = function () {
+    };
+    mod.do_post = function () {
+        console.log("employee=> do post");
+        console.log(new_model);
+        change_dt(new_model);
+        mod.db_post(new_model);
+        return false;
+    };
+    mod.do_put = function () {
+        console.log("employee=> do put");
+        change_dt(last_model);
+        console.log(last_model);
+        mod.db_put(last_model);
+        return false;
+    };
+    mod.do_del = function (dl) {
+        console.log("employee=> do del");
         console.log(dl);
         mod.db_del(dl);
     };
 
-    mod.do_post = function() {
-        //TODO use ajax to interact with server
-        console.log("do post =>");
-        if (typeof new_employee.department == "string") {
-            new_employee.department = Number.parseInt(new_employee.department);
-        }
-        console.log(new_employee);
-        mod.db_post(new_employee);
-        return false;
-    };
-
-    mod.do_put = function() {
-        console.log("do put=>");
-        if (typeof last_employee.department == "string") {
-            last_employee.department = Number.parseInt(last_employee.department);
-        }
-        console.log(last_employee);
-        mod.db_put(last_employee);
-        return false;
-    };
+    //===============================
+    // view render
+    //===============================
     mod.render_list = function(res) {
-        if (res.err == 0) {
-            if (res.total) {
-                cond.total = res.total;
-            }
-            if (!res._cond_) {
-                res._cond_ = cond;
-            }
-            res._pg_ = mod.get_pages();
-            last_res = res;
-
-            var html = template("list-employee", res);
-            var main = $("#main");
-            main.html(html);
-            main.find('[name="key_val"]').unbind('blur').blur(function(event) {
-                cond.val = this.value;
-            });
-            main.find('[name="search_by"]').unbind('click').click(function(event) {
-                cond.type = this.value;
-                cond.val = "";
-                main.find('[name="key_val"]').val("");
-            });
-
-            main.find(':checkbox[name="select_all"]').unbind('click').click(function(event) {
-                if ($(this).is(":checked")) {
-                    main.find(':checkbox[name!="select_all"]').prop("checked", true);
-                } else {
-                    main.find(':checkbox[name!="select_all"]').prop("checked", false);
-                }
-            });
-
-            main.find('a[name="page"]').unbind('click').click(function (event) {
-                var page = Number.parseInt($(this).attr("value"));
-                if (page < 0) {
-                    page = Math.ceil(cond.total / cond.limit);
-                    if (page == 0) {
-                        page = 1;
-                    }
-                }
-                console.log("goto page =>" + page);
-                cond.offset = (page-1) * cond.limit;
-                mod.do_list();
-            });
-            main.find('[name="search"]').unbind('click').click(function(){
-                cond.offset = 0;
-                mod.do_list();
-            });
-            main.find('[name="del"]').unbind('click').click(function() {
-                var dl = [];
-                main.find(':checkbox[name!="select_all"]').each(function() {
-                    if ($(this).is(":checked")) {
-                        dl.push(this.value);
-                    }
-                });
-                mod.do_del(dl);
-            });
-        } else {
-            mod.bus.trigger("error", res);
+        if (res.total) {
+            pagination.total = Math.ceil(res.total / pagination.limit);
         }
-    };
+        pagination.pages = get_pages();
+        res._search_ = search;
+        res._pg_ = pagination;
+        last_list = res;
 
-    mod.render = function(model) {
-        var html = template("employee", model);
+        var html = template("list-employee", res);
+        var main = $("#main");
+        main.html(html);
+        main.find('input[name="search_by"]').unbind('click').click(function () {
+            search.type = this.value;
+            search.val = "";
+            main.find('input[name="key_val"]').val("");
+        });
+        main.find('[name="key_val"]').unbind('blur').blur(function() {
+            search.val = this.value;
+        });
+        main.find('a[name="search"]').unbind('click').click(function(){
+            pagination.offset = 0;
+            mod.do_list();
+        });
+        main.find('a[name="del"]').unbind('click').click(function(){
+            var dl = [];
+            main.find(':checkbox[name!="select_all"]').each(function() {
+                if ($(this).is(":checked")) {
+                    dl.push(this.value);
+                }
+            });
+            mod.do_del(dl);
+        });
+
+        main.find(':checkbox[name="select_all"]').unbind('click').click(function(event) {
+            if ($(this).is(":checked")) {
+                main.find(':checkbox[name!="select_all"]').prop("checked", true);
+            } else {
+                main.find(':checkbox[name!="select_all"]').prop("checked", false);
+            }
+        });
+        main.find('a[name="page"]').unbind('click').click(function (event) {
+            var page = Number.parseInt($(this).attr("value"));
+            if (page < 0) {
+                page = pagination.total;
+                if (page == 0) {
+                    page = 1;
+                }
+            }
+            pagination.cur_pg = page;
+            pagination.offset = (page-1)*pagination.limit;
+            console.log("goto page =>" + page);
+            mod.do_list();
+        });
+    };
+    mod.render = function(m) {
+        var html = template("employee", m);
         var main = $("#main");
         main.html(html);
         main.find('input[type="text"]').unbind('blur').blur(function() {
-            model[this.name] = this.value;
+            m[this.name] = this.value;
         });
 
-        if (model.id == "#") {
+        if (m.id == "#") {
             main.find('input[type="submit"]').unbind('click').click(mod.do_post);
         } else {
             main.find('input[type="submit"]').unbind('click').click(mod.do_put);
         }
 
         main.find('input[name="modify"]').unbind('click').click(function() {
-            $("#main").find('input[type="text"]').prop("disabled", false);
+            main.find('input[type="text"]').prop("disabled", false);
         });
 
-        last_employee = model;
+        last_model = m;
     };
 
     return {

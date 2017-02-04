@@ -236,9 +236,9 @@
             <table search="1">
                 <tr>
                     <td>
-                        <input type="radio" name="search_by" value="ID" {{if _cond_.type == "ID"}} checked {{/if}}>ID
-                        <input type="radio" name="search_by" value="name" {{if _cond_.type == "name"}} checked {{/if}}>NAME
-                        <input type="text" name="key_val" placeholder="search..." value="{{_cond_.val}}">
+                        <input type="radio" name="search_by" value="ID" {{if _search_.type == "ID"}} checked {{/if}}>ID
+                        <input type="radio" name="search_by" value="name" {{if _search_.type == "name"}} checked {{/if}}>NAME
+                        <input type="text" name="key_val" placeholder="search..." value="{{_search_.val}}">
                         <a class="btn" name="search" href="javascript:void(0)" normal>SEARCH</a>
                         <a class="btn" name="add" href="#employee.post" perfer>ADD</a>
                         <a class="btn" name="del" href="javascript:void(0)" danger>DEL</a>
@@ -269,9 +269,9 @@
                 <tr>
                     <td colspan="7" last paging>
                         <a href="javascript:void(0)" name="page" value="1">|<</a>
-                        {{if _cond_.total > 0}}
-                        {{each _pg_ as val idx}}
-                        <a href="javascript:void(0)" name="page" {{if _cond_.cur_pg == val}} current {{/if}} value="{{val}}">{{val}}</a>
+                        {{if _pg_.total > 0}}
+                        {{each _pg_.pages as val idx}}
+                        <a href="javascript:void(0)" name="page" {{if _pg_.cur_pg == val}} current {{/if}} value="{{val}}">{{val}}</a>
                         {{/each}}
                         {{/if}}
                         <a href="javascript:void(0)" name="page" value="-1">>|</a>

@@ -130,6 +130,35 @@ define(function() {
         });
     };
 
+    mod.db_del = function(data) {
+        var url = "/e";
+        var dl = [];
+        for (var i = 0; i < data.length; i++) {
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                async: false,
+                data: JSON.stringify({"id": data[i]}),
+                contentType: "application/json",
+                success: function(res, status, xhr) {
+                    if (res.data.length > 0) {
+                        dl.push(res.data[0].id);
+                    } else {
+                        console.log(res);
+                    }
+                },
+            }).fail(function(xhr, status) {
+                console.log(xhr);
+            });
+        }
+
+        if (dl.length == data.length) {
+            mod.do_list();
+        } else {
+            mod.bus.trigger('error', {err: -1, desc: "NOT all operations succeed"});
+        }
+    };
+
     mod.get_pages = function() {
         var max_page = 5;
         var half = Math.floor(max_page/2);
@@ -164,6 +193,7 @@ define(function() {
     };
     mod.do_del = function(dl) {
         console.log(dl);
+        mod.db_del(dl);
     };
 
     mod.do_post = function() {
@@ -221,6 +251,9 @@ define(function() {
                 var page = Number.parseInt($(this).attr("value"));
                 if (page < 0) {
                     page = Math.ceil(cond.total / cond.limit);
+                    if (page == 0) {
+                        page = 1;
+                    }
                 }
                 console.log("goto page =>" + page);
                 cond.offset = (page-1) * cond.limit;

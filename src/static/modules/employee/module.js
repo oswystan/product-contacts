@@ -5,7 +5,7 @@ define(function() {
 
     var condition = function() {
         this.offset = 0;
-        this.limit = 2;
+        this.limit = 15;
         this.total = 0;
         this.type = "ID";
         this.val = "";
@@ -151,6 +151,7 @@ define(function() {
             });
             main.find('[name="search_by"]').unbind('click').click(function(event) {
                 cond.type = this.value;
+                cond.val = "";
                 main.find('[name="key_val"]').val("");
             });
 
@@ -171,7 +172,10 @@ define(function() {
                 cond.offset = (page-1) * cond.limit;
                 mod.do_list();
             });
-            main.find('[name="search"]').unbind('click').click(mod.do_list);
+            main.find('[name="search"]').unbind('click').click(function(){
+                cond.offset = 0;
+                mod.do_list();
+            });
             main.find('[name="del"]').unbind('click').click(function() {
                 var dl = [];
                 main.find(':checkbox[name!="select_all"]').each(function() {

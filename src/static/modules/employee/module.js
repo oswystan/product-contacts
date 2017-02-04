@@ -169,6 +169,9 @@ define(function() {
     mod.do_post = function() {
         //TODO use ajax to interact with server
         console.log("do post =>");
+        if (typeof new_employee.department == "string") {
+            new_employee.department = Number.parseInt(new_employee.department);
+        }
         console.log(new_employee);
         mod.db_post(new_employee);
         return false;
@@ -176,6 +179,10 @@ define(function() {
 
     mod.do_put = function() {
         console.log("do put=>");
+        if (typeof last_employee.department == "string") {
+            last_employee.department = Number.parseInt(last_employee.department);
+        }
+        console.log(last_employee);
         mod.db_put(last_employee);
         return false;
     };

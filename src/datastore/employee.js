@@ -22,7 +22,7 @@ exports = module.exports = function (cli) {
         var c = new checker();
         var err =
         c.begin()
-            .val(obj.name, 'name').not_null()
+            .val(obj.name, 'name').not_null().is_string().not_empty()
             .val(obj.department, 'department').is_number()
             .val(obj.tel, 'tel').is_phone()
             .val(obj.mail, 'mail').is_mail()

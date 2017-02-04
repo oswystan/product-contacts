@@ -3,7 +3,7 @@
  *                     Copyright (C) 2017 wystan
  *
  *       filename: checker.js
- *    description: 
+ *    description:
  *        created: 2017-01-01 18:39:19
  *         author: wystan
  *
@@ -36,7 +36,17 @@ module.exports = function () {
             this.err = this.tag + " is null";
         }
         return this;
-    }; 
+    };
+
+    this.not_empty = function() {
+        if (this.ret && typeof this.v == 'string') {
+            if (this.v.length == 0) {
+                this.ret = false;
+                this.err = this.tag + ' is empty';
+            }
+        }
+        return this;
+    };
 
     this.is_phone = function () {
         if (this.ret && this.v) {
@@ -65,7 +75,7 @@ module.exports = function () {
                 this.err = this.tag + "=[" + this.v + "] is not a mail";
             }
         }
-        return this;        
+        return this;
     }
 
     this.is_number = function () {
@@ -77,7 +87,7 @@ module.exports = function () {
     };
 
     this.is_string = function () {
-        if (this.ret && this.v && typeof this.v != 'string') {
+        if (this.ret && typeof this.v != 'string') {
             this.ret = false;
             this.err = this.tag + " is not a string";
         }
@@ -91,7 +101,7 @@ module.exports = function () {
         }
         return this;
     };
-    
+
     this.end = function () {
        return this.err;
     }

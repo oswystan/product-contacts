@@ -136,6 +136,9 @@
                 text-decoration: none;
                 color: #1E90FF;
             }
+            td[paging] a[current] {
+                background: #bbbbbb;
+            }
             td[paging] a:hover {
                 background: #cccccc;
             }
@@ -264,7 +267,7 @@
                         <a href="javascript:void(0)" name="page" value="1">|<</a>
                         {{if _cond_.total > 0}}
                         {{each _pg_ as val idx}}
-                        <a href="javascript:void(0)" name="page" value="{{val}}">{{val}}</a>
+                        <a href="javascript:void(0)" name="page" {{if _cond_.cur_pg == val}} current {{/if}} value="{{val}}">{{val}}</a>
                         {{/each}}
                         {{/if}}
                         <a href="javascript:void(0)" name="page" value="-1">>|</a>

@@ -21,8 +21,9 @@ define(function() {
         data: [],
         _cond_: new condition()
     };
+    var last_employee = {};
 
-    var module_new = {};
+    var new_employee = {};
 
     function module_reset(v) {
         v.id = "#";
@@ -33,22 +34,15 @@ define(function() {
         v.mail = "";
         v.position = "";
     }
+    module_reset(new_employee);
 
     mod.put = function(id) {
         var url = "/e/" + id;
         mod.db_get(url);
     };
 
-    mod.post = function(id) {
-        module_reset(module_new);
-        var html = template("employee", module_new);
-        var main = $("#main");
-        main.html(html);
-        main.find('input[type="text"]').unbind('blur').blur(function() {
-            module_new[this.name] = this.value;
-        });
-        main.find('input[type="submit"]').unbind('click').click(mod.do_post);
-        main.find('input[name="modify"]').unbind('click').click(mod.modify);
+    mod.post = function() {
+        mod.render(new_employee);
     };
 
     mod.list = function() {
@@ -78,7 +72,9 @@ define(function() {
             url: url,
             data: null,
             success: function(res, status, xhr) {
-                mod.render(res);
+                if (res.data.length > 0) {
+                    mod.render(res.data[0]);
+                }
             },
         }).fail(function(xhr, status) {
             var res = {
@@ -110,6 +106,32 @@ define(function() {
         return pg;
     };
 
+
+    mod.do_list = function() {
+        var url = "/e?offset=" + cond.offset + "&limit=" + cond.limit;
+        if (cond.type == "name" && cond.val != "") {
+            url += "&name=" + cond.val;
+        } else if (cond.type == "ID" && cond.val != "") {
+            url += "&id=" + cond.val;
+        }
+
+        mod.db_list(url);
+    };
+    mod.do_del = function(dl) {
+        console.log(dl);
+    };
+
+    mod.do_post = function() {
+        //TODO use ajax to interact with server
+        console.log("do post =>");
+        console.log(new_employee);
+        return false;
+    };
+    mod.do_put = function() {
+        console.log("do put =>");
+        console.log(last_employee);
+        return false;
+    };
     mod.render_list = function(res) {
         if (res.err == 0) {
             if (res.total) {
@@ -164,41 +186,25 @@ define(function() {
         }
     };
 
-    mod.render = function(res) {
-        var html = template("employee", res.data[0]);
+    mod.render = function(model) {
+        var html = template("employee", model);
         var main = $("#main");
         main.html(html);
         main.find('input[type="text"]').unbind('blur').blur(function() {
-            module_new[this.name] = this.value;
+            model[this.name] = this.value;
         });
-        main.find('input[type="submit"]').unbind('click').click(mod.do_post);
-        main.find('input[name="modify"]').unbind('click').click(mod.modify);
-    };
-    mod.do_list = function() {
-        var url = "/e?offset=" + cond.offset + "&limit=" + cond.limit;
-        if (cond.type == "name" && cond.val != "") {
-            url += "&name=" + cond.val;
-        } else if (cond.type == "ID" && cond.val != "") {
-            url += "&id=" + cond.val;
+
+        if (model.id == "#") {
+            main.find('input[type="submit"]').unbind('click').click(mod.do_post);
+        } else {
+            main.find('input[type="submit"]').unbind('click').click(mod.do_put);
         }
 
-        mod.db_list(url);
-    };
-    mod.do_del = function(dl) {
-        console.log(dl);
-    };
+        main.find('input[name="modify"]').unbind('click').click(function() {
+            $("#main").find('input[type="text"]').prop("disabled", false);
+        });
 
-    mod.do_post = function() {
-        //TODO use ajax to interact with server
-        console.log(module_new);
-        return false;
-    };
-    mod.do_put = function() {
-        return false;
-    };
-    mod.modify = function() {
-        console.log("do modify");
-        $("#main").find('input[type="text"]').removeAttr("disabled");
+        last_employee = model;
     };
 
     return {

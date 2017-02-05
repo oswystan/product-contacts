@@ -31,7 +31,7 @@ define(function() {
     function ajax_fail () {
         var res = {
             err: -1,
-            desc: "connection error",
+            desc: "pls check the network !",
         };
         mod.bus.trigger("error", res);
     };

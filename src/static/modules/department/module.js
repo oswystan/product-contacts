@@ -13,7 +13,7 @@ define(function() {
     };
     var new_model = new model();
     var search = {
-        type: "ID",
+        type: "name",
         val: "",
     };
     var pagination = {
@@ -228,13 +228,14 @@ define(function() {
             search.val = "";
             main.find('input[name="key_val"]').val("");
         });
-        main.find('[name="key_val"]').unbind('blur').blur(function() {
+        main.find('[name="key_val"]').unbind('change').change(function() {
             search.val = this.value;
         });
-        main.find('a[name="search"]').unbind('click').click(function(){
+        main.find('input[name="search"]').unbind('click').click(function(){
             pagination.offset = 0;
             pagination.cur_pg = 1;
             mod.do_list();
+            return false;
         });
         main.find('a[name="del"]').unbind('click').click(function(){
             var dl = [];

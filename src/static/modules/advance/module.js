@@ -106,13 +106,14 @@ define(function() {
         var main = $("#main");
         main.html(html);
 
-        main.find('input[type="text"]').unbind('blur').blur(function(){
+        main.find('input[type="text"]').unbind('change').change(function(){
             search[this.name] = this.value;
         });
         main.find('input[name="search"]').unbind('click').click(function(){
             search.offset = 0;
             pagination.cur_pg = 1;
             mod.do_list();
+            return false;
         });
 
         main.find('a[name="page"]').unbind('click').click(function (event) {

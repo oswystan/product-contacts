@@ -247,18 +247,20 @@
         </script>
 
         <script type="text/html" id="list-employee">
+            <form action="" method="post">
             <table search="1">
                 <tr>
                     <td>
                         <input type="radio" name="search_by" value="ID" {{if _search_.type == "ID"}} checked {{/if}}>ID
                         <input type="radio" name="search_by" value="name" {{if _search_.type == "name"}} checked {{/if}}>NAME
-                        <input type="text" name="key_val" placeholder="search..." value="{{_search_.val}}">
-                        <a class="btn" name="search" href="javascript:void(0)" normal>SEARCH</a>
+                        <input type="text" name="key_val" placeholder="search..." value="{{_search_.val}}" autofocus="autofocus">
+                        <input type="submit" name="search" value="SEARCH" normal>
                         <a class="btn" name="add" href="#employee.post" perfer>ADD</a>
                         <a class="btn" name="del" href="javascript:void(0)" danger>DEL</a>
                     </td>
                 </tr>
             </table>
+            </form>
             <table cellspacing="0" cellpadding="0">
                 <tr>
                     <th><input type="checkbox" name="select_all"></th>
@@ -331,18 +333,20 @@
         </script>
 
         <script type="text/html" id="list-department">
+            <form action="" method="post">
             <table search="1">
                 <tr>
                     <td>
                         <input type="radio" name="search_by" value="ID" {{if _search_.type == "ID"}} checked {{/if}}>ID
                         <input type="radio" name="search_by" value="name" {{if _search_.type == "name"}} checked {{/if}}>NAME
-                        <input type="text" name="key_val" placeholder="search..." value="{{_search_.val}}">
-                        <a class="btn" name="search" href="javascript:void(0)" normal>SEARCH</a>
+                        <input type="text" name="key_val" placeholder="search..." value="{{_search_.val}}" autofocus="autofocus">
+                        <input type="submit" name="search" value="SEARCH" normal>
                         <a class="btn" name="add" href="#department.post" perfer>ADD</a>
                         <a class="btn" name="del" href="javascript:void(0)" danger>DEL</a>
                     </td>
                 </tr>
             </table>
+            </form>
             <table cellspacing="0" cellpadding="0">
                 <tr>
                     <th><input type="checkbox" name="select_all"></th>
@@ -380,21 +384,23 @@
         ====================================================================
         -->
         <script type="text/html" id="advance">
+            <form action="" method="post">
             <table search="1">
                 <tr>
                     <td>
                         SELECT
-                        <input type="text" name="fields" value="{{_search_.fields}}" placeholder="fields..">
+                        <input type="text" name="fields" value="{{_search_.fields}}" placeholder="fields.." autofocus="autofocus">
                         FROM
                         <input type="text" name="tab" value="{{_search_.tab}}" placeholder="table..">
                         WHERE
                         <input type="text" name="where" value="{{_search_.where}}" placeholder="conditions..">
                         ORDER BY
                         <input type="text" name="orderby" value="{{_search_.orderby}}" placeholder="orderby..">
-                        <input type="button" name="search" value="GO" normal>
+                        <input type="submit" name="search" value="GO" normal>
                     </td>
                 </tr>
             </table>
+            </form>
             {{if _headers_.length > 0}}
             <table cellspacing="0" cellpadding="0">
                 <tr>

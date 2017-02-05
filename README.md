@@ -25,9 +25,9 @@
 		- offset & limit for paging
 
 - Web page for ACIDs
-	- [ ] employess list
-	- [ ] department list
-	- [ ] add / modify information
+	- [x] employess list
+	- [x] department list
+	- [x] add / modify information
 	- [x] login:
 		- http BASIC auth
 		- guest: only query

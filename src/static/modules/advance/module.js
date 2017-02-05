@@ -31,6 +31,9 @@ define(function() {
         };
         mod.bus.trigger("error", res);
     };
+    function hint(s) {
+        mod.bus.trigger("hint", s);
+    }
     function get_pages() {
         var pg = [];
         var half = Math.floor(pagination.max/2);
@@ -67,8 +70,9 @@ define(function() {
             data: JSON.stringify(search),
             contentType: "application/json",
             success: function(res, status, xhr) {
-                if (res.data.length > 0) {
+                if (res.err == 0) {
                     mod.render_list(res);
+                    hint("success");
                 } else {
                     mod.bus.trigger("error", res);
                 }

@@ -68,7 +68,7 @@ exports = module.exports = function (){
         var sqlc = "select count(*) as cnt from " + p.tab;
         if ('where' in p && p.where != "") {
             sql += " where " + p.where;
-            sqlc += "where " + p.where;
+            sqlc += " where " + p.where;
         }
         if ('orderby' in p && p.orderby != "") {
             sql += " order by " + p.orderby;

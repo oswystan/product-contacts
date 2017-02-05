@@ -274,6 +274,7 @@ define(function() {
             console.log("goto page =>" + page);
             mod.do_list();
         });
+        main.find('[autofocus="autofocus"]').focus().select();
     };
     mod.render = function(m) {
         var html = template("employee", m);

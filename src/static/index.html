@@ -370,32 +370,24 @@
                 <tr>
                     <td>
                         SELECT
-                        <input type="text" value="" placeholder="fields..">
+                        <input type="text" name="fields" value="{{_search_.fields}}" placeholder="fields..">
                         FROM
-                        <input type="text" value="" placeholder="table..">
+                        <input type="text" name="tab" value="{{_search_.tab}}" placeholder="table..">
                         WHERE
-                        <input type="text" value="" placeholder="conditions..">
+                        <input type="text" name="where" value="{{_search_.where}}" placeholder="conditions..">
                         ORDER BY
-                        <input type="text" value="" placeholder="orderby..">
-                        <input type="button" value="GO" normal>
+                        <input type="text" name="orderby" value="{{_search_.orderby}}" placeholder="orderby..">
+                        <input type="button" name="search" value="GO" normal>
                     </td>
                 </tr>
             </table>
             <table cellspacing="0" cellpadding="0">
                 <tr>
-                    <th><input type="checkbox"></th>
                     <th>ID</th>
                     <th>NAME</th>
                     <th>LEADER</th>
                 </tr>
                 <tr>
-                    <td><input type="checkbox"></td>
-                    <td>1</td>
-                    <td><a href="javascript:void(0)">RnD</a></td>
-                    <td>Jacky</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
                     <td>1</td>
                     <td><a href="javascript:void(0)">RnD</a></td>
                     <td>Jacky</td>

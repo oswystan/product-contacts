@@ -64,10 +64,10 @@ exports = module.exports = function (){
         }
 
         var sql = "select " + p.fields + " from " + p.tab;
-        if ('where' in p) {
+        if ('where' in p && p.where != "") {
             sql += " where " + p.where;
         }
-        if ('orderby' in p) {
+        if ('orderby' in p && p.orderby != "") {
             sql += " order by " + p.orderby;
         }
         if ('offset' in p) {
@@ -81,6 +81,8 @@ exports = module.exports = function (){
         } else {
             sql += " limit " + cfg.max_rows;
         }
+
+        console.log(sql);
 
         this.cli.query(sql, function (err, result) {
             if (err) {

@@ -109,7 +109,7 @@ define(function() {
         $.post({
             url: url,
             data: JSON.stringify(data),
-            contentType: "application/json",
+            contentType: "Application/json",
             success: function(res, status, xhr) {
                 if (res.data.length > 0) {
                     mod.render(res.data[0]);

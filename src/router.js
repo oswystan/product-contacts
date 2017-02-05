@@ -18,7 +18,7 @@ exports = module.exports = {
             res.sendFile(__dirname + "/static/index.html");
         });
 
-        app.get("/query", function (req, res) {
+        app.post("/query", function (req, res) {
             ctrl.query(req, res);
         });
 

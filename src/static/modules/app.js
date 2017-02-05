@@ -1,4 +1,5 @@
 var deps = [
+    "modules/hint.js",
     "modules/login/module.js",
     "modules/advance/module.js",
     "modules/department/module.js",
@@ -26,6 +27,7 @@ define(deps, function() {
         },
 
         do_it: function (actions) {
+            ev_bus.trigger("clear");
         	if (actions) {
         		console.log("do " + actions);
         		ev_bus.trigger(actions);
@@ -44,5 +46,5 @@ define(deps, function() {
     }
 
     ev_bus.trigger("login");
-    app.listenTo(ev_bus, "error", app.render_error);
+
 });

@@ -40,6 +40,9 @@ define(function() {
         };
         mod.bus.trigger("error", res);
     };
+    function hint(s) {
+        mod.bus.trigger("hint", s);
+    }
     function change_dt(m) {
         if (typeof m.department == "string") {
             m.department = Number.parseInt(m.department);
@@ -114,6 +117,7 @@ define(function() {
                 if (res.data.length > 0) {
                     mod.render(res.data[0]);
                     new_model = new model();
+                    hint("success");
                 } else {
                     mod.bus.trigger("error", res);
                 }
@@ -132,6 +136,7 @@ define(function() {
             success: function(res, status, xhr) {
                 if (res.data.length > 0) {
                     mod.render(res.data[0]);
+                    hint("success");
                 } else {
                     mod.bus.trigger("error", res);
                 }
@@ -163,6 +168,7 @@ define(function() {
         }
 
         if (dl.length == data.length) {
+            hint("total " + dl.length + " records deleted.");
             mod.do_list();
         } else {
             mod.bus.trigger('error', {err: -1, desc: "NOT all operations succeed"});
@@ -202,6 +208,10 @@ define(function() {
     mod.do_del = function (dl) {
         console.log("employee=> do del");
         console.log(dl);
+        if (dl.length == 0) {
+            hint("NO records selected");
+            return;
+        }
         mod.db_del(dl);
     };
 

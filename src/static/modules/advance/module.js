@@ -71,6 +71,7 @@ define(function() {
                 if (res.data.length > 0) {
                     mod.render_list(res);
                 } else {
+                    console.log("trigger error");
                     mod.bus.trigger("error", res);
                 }
             },

@@ -197,6 +197,9 @@ define(function() {
     mod.do_del = function (dl) {
         console.log("department=> do del");
         console.log(dl);
+        if (dl.length == 0) {
+            mod.bus.trigger("hint", "no records selected!");
+        }
         mod.db_del(dl);
     };
 

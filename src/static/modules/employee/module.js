@@ -240,6 +240,7 @@ define(function() {
         });
         main.find('a[name="search"]').unbind('click').click(function(){
             pagination.offset = 0;
+            pagination.cur_pg = 1;
             mod.do_list();
         });
         main.find('a[name="del"]').unbind('click').click(function(){

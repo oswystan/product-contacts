@@ -67,11 +67,9 @@ define(function() {
             data: JSON.stringify(search),
             contentType: "application/json",
             success: function(res, status, xhr) {
-                console.log(res);
                 if (res.data.length > 0) {
                     mod.render_list(res);
                 } else {
-                    console.log("trigger error");
                     mod.bus.trigger("error", res);
                 }
             },
@@ -108,6 +106,8 @@ define(function() {
             search[this.name] = this.value;
         });
         main.find('input[name="search"]').unbind('click').click(function(){
+            search.offset = 0;
+            pagination.cur_pg = 1;
             mod.do_list();
         });
 

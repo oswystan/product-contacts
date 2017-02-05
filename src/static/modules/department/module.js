@@ -35,6 +35,9 @@ define(function() {
         };
         mod.bus.trigger("error", res);
     };
+    function hint(s) {
+        mod.bus.trigger("hint", s);
+    }
     function change_dt(m) {
         if (typeof m.leader == "string") {
             m.leader = Number.parseInt(m.leader);
@@ -107,6 +110,7 @@ define(function() {
             contentType: "application/json",
             success: function(res, status, xhr) {
                 if (res.data.length > 0) {
+                    hint("success");
                     mod.render(res.data[0]);
                     new_model = new model();
                 } else {
@@ -126,6 +130,7 @@ define(function() {
             contentType: "application/json",
             success: function(res, status, xhr) {
                 if (res.data.length > 0) {
+                    hint("success");
                     mod.render(res.data[0]);
                 } else {
                     mod.bus.trigger("error", res);

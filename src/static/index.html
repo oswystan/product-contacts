@@ -82,7 +82,7 @@
                 padding: 10px 30px;
                 font-size: 1.1em;
                 text-decoration: none;
-                cursor: hand;            
+                cursor: hand;
                 display: inline-block;
             }
             input[danger], .btn[danger] {
@@ -151,7 +151,7 @@
     </head>
 
     <body>
-        
+
         <div id="header">
             <ul>
                 <li><a href="#employee.list">EMPLOYEE</a></li>
@@ -381,19 +381,22 @@
                     </td>
                 </tr>
             </table>
+            {{if _headers_.length > 0}}
             <table cellspacing="0" cellpadding="0">
                 <tr>
-                    <th>ID</th>
-                    <th>NAME</th>
-                    <th>LEADER</th>
+                    {{each _headers_ as value idx}}
+                    <th>{{value}}</th>
+                    {{/each}}
                 </tr>
+                {{each data as rec idx}}
                 <tr>
-                    <td>1</td>
-                    <td><a href="javascript:void(0)">RnD</a></td>
-                    <td>Jacky</td>
+                    {{each _headers_ as val idx}}
+                    <td>{{get_val(rec, val)}}</td>
+                    {{/each}}
                 </tr>
+                {{/each}}
                 <tr>
-                    <td colspan="7" last paging>
+                    <td colspan="{{_headers_.length}}" last paging>
                         <a href="javascript:void(0)">|<</a>
                         <a href="javascript:void(0)">1</a>
                         <a href="javascript:void(0)">2</a>
@@ -403,6 +406,7 @@
                     </td>
                 </tr>
             </table>
+            {{/if}}
         </script>
 
         <!--

@@ -16,6 +16,7 @@ var department = require('./department');
 var dberr = require('./error');
 var dbcfg = require('./config');
 var checker = require('./checker');
+var util = require('./utils');
 
 exports = module.exports = function (){
     var cfg = new dbcfg();
@@ -64,8 +65,10 @@ exports = module.exports = function (){
         }
 
         var sql = "select " + p.fields + " from " + p.tab;
+        var sqlc = "select count(*) as cnt from " + p.tab;
         if ('where' in p && p.where != "") {
             sql += " where " + p.where;
+            sqlc += "where " + p.where;
         }
         if ('orderby' in p && p.orderby != "") {
             sql += " order by " + p.orderby;
@@ -84,6 +87,8 @@ exports = module.exports = function (){
 
         console.log(sql);
 
+        util.do_query(this.cli, sql, sqlc, res);
+/*
         this.cli.query(sql, function (err, result) {
             if (err) {
                 res.send(dberr.db_internal(err));
@@ -92,6 +97,7 @@ exports = module.exports = function (){
 
             res.send(dberr.succ(result.rows));
         });
+        */
     };
 };
 

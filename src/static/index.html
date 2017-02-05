@@ -397,12 +397,13 @@
                 {{/each}}
                 <tr>
                     <td colspan="{{_headers_.length}}" last paging>
-                        <a href="javascript:void(0)">|<</a>
-                        <a href="javascript:void(0)">1</a>
-                        <a href="javascript:void(0)">2</a>
-                        <a href="javascript:void(0)">3</a>
-                        <a href="javascript:void(0)">4</a>
-                        <a href="javascript:void(0)">>|</a>
+                        <a href="javascript:void(0)" name="page" value="1">|<</a>
+                        {{if _pg_.total > 0}}
+                        {{each _pg_.pages as val idx}}
+                        <a href="javascript:void(0)" name="page" value="{{val}}" {{if _pg_.cur_pg == val}} current {{/if}}>{{val}}</a>
+                        {{/each}}
+                        {{/if}}
+                        <a href="javascript:void(0)" name="page" value="-1">>|</a>
                     </td>
                 </tr>
             </table>

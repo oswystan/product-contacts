@@ -188,9 +188,9 @@ describe('advanced query', function () {
         offset: 0,
         limit: 10
     };
-    it('GET', function (done) {
+    it('POST', function (done) {
         chai.request(root)
-            .get(url)
+            .post(url)
             .auth('admin', 'admin0')
             .send(d)
             .end(function (err, res) {

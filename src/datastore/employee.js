@@ -47,6 +47,13 @@ exports = module.exports = function (cli) {
         if (q.name) {
             where = " where name like '" + q.name + "%%'";
         }
+        if ('id' in q) {
+            if (where) {
+                where += " and id = " + q.id;
+            } else {
+                where = " where id = " + q.id;
+            }
+        }
         if (q.department) {
             if (where) {
                 where += " and department = " + q.department;
@@ -74,6 +81,9 @@ exports = module.exports = function (cli) {
             q.offset || 0,
             util.min(q.limit, cfg.max_rows),
         ];
+
+        console.log(sql);
+        console.log(sqlc);
 
         if (val[0] == 0) {
             util.do_query(cli, {text: sql, values: val}, sqlc, res);

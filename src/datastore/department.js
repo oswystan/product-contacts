@@ -17,16 +17,41 @@ exports = module.exports = function (cli) {
     var cfg = cli.cfg
 
     this.list = function (req, res) {
-        var sql = `select * from departments order by id asc
-            offset $1 limit $2;`;
+        var sql = `select * from departments`;
         var sqlc = "select count(id) as cnt from departments";
+        var limit = " offset $1 limit $2";
+        var where = null;
+        var order = " order by id";
 
         var q = req.query;
+        if ('name' in q) {
+            where = " where name like '" + q.name + "%%'";
+        }
+        if ('id' in q) {
+            if (where) {
+                where += " and id = " + q.id;
+            } else {
+                where = " where id = " + q.id;
+            }
+        }
+        if ('leader' in q) {
+            if (where) {
+                where += " and leader = " + q.leader;
+            } else {
+                where = " where leader = " + q.leader;
+            }
+        }
         if (q.limit) {
             q.limit = Number.parseInt(q.limit);
         } else {
             q.limit = cfg.max_rows;
         }
+        if (where) {
+            sql += where;
+            sqlc += where;
+        }
+        sql += order;
+        sql += limit;
 
         var val = [
             q.offset || 0,

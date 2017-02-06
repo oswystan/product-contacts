@@ -88,16 +88,6 @@ exports = module.exports = function (){
         console.log(sql);
 
         util.do_query(this.cli, sql, sqlc, res);
-/*
-        this.cli.query(sql, function (err, result) {
-            if (err) {
-                res.send(dberr.db_internal(err));
-                return;
-            }
-
-            res.send(dberr.succ(result.rows));
-        });
-        */
     };
 };
 

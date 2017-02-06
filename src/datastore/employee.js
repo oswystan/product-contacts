@@ -82,9 +82,6 @@ exports = module.exports = function (cli) {
             util.min(q.limit, cfg.max_rows),
         ];
 
-        console.log(sql);
-        console.log(sqlc);
-
         if (val[0] == 0) {
             util.do_query(cli, {text: sql, values: val}, sqlc, res);
         } else {

@@ -29,8 +29,12 @@ function init_log() {
     } catch (e){
         fs.mkdirSync(dir);
     }
-    log4js.loadAppender('file');
-    log4js.addAppender(log4js.appenders.file('logs/contacts.log'), 'contacts');
+    log4js.configure({
+        appenders:[
+            {type: 'console'},
+            {type: 'file', filename: 'logs/contacts.log', category: 'contacts', maxLogSize: 1*1024*1024, backups: 10}
+        ]
+    });
     log = log4js.getLogger("contacts");
 }
 

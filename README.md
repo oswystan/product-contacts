@@ -32,6 +32,7 @@
 		- http BASIC auth
 		- guest: only query
 		- admin: all that needed
+	- [ ] import data from file: json, csv
 
 - [x] forever running
 

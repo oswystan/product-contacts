@@ -36,7 +36,7 @@ function init_log() {
 
 function main() {
     init_log();
-    app.use(log4js.connectLogger(log, { level: log4js.levels.INFO }));
+    app.use(log4js.connectLogger(log, { evel: 'auto', format: ':method :url', nolog: '\\.gif|\\.jpg|\\.js$' }));
     app.set('json spaces', 40);
     app.use(bodyparser.json());
     app.use(auth());

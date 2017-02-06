@@ -14,12 +14,11 @@ var pg = require('pg');
 var employee = require('./employee');
 var department = require('./department');
 var dberr = require('./error');
-var dbcfg = require('./config');
+var cfg = require('../config')().db;
 var checker = require('./checker');
 var util = require('./utils');
 
 exports = module.exports = function (){
-    var cfg = new dbcfg();
 
     function check_query(obj) {
         var c = new checker();

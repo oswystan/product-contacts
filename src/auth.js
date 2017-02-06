@@ -11,12 +11,15 @@
  */
 
 var basic_auth = require('basic-auth-connect');
+var user_db = require('./config')().user;
 
 module.exports = function() {
+    /*
     var user_db = [
         {user: "guest", password: "guest",  role: 0},
         {user: "admin", password: "admin0", role: 1}
     ];
+    */
 
     return function (req, res, next) {
         function check(user, pass) {

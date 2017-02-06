@@ -154,7 +154,7 @@ define(function() {
                     if (res.data.length > 0) {
                         dl.push(res.data[0].id);
                     } else {
-                        console.log(res);
+                        mod.bus.trigger('error', res);
                     }
                 },
             }).fail(function(xhr, status) {
@@ -164,8 +164,6 @@ define(function() {
 
         if (dl.length == data.length) {
             mod.do_list();
-        } else {
-            mod.bus.trigger('error', {err: -1, desc: "NOT all operations succeed"});
         }
     };
 

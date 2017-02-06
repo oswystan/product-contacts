@@ -159,6 +159,7 @@ define(function() {
                     if (res.data.length > 0) {
                         dl.push(res.data[0].id);
                     } else {
+                        mod.bus.trigger('error', res);
                         console.log(res);
                     }
                 },
@@ -170,8 +171,6 @@ define(function() {
         if (dl.length == data.length) {
             hint("total " + dl.length + " records deleted.");
             mod.do_list();
-        } else {
-            mod.bus.trigger('error', {err: -1, desc: "NOT all operations succeed"});
         }
     };
 

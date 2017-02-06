@@ -15,13 +15,27 @@ var http = require('http');
 var fs = require('fs');
 var express = require('express');
 var bodyparser = require("body-parser");
-var log = require('log4js').getLogger("contacts");
+var log4js = require('log4js');
 var app = express();
 
 var router = require("./router");
 var auth = require("./auth");
+var log = null;
+
+function init_log() {
+    var dir = __dirname + "/../logs";
+    try {
+        fs.accessSync(dir);
+    } catch (e){
+        fs.mkdirSync(dir);
+    }
+    log4js.loadAppender('file');
+    log4js.addAppender(log4js.appenders.file('logs/contacts.log'), 'contacts');
+    log = log4js.getLogger("contacts");
+}
 
 function main() {
+    init_log();
     app.set('json spaces', 40);
     app.use(bodyparser.json());
     app.use(auth());

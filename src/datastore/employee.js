@@ -144,10 +144,6 @@ exports = module.exports = function (cli) {
     };
 
     this.del = function (req, res) {
-        if (req.user_role != 1) {
-            res.send(dberr.denied("only avaliable for admin"));
-            return;
-        }
         var sql = `delete from employees where id=$1 returning *;`;
         var val = [
             req.body.id

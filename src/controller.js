@@ -3,7 +3,7 @@
  *                     Copyright (C) 2016 wystan
  *
  *       filename: controller.js
- *    description: 
+ *    description:
  *        created: 2016-12-31 19:16:10
  *         author: wystan
  *
@@ -41,6 +41,10 @@ exports = module.exports = {
     },
 
     put: function (tab, req, res) {
+        if (req.user_role != 1) {
+            res.send(dberr.denied("only avaliable for admin"));
+            return;
+        }
         if (database[tab]) {
             database[tab].put(req, res);
         } else {
@@ -49,6 +53,10 @@ exports = module.exports = {
     },
 
     del: function (tab, req, res) {
+        if (req.user_role != 1) {
+            res.send(dberr.denied("only avaliable for admin"));
+            return;
+        }
         if (database[tab]) {
             database[tab].del(req, res);
         } else {
@@ -56,6 +64,10 @@ exports = module.exports = {
         }
     },
     query: function (req, res) {
+        if (req.user_role != 1) {
+            res.send(dberr.denied("only avaliable for admin"));
+            return;
+        }
         database.query(req, res);
     },
 };

@@ -51,10 +51,6 @@ exports = module.exports = function (){
     };
 
     this.query = function (req, res) {
-        if (req.user_role != 1) {
-            res.send(dberr.denied("only used for admin"));
-            return;
-        }
         var p = req.body;
         var err = check_query(p);
         if (err) {

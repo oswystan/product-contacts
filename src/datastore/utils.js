@@ -35,7 +35,7 @@ module.exports = Util = {
             cli.query(sqlc, function(err, result) {
                 if (err) {
                     console.log("=====================");
-                    console.log(err);
+                    console.log(err.message);
                     console.log("=====================");
                     res.send(dberr.db_internal(err));
                     return;
@@ -45,7 +45,7 @@ module.exports = Util = {
                 cli.query(sql, function (err, result) {
                     if (err) {
                         console.log("=====================");
-                        console.log(err);
+                        console.log(err.message);
                         console.log("=====================");
                         res.send(dberr.db_internal(err));
                         return;
@@ -67,7 +67,7 @@ module.exports = Util = {
                 res.json(dberr.succ(result.rows));
             });
         }
-        
+
     }
 };
 

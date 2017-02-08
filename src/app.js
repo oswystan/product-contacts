@@ -46,7 +46,7 @@ function main() {
     app.set('json spaces', 40);
     app.use(bodyparser.urlencoded({ extended: true }));
     app.use(bodyparser.json());
-    app.use(session({name: "contacts", secret: "mysecret"}));
+    app.use(session({name: "contacts", secret: "mysecret", resave: false, saveUninitialized: true}));
     app.use(auth.auth());
     app.use(express.static(__dirname + "/static"));
     router.init(app);

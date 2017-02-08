@@ -41,7 +41,7 @@ exports = module.exports = {
     },
 
     put: function (tab, req, res) {
-        if (req.user_role != 1) {
+        if (req.session.role != 1) {
             res.send(dberr.denied("only avaliable for admin"));
             return;
         }
@@ -53,7 +53,7 @@ exports = module.exports = {
     },
 
     del: function (tab, req, res) {
-        if (req.user_role != 1) {
+        if (req.session.role != 1) {
             res.send(dberr.denied("only avaliable for admin"));
             return;
         }
@@ -64,7 +64,7 @@ exports = module.exports = {
         }
     },
     query: function (req, res) {
-        if (req.user_role != 1) {
+        if (req.session.role != 1) {
             res.send(dberr.denied("only avaliable for admin"));
             return;
         }

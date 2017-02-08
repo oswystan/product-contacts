@@ -45,6 +45,4 @@ define(deps, function() {
         arguments[i].init(ev_bus);
     }
 
-    ev_bus.trigger("login");
-
 });

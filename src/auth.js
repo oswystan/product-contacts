@@ -13,22 +13,41 @@
 var basic_auth = require('basic-auth-connect');
 var user_db = require('./config')().user;
 
-module.exports = function() {
+var auth = function () {
     return function (req, res, next) {
-        function check(user, pass) {
-            for (var i = 0, l = user_db.length; i < l; i++) {
-                var v = user_db[i];
-                if (v.user == user && v.password == pass) {
-                    req.user_role = v.role;
-                    return true;
-                }
-            }
-            return false
+        if (req.path == "/login" || req.path == "/logout" || req.path == "/login.html") {
+            next();
+            return;
         }
-
-        var auth = basic_auth(check);
-        auth(req, res, next);
+        if (!req.session || !req.session.user) {
+            return res.redirect("/login.html");
+        } else {
+            next();
+        }
     }
+};
+
+function login(req, res) {
+    for (var i = 0, l = user_db.length; i < l; i++) {
+        if (user_db[i].user == req.body.username &&
+            user_db[i].password == req.body.password) {
+            req.session.user = req.body.username;
+            req.session.role = user_db[i].role;
+            return res.redirect("/");
+        }
+    }
+    return res.redirect("/login.html");
+};
+function logout(req, res) {
+    req.contacts.user = null;
+    req.contacts.role = null;
+    res.redirect("/login.html");
+};
+
+module.exports = {
+    auth: auth,
+    login: login,
+    logout: logout
 };
 
 /************************************* END **************************************/

@@ -11,12 +11,16 @@
  */
 
 var ctrl = require('./controller');
+var auth = require('./auth');
 
 exports = module.exports = {
     init: function (app) {
         app.get("/", function (req, res) {
             res.sendFile(__dirname + "/static/index.html");
         });
+
+        app.post("/login", auth.login);
+        app.get("/logout", auth.logout);
 
         app.post("/query", function (req, res) {
             ctrl.query(req, res);

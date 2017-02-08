@@ -14,6 +14,7 @@ var https = require('https');
 var http = require('http');
 var fs = require('fs');
 var express = require('express');
+var session = require('express-session');
 var bodyparser = require("body-parser");
 var log4js = require('log4js');
 var app = express();
@@ -40,10 +41,13 @@ function init_log() {
 
 function main() {
     init_log();
-    app.use(log4js.connectLogger(log, { evel: 'auto', format: ':remote-addr :response-time :status :method :url', nolog: '\\.gif|\\.jpg|\\.js$' }));
+    var opts = { evel: 'auto', format: ':remote-addr :response-time :status :method :url', nolog: '\\.gif|\\.jpg|\\.js$' };
+    app.use(log4js.connectLogger(log, opts));
     app.set('json spaces', 40);
+    app.use(bodyparser.urlencoded({ extended: true }));
     app.use(bodyparser.json());
-    app.use(auth());
+    app.use(session({name: "contacts", secret: "mysecret"}));
+    app.use(auth.auth());
     app.use(express.static(__dirname + "/static"));
     router.init(app);
 

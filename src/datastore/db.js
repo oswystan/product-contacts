@@ -67,6 +67,8 @@ exports = module.exports = function (){
         }
         if ('orderby' in p && p.orderby != "") {
             sql += " order by " + p.orderby;
+        } else {
+            sql += " order by id";
         }
         if ('offset' in p) {
             sql += " offset " + p.offset;

@@ -17,6 +17,7 @@ var dberr = require('./error');
 var cfg = require('../config')().db;
 var checker = require('./checker');
 var util = require('./utils');
+var logger = require('../log');
 
 exports = module.exports = function (){
 
@@ -37,6 +38,7 @@ exports = module.exports = function (){
     }
 
     this.connect = function () {
+        var log = logger.log();
         var client = new pg.Client({
             user: cfg.user,
             password: cfg.password,
@@ -44,7 +46,7 @@ exports = module.exports = function (){
         });
         client.connect(function (err) {
             if (err) {
-                console.log("fail to connect database: " + err);
+                log.error("fail to connect database: " + err);
                 return;
             }
             client.cfg = cfg;

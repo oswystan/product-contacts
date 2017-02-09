@@ -13,9 +13,11 @@
 var db = require('./datastore/db');
 var dberr = require('./datastore/error');
 var database = new db();
-database.connect();
 
 exports = module.exports = {
+    init: function () {
+        database.connect();
+    },
     get: function (tab, req, res) {
         if (database[tab]) {
             database[tab].get(req, res);

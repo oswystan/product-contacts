@@ -16,51 +16,27 @@ var fs = require('fs');
 var express = require('express');
 var session = require('express-session');
 var bodyparser = require("body-parser");
-var log4js = require('log4js');
+var logger = require('./log');
 var app = express();
 
 var router = require("./router");
 var auth = require("./auth");
-var log = null;
-
-function init_log() {
-    var dir = __dirname + "/../logs";
-    try {
-        fs.accessSync(dir);
-    } catch (e){
-        fs.mkdirSync(dir);
-    }
-    log4js.configure({
-        appenders:[
-            {
-                type: 'console'
-            },
-            {
-                type: 'file',
-                filename: 'logs/contacts.log',
-                category: 'contacts',
-                maxLogSize: 1*1024*1024,
-                backups: 10
-            }
-        ]
-    });
-    log = log4js.getLogger("contacts");
-}
 
 function main() {
-    init_log();
-    var log_opts = {
-        evel: 'auto',
-        format: ':remote-addr :response-time :status :method :url',
-        nolog: '\\.gif|\\.jpg|\\.js$'
-    };
+    logger.init();
+    var log = logger.log();
     var session_opts = {
         name: "contacts",
         secret: "mysecret",
         resave: false,
         saveUninitialized: true
     };
-    app.use(log4js.connectLogger(log, log_opts));
+    var credentials = {
+        key: fs.readFileSync(__dirname + '/keys/key.pem', 'utf8'),
+        cert: fs.readFileSync(__dirname + '/keys/cert.pem', 'utf8')
+    };
+
+    app.use(logger.express());
     app.set('json spaces', 40);
     app.use(bodyparser.urlencoded({ extended: true }));
     app.use(bodyparser.json());
@@ -68,11 +44,6 @@ function main() {
     app.use(auth.auth());
     app.use(express.static(__dirname + "/static"));
     router.init(app);
-
-    var credentials = {
-        key: fs.readFileSync(__dirname + '/keys/key.pem', 'utf8'),
-        cert: fs.readFileSync(__dirname + '/keys/cert.pem', 'utf8')
-    };
 
     var server = https.createServer(credentials, app);
 

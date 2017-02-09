@@ -16,9 +16,6 @@ var auth = require('./auth');
 exports = module.exports = {
     init: function (app) {
         ctrl.init();
-        app.get("/", function (req, res) {
-            res.sendFile(__dirname + "/static/index.html");
-        });
 
         app.post("/login", auth.login);
         app.get("/logout", auth.logout);

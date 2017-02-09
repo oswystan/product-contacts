@@ -44,16 +44,18 @@ exports = module.exports = function (){
             password: cfg.password,
             database: cfg.dbname
         });
+        var db = this;
         client.connect(function (err) {
             if (err) {
                 log.error("fail to connect database: " + err);
                 return;
             }
+            log.info("database connected");
             client.cfg = cfg;
 
-            this.cli = client;
-            this.employees = new employee(this.cli);
-            this.departments = new department(this.cli);
+            db.cli = client;
+            db.employees = new employee(db.cli);
+            db.departments = new department(db.cli);
         });
     };
 

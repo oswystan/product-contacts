@@ -12,9 +12,21 @@
 
 var dberr = require('./error');
 var util = require('./utils');
+var checker = require('./checker');
 
 exports = module.exports = function (cli) {
     var cfg = cli.cfg
+
+    function check_values(obj) {
+        var c = new checker();
+        var err =
+        c.begin()
+            .val(obj.name, 'name').not_null().is_string().not_empty()
+            .val(obj.department, 'leader').is_number()
+        .end();
+        delete c;
+        return err;
+    }
 
     this.list = function (req, res) {
         var sql = `select * from departments`;
@@ -55,7 +67,7 @@ exports = module.exports = function (cli) {
 
         var val = [
             q.offset || 0,
-            util.min(q.limit, cfg.max_rows),
+            util.min(q.limit, cfg.max_rows)
         ];
 
         if (val[0] == 0) {
@@ -71,6 +83,12 @@ exports = module.exports = function (cli) {
     };
 
     this.post = function (req, res) {
+        var p = req.body;
+        var err = check_values(p);
+        if (err) {
+            res.send(dberr.invalid_input(err));
+            return;
+        }
         var sql = `insert into departments (name, leader)
             values ($1, $2) returning *;`;
         var val = [
@@ -82,6 +100,12 @@ exports = module.exports = function (cli) {
     };
 
     this.put = function (req, res) {
+        var p = req.body;
+        var err = check_values(p);
+        if (err) {
+            res.send(dberr.invalid_input(err));
+            return;
+        }
         var sql = `update departments
             set name=$1, leader=$2
             where id = $3 returning *;`;

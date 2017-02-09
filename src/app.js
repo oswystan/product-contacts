@@ -32,8 +32,16 @@ function init_log() {
     }
     log4js.configure({
         appenders:[
-            {type: 'console'},
-            {type: 'file', filename: 'logs/contacts.log', category: 'contacts', maxLogSize: 1*1024*1024, backups: 10}
+            {
+                type: 'console'
+            },
+            {
+                type: 'file',
+                filename: 'logs/contacts.log',
+                category: 'contacts',
+                maxLogSize: 1*1024*1024,
+                backups: 10
+            }
         ]
     });
     log = log4js.getLogger("contacts");
@@ -41,12 +49,22 @@ function init_log() {
 
 function main() {
     init_log();
-    var opts = { evel: 'auto', format: ':remote-addr :response-time :status :method :url', nolog: '\\.gif|\\.jpg|\\.js$' };
-    app.use(log4js.connectLogger(log, opts));
+    var log_opts = {
+        evel: 'auto',
+        format: ':remote-addr :response-time :status :method :url',
+        nolog: '\\.gif|\\.jpg|\\.js$'
+    };
+    var session_opts = {
+        name: "contacts",
+        secret: "mysecret",
+        resave: false,
+        saveUninitialized: true
+    };
+    app.use(log4js.connectLogger(log, log_opts));
     app.set('json spaces', 40);
     app.use(bodyparser.urlencoded({ extended: true }));
     app.use(bodyparser.json());
-    app.use(session({name: "contacts", secret: "mysecret", resave: false, saveUninitialized: true}));
+    app.use(session(session_opts));
     app.use(auth.auth());
     app.use(express.static(__dirname + "/static"));
     router.init(app);

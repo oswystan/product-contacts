@@ -58,6 +58,9 @@ exports = module.exports = function (){
             res.send(dberr.invalid_input(err));
             return;
         }
+        if (p.fields == "") {
+            p.fields = "*";
+        }
 
         var sql = "select " + p.fields + " from " + p.tab;
         var sqlc = "select count(*) as cnt from " + p.tab;

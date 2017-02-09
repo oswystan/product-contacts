@@ -42,12 +42,17 @@ exports = module.exports = function (){
             password: cfg.password,
             database: cfg.dbname
         });
-        client.connect();
-        client.cfg = cfg;
+        client.connect(function (err) {
+            if (err) {
+                console.log("fail to connect database: " + err);
+                return;
+            }
+            client.cfg = cfg;
 
-        this.cli = client;
-        this.employees = new employee(this.cli);
-        this.departments = new department(this.cli);
+            this.cli = client;
+            this.employees = new employee(this.cli);
+            this.departments = new department(this.cli);
+        });
     };
 
     this.query = function (req, res) {

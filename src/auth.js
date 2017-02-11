@@ -15,7 +15,7 @@ var user_db = require('./config')().user;
 
 var auth = function () {
     return function (req, res, next) {
-        if (req.path == "/login" || req.path == "/logout" || req.path == "/login.html") {
+        if (req.path == "/login" || req.path == "/logout" || req.path == "/login.html" || req.path.startsWith("/api/")) {
             next();
             return;
         }

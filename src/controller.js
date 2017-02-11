@@ -10,8 +10,10 @@
  *********************************************************************************
  */
 
+var jwt = require('jsonwebtoken');
 var db = require('./datastore/db');
 var dberr = require('./datastore/error');
+var cfg = require("./config")();
 var database = new db();
 
 exports = module.exports = {
@@ -72,6 +74,20 @@ exports = module.exports = {
         }
         database.query(req, res);
     },
+    auth: function (req, res) {
+        var p = req.body;
+        for (var i = 0, l = cfg.user.length; i < l; i++) {
+            var v = cfg.user[i];
+            if (v.user == p.username && v.password == p.password) {
+                var body = {username: v.user, role: v.role}
+                var token = jwt.sign(body, cfg.jwt.secret, {expiresIn: cfg.jwt.def_exp});
+                res.send(dberr.succ(token));
+                return;
+            }
+        }
+        console.log("invalid auth info [" + p.username + ", " + p.password + "] from " + req.ip);
+        res.send(dberr.unauth_usr());
+    }
 };
 
 /************************************* END **************************************/

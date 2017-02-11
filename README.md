@@ -60,7 +60,7 @@ exec /path/to/contacts/bin/start
 - [x] https supported
 
 ## issues
-- [ ] beautify the json output
+- [x] beautify the json output
 
 
 ## reference
@@ -77,9 +77,14 @@ exec /path/to/contacts/bin/start
 - URLs
 
 ````
-http://$server_ip:8000/e       [GET|POST|PUT|DELETE]
-http://$server_ip:8000/e/$id   [GET]
-http://$server_ip:8000/d       [GET|POST|PUT|DELETE]
-http://$server_ip:8000/d/$id   [GET]
-http://$server_ip:8000/query   [GET]
+http://$server_ip:8000/api/e       [GET|POST|PUT|DELETE]  #NEED AUTH
+http://$server_ip:8000/api/e/$id   [GET]                  #NEED AUTH
+http://$server_ip:8000/api/d       [GET|POST|PUT|DELETE]  #NEED AUTH
+http://$server_ip:8000/api/d/$id   [GET]                  #NEED AUTH
+http://$server_ip:8000/api/query   [GET]                  #NEED AUTH
+http://$server_ip:8000/api/auth    [POST]
+
+http://$server_ip:8000/login       [GET|POST]
+http://$server_ip:8000/logout      [GET]
+http://$server_ip:8000/            [GET]                  #NEED AUTH
 ````

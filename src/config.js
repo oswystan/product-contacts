@@ -21,9 +21,14 @@ module.exports = function () {
         password : "123456",
         max_rows : 15,
     };
+    var jwt_cfg = {
+        secret: "contacts_secret",    // TODO change this for your own secret
+        def_exp: 60*60*24,            // TODO default 24hours
+    };
     return {
         user: user_db,
-        db: db_cfg
+        db:   db_cfg,
+        jwt:  jwt_cfg
     };
 }
 

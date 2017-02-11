@@ -40,6 +40,9 @@ module.exports = {
     denied: function (s){
         return {err: 4, desc: s ? s :"permission denied !", data: []};
     },
+    unauth_usr: function (s){
+        return {err: 5, desc: s ? s :"invalid username or password", data: []};
+    },
 
     unknown_err: function (){
         return {err:255,  desc: "unknown error!", data: []};

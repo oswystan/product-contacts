@@ -25,10 +25,14 @@ module.exports = function () {
         secret: "contacts_secret",    // TODO change this for your own secret
         def_exp: 24*60*60,            // TODO default 24hours
     };
+    var server_cfg = {
+        port: 8000
+    };
     return {
         user: user_db,
         db:   db_cfg,
-        jwt:  jwt_cfg
+        jwt:  jwt_cfg,
+        srv: server_cfg
     };
 }
 

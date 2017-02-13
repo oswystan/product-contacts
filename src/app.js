@@ -59,7 +59,7 @@ function main() {
 
     var server = https.createServer(credentials, app);
 
-    server.listen(8000);
+    server.listen(cfg.srv.port);
     log.info('contacts server started ...');
 }
 

@@ -83,8 +83,5 @@ http://$server_ip:8000/api/d       [GET|POST|PUT|DELETE]  #NEED AUTH
 http://$server_ip:8000/api/d/$id   [GET]                  #NEED AUTH
 http://$server_ip:8000/api/query   [GET]                  #NEED AUTH
 http://$server_ip:8000/api/auth    [POST]
-
-http://$server_ip:8000/login       [GET|POST]
-http://$server_ip:8000/logout      [GET]
-http://$server_ip:8000/            [GET]                  #NEED AUTH
+http://$server_ip:8000/            [GET]                  
 ````

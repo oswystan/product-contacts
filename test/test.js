@@ -18,6 +18,7 @@ chai.use(chttp);
 chai.config.showDiff = true;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+var token = null;
 
 var root = "https://localhost:8000";
 
@@ -45,14 +46,36 @@ describe('home', function () {
 
 });
 
+describe('auth', function () {
+    var url = "/api/auth";
+
+    it('POST', function (done) {
+        chai.request(root)
+            .post(url)
+            .send({
+                username: "admin",
+                password: "admin0"
+            })
+        .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.be.json;
+            expect(res).to.have.status(200);
+            expect(res.body.err).to.equal(0);
+            token = res.body.data;
+            done();
+        });
+
+    });
+});
+
 describe('employee', function () {
-    var url = "/e";
+    var url = "/api/e";
     var d = {};
 
     it('GET', function (done) {
         chai.request(root)
             .get(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .end(function (err, res) {
                 expect(err).to.be.null;
                 expect(res).to.be.json;
@@ -65,7 +88,7 @@ describe('employee', function () {
     it('POST', function (done) {
         chai.request(root)
             .post(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .send({
                 name: "laowang",
                 mobile: "123456789",
@@ -87,7 +110,7 @@ describe('employee', function () {
     it('PUT', function (done) {
         chai.request(root)
             .put(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -101,7 +124,7 @@ describe('employee', function () {
     it('DELETE', function (done) {
         chai.request(root)
             .delete(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -114,14 +137,15 @@ describe('employee', function () {
     });
 });
 
+
 describe('department', function () {
-    var url = "/d";
+    var url = "/api/d";
     var d = {};
 
     it('GET', function (done) {
         chai.request(root)
             .get(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .end(function (err, res) {
                 expect(err).to.be.null;
                 expect(res).to.be.json;
@@ -134,7 +158,7 @@ describe('department', function () {
     it('POST', function (done) {
         chai.request(root)
             .post(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .send({
                 name: "RnD"
             })
@@ -151,7 +175,7 @@ describe('department', function () {
     it('PUT', function (done) {
         chai.request(root)
             .put(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -165,7 +189,7 @@ describe('department', function () {
     it('DELETE', function (done) {
         chai.request(root)
             .delete(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;
@@ -179,7 +203,7 @@ describe('department', function () {
 });
 
 describe('advanced query', function () {
-    var url = "/query";
+    var url = "/api/query";
     var d = {
         tab: "employees",
         fields: "*",
@@ -191,7 +215,7 @@ describe('advanced query', function () {
     it('POST', function (done) {
         chai.request(root)
             .post(url)
-            .auth('admin', 'admin0')
+            .set("Authorization", "Bearer " + token)
             .send(d)
             .end(function (err, res) {
                 expect(err).to.be.null;

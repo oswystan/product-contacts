@@ -14,10 +14,13 @@ var jwt = require('jsonwebtoken');
 var db = require('./datastore/db');
 var dberr = require('./datastore/error');
 var cfg = require("./config")();
+var logger = require("./log");
 var database = new db();
 
+var log = null;
 exports = module.exports = {
     init: function () {
+        log = logger.log();
         database.connect();
     },
     get: function (tab, req, res) {
@@ -85,7 +88,7 @@ exports = module.exports = {
                 return;
             }
         }
-        console.log("invalid auth info [" + p.username + ", " + p.password + "] from " + req.ip);
+        log.error("invalid auth info [" + p.username + ", " + p.password + "] from " + req.ip);
         res.send(dberr.unauth_usr());
     }
 };

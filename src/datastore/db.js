@@ -20,6 +20,7 @@ var util = require('./utils');
 var logger = require('../log');
 
 exports = module.exports = function (){
+    var log = null;
 
     function check_query(obj) {
         var c = new checker();
@@ -38,7 +39,7 @@ exports = module.exports = function (){
     }
 
     this.connect = function () {
-        var log = logger.log();
+        log = logger.log();
         var client = new pg.Client({
             user: cfg.user,
             password: cfg.password,
@@ -63,7 +64,7 @@ exports = module.exports = function (){
         var p = req.body;
         var err = check_query(p);
         if (err) {
-            console.log(p);
+            log.error(p);
             res.send(dberr.invalid_input(err));
             return;
         }
@@ -94,8 +95,7 @@ exports = module.exports = function (){
             sql += " limit " + cfg.max_rows;
         }
 
-        console.log(sql);
-
+        log.debug(sql);
         util.do_query(this.cli, sql, sqlc, res);
     };
 };

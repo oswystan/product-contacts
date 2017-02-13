@@ -8,13 +8,19 @@ var deps = [
 
 define(deps, function() {
     var ev_bus = {};
-    var app = {};
+    var app = {
+        token: null,
+    };
     _.extend(ev_bus, Backbone.Events);
     _.extend(app, Backbone.Events);
 
     app.render_error = function(res) {
         console.log(res);
     };
+
+    function token(data) {
+        app.token = data;
+    }
 
     var Router = Backbone.Router.extend({
         routes: {
@@ -28,12 +34,12 @@ define(deps, function() {
 
         do_it: function (actions) {
             ev_bus.trigger("clear");
-        	if (actions) {
-        		console.log("do " + actions);
-        		ev_bus.trigger(actions);
-        	} else {
+            if (null == app.token) {
         		console.log("do login");
         		ev_bus.trigger("login");
+            } else if (actions) {
+        		console.log("do " + actions);
+        		ev_bus.trigger(actions);
         	}
         },
     });
@@ -44,5 +50,9 @@ define(deps, function() {
     for (var i = 0; i < arguments.length; i++) {
         arguments[i].init(ev_bus);
     }
+    app.listenTo(ev_bus, "token", token);
 
+    if (null == app.token) {
+        ev_bus.trigger("login");
+    }
 });

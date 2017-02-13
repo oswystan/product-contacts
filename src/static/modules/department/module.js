@@ -1,6 +1,7 @@
 define(function() {
     var mod = {
         bus: null,
+        token: null
     };
     _.extend(mod, Backbone.Events);
 
@@ -28,6 +29,9 @@ define(function() {
     //=================================
     // utils
     //=================================
+    function token(t) {
+        mod.token = t;
+    }
     function ajax_fail () {
         var res = {
             err: -1,
@@ -71,7 +75,7 @@ define(function() {
         mod.render(new_model);
     };
     mod.put = function (id) {
-        var url = "/d/" + id;
+        var url = "/api/d/" + id;
         mod.db_get(url);
     };
 
@@ -82,8 +86,15 @@ define(function() {
         $.get({
             url: url,
             data: null,
+            headers: {
+                "Authorization": "Bearer " + mod.token,
+            },
             success: function(res, status, xhr) {
-                mod.render_list(res);
+                if (res.err == 0) {
+                    mod.render_list(res);
+                } else {
+                    mod.bus.trigger("error", res);
+                }
             },
         }).fail(function(xhr, status) {
             ajax_fail();
@@ -93,9 +104,16 @@ define(function() {
         $.get({
             url: url,
             data: null,
+            headers: {
+                "Authorization": "Bearer " + mod.token,
+            },
             success: function(res, status, xhr) {
-                if (res.data.length > 0) {
-                    mod.render(res.data[0]);
+                if (res.err == 0) {
+                    if (res.data.length > 0) {
+                        mod.render(res.data[0]);
+                    }
+                } else {
+                    mod.bus.trigger("error", res);
                 }
             },
         }).fail(function(xhr, status) {
@@ -103,13 +121,16 @@ define(function() {
         });
     };
     mod.db_post = function (data) {
-        var url = "/d";
+        var url = "/api/d";
         $.post({
             url: url,
             data: JSON.stringify(data),
             contentType: "application/json",
+            headers: {
+                "Authorization": "Bearer " + mod.token,
+            },
             success: function(res, status, xhr) {
-                if (res.data.length > 0) {
+                if (res.err == 0 && res.data.length > 0) {
                     hint("success");
                     mod.render(res.data[0]);
                     new_model = new model();
@@ -122,14 +143,17 @@ define(function() {
         });
     };
     mod.db_put = function (data) {
-        var url = "/d";
+        var url = "/api/d";
         $.ajax({
             url: url,
             type: "PUT",
             data: JSON.stringify(data),
             contentType: "application/json",
+            headers: {
+                "Authorization": "Bearer " + mod.token,
+            },
             success: function(res, status, xhr) {
-                if (res.data.length > 0) {
+                if (res.err == 0 && res.data.length > 0) {
                     hint("success");
                     mod.render(res.data[0]);
                 } else {
@@ -141,7 +165,7 @@ define(function() {
         });
     };
     mod.db_del = function (data) {
-        var url = "/d";
+        var url = "/api/d";
         var dl = [];
         for (var i = 0; i < data.length; i++) {
             $.ajax({
@@ -150,8 +174,11 @@ define(function() {
                 async: false,
                 data: JSON.stringify({"id": data[i]}),
                 contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + mod.token,
+                },
                 success: function(res, status, xhr) {
-                    if (res.data.length > 0) {
+                    if (res.err == 0 && res.data.length > 0) {
                         dl.push(res.data[0].id);
                     } else {
                         mod.bus.trigger('error', res);
@@ -173,7 +200,7 @@ define(function() {
     mod.do_list = function () {
         console.log("do list");
         console.log(search);
-        var url = "/d?offset=" + pagination.offset + "&limit=" + pagination.limit;
+        var url = "/api/d?offset=" + pagination.offset + "&limit=" + pagination.limit;
         if (search.type == "name" && search.val != "") {
             url += "&name=" + search.val;
         } else if (search.type == "ID" && search.val != "") {
@@ -294,6 +321,7 @@ define(function() {
             mod.listenTo(eb, "department.list", mod.list);
             mod.listenTo(eb, "department.post", mod.post);
             mod.listenTo(eb, "department.put", mod.put);
+            mod.listenTo(eb, "token", token);
         }
     };
 });

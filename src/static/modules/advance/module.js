@@ -1,6 +1,7 @@
 define(function() {
 	var mod = {
         bus: null,
+        token: null
     };
     var last_list = {
         data: [],
@@ -59,15 +60,22 @@ define(function() {
         }
     });
 
+    function token(t) {
+        mod.token = t;
+    }
+
     mod.list = function() {
         mod.render_list(last_list);
     };
     mod.db_list = function() {
-        var url = "/query"
+        var url = "/api/query"
         $.ajax({
             url: url,
             type: "POST",
             data: JSON.stringify(search),
+            headers: {
+                "Authorization": "Bearer " + mod.token,
+            },
             contentType: "application/json",
             success: function(res, status, xhr) {
                 if (res.err == 0) {
@@ -137,6 +145,7 @@ define(function() {
         init: function(eb) {
             mod.bus = eb;
             mod.listenTo(eb, "adv.list", mod.list);
+            mod.listenTo(eb, "token", token);
         }
     };
 });

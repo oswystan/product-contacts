@@ -23,7 +23,7 @@ module.exports = function () {
     };
     var jwt_cfg = {
         secret: "contacts_secret",    // TODO change this for your own secret
-        def_exp: 60*60*24,            // TODO default 24hours
+        def_exp: 24*60*60,            // TODO default 24hours
     };
     return {
         user: user_db,

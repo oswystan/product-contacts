@@ -3,7 +3,6 @@ define(function () {
     _.extend(mod, Backbone.Events);
 
     function render(err) {
-        console.log("render error");
         var html = template("hints", err);
         var bar = $("#bar");
         if (err.err != 0) {

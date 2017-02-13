@@ -29,7 +29,7 @@
 	- [x] department list
 	- [x] add / modify information
 	- [x] login:
-		- http BASIC auth
+		- jwt auth only
 		- guest: only query
 		- admin: all that needed
 	- [ ] import data from file: json, csv

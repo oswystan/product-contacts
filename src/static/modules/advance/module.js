@@ -1,5 +1,5 @@
 define(function() {
-	var mod = {
+    var mod = {
         bus: null,
         token: null
     };
@@ -7,7 +7,7 @@ define(function() {
         data: [],
     };
     var search = {
-        fields:"",
+        fields: "",
         tab: "",
         where: "",
         orderby: "",
@@ -17,7 +17,7 @@ define(function() {
     var pagination = {
         total: 0,
         cur_pg: 1,
-        pages:[],
+        pages: [],
         max: 5,
     };
     _.extend(mod, Backbone.Events);
@@ -25,34 +25,36 @@ define(function() {
     //==========================
     // utils
     //==========================
-    function ajax_fail () {
+    function ajax_fail() {
         var res = {
             err: -1,
             desc: "pls check the network !",
         };
         mod.bus.trigger("error", res);
     };
+
     function hint(s) {
         mod.bus.trigger("hint", s);
     }
+
     function get_pages() {
         var pg = [];
-        var half = Math.floor(pagination.max/2);
+        var half = Math.floor(pagination.max / 2);
         var start = 1;
         if (pagination.cur_pg - half > 0) {
             start = pagination.cur_pg - half;
         }
 
         var cnt = pagination.max;
-        if (pagination.total-start+1 < pagination.max) {
-            cnt = pagination.total-start+1;
+        if (pagination.total - start + 1 < pagination.max) {
+            cnt = pagination.total - start + 1;
         }
         for (var i = 0; i < cnt; i++) {
-            pg.push(start+i);
+            pg.push(start + i);
         }
         return pg;
     }
-    template.helper('get_val', function (obj, p) {
+    template.helper('get_val', function(obj, p) {
         if (p in obj) {
             return obj[p];
         } else {
@@ -100,7 +102,7 @@ define(function() {
         res._search_ = search;
         res._headers_ = [];
         if (res.data.length > 0) {
-            for(p in res.data[0]) {
+            for (p in res.data[0]) {
                 res._headers_.push(p);
             }
         }
@@ -114,17 +116,17 @@ define(function() {
         var main = $("#main");
         main.html(html);
 
-        main.find('input[type="text"]').unbind('change').change(function(){
+        main.find('input[type="text"]').unbind('change').change(function() {
             search[this.name] = this.value;
         });
-        main.find('input[name="search"]').unbind('click').click(function(){
+        main.find('input[name="search"]').unbind('click').click(function() {
             search.offset = 0;
             pagination.cur_pg = 1;
             mod.do_list();
             return false;
         });
 
-        main.find('a[name="page"]').unbind('click').click(function (event) {
+        main.find('a[name="page"]').unbind('click').click(function(event) {
             var page = Number.parseInt($(this).attr("value"));
             if (page < 0) {
                 page = pagination.total;
@@ -133,7 +135,7 @@ define(function() {
                 }
             }
             pagination.cur_pg = page;
-            search.offset = (page-1)*search.limit;
+            search.offset = (page - 1) * search.limit;
             console.log("goto page =>" + page);
             mod.do_list();
         });

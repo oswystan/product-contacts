@@ -1,4 +1,4 @@
-define(function () {
+define(function() {
     var mod = {};
     _.extend(mod, Backbone.Events);
 
@@ -12,6 +12,7 @@ define(function () {
         }
         $("#bar").html(html);
     }
+
     function clear() {
         var err = {
             err: 0,
@@ -19,6 +20,7 @@ define(function () {
         };
         render(err);
     }
+
     function hint(str) {
         var err = {
             err: 0,
@@ -28,7 +30,7 @@ define(function () {
     }
 
     return {
-        init: function (eb) {
+        init: function(eb) {
             console.log("init hint");
             mod.listenTo(eb, "error", render);
             mod.listenTo(eb, "clear", clear);

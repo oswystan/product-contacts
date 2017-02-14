@@ -19,11 +19,11 @@ var database = new db();
 
 var log = null;
 exports = module.exports = {
-    init: function () {
+    init: function() {
         log = logger.log();
         database.connect();
     },
-    get: function (tab, req, res) {
+    get: function(tab, req, res) {
         if (database[tab]) {
             database[tab].get(req, res);
         } else {
@@ -31,7 +31,7 @@ exports = module.exports = {
         }
     },
 
-    list: function (tab, req, res) {
+    list: function(tab, req, res) {
         if (database[tab]) {
             database[tab].list(req, res);
         } else {
@@ -39,7 +39,7 @@ exports = module.exports = {
         }
     },
 
-    post: function (tab, req, res) {
+    post: function(tab, req, res) {
         if (database[tab]) {
             database[tab].post(req, res);
         } else {
@@ -47,7 +47,7 @@ exports = module.exports = {
         }
     },
 
-    put: function (tab, req, res) {
+    put: function(tab, req, res) {
         if (req._auth_.role != 1) {
             res.send(dberr.denied("only avaliable for admin"));
             return;
@@ -59,7 +59,7 @@ exports = module.exports = {
         }
     },
 
-    del: function (tab, req, res) {
+    del: function(tab, req, res) {
         if (req._auth_.role != 1) {
             res.send(dberr.denied("only avaliable for admin"));
             return;
@@ -70,20 +70,25 @@ exports = module.exports = {
             res.send(dberr.no_such_table(tab));
         }
     },
-    query: function (req, res) {
+    query: function(req, res) {
         if (req._auth_.role != 1) {
             res.send(dberr.denied("only avaliable for admin"));
             return;
         }
         database.query(req, res);
     },
-    auth: function (req, res) {
+    auth: function(req, res) {
         var p = req.body;
         for (var i = 0, l = cfg.user.length; i < l; i++) {
             var v = cfg.user[i];
             if (v.user == p.username && v.password == p.password) {
-                var body = {username: v.user, role: v.role}
-                var token = jwt.sign(body, cfg.jwt.secret, {expiresIn: cfg.jwt.def_exp});
+                var body = {
+                    username: v.user,
+                    role: v.role
+                }
+                var token = jwt.sign(body, cfg.jwt.secret, {
+                    expiresIn: cfg.jwt.def_exp
+                });
                 res.send(dberr.succ(token));
                 return;
             }

@@ -16,11 +16,11 @@ var fs = require('fs');
 var express = require('express');
 var bodyparser = require("body-parser");
 var express_jwt = require('express-jwt');
+
 var cfg = require("./config")();
-
 var logger = require('./log');
-var app = express();
 
+var app = express();
 var router = require("./router");
 
 function err_handler(err, req, res, next) {
@@ -50,10 +50,14 @@ function main() {
 
     app.use(logger.express());
     app.set('json spaces', 40);
-    app.use(bodyparser.urlencoded({ extended: true }));
+    app.use(bodyparser.urlencoded({
+        extended: true
+    }));
     app.use(bodyparser.json());
     app.use(express.static(__dirname + "/static"));
-    app.use("/api", express_jwt(jwt_opts).unless({path: ['/api/auth']}));
+    app.use("/api", express_jwt(jwt_opts).unless({
+        path: ['/api/auth']
+    }));
     app.use(err_handler);
     router.init(app);
 
@@ -63,7 +67,7 @@ function main() {
     log.info('contacts server started ...');
 }
 
-module.exports = function () {
+module.exports = function() {
     this.run = main;
 }
 

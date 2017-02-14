@@ -60,6 +60,7 @@ exec /path/to/contacts/bin/start
 - [x] database backup
 - [x] automated test case
 - [x] https supported
+- [ ] gz compress support for data transfer
 
 ## issues
 - [x] beautify the json output

@@ -24,23 +24,23 @@ define(deps, function() {
 
     var Router = Backbone.Router.extend({
         routes: {
-            "*entity.put/:id":"do_put",
+            "*entity.put/:id": "do_put",
             "*actions": "do_it"
         },
 
         do_put: function(entity, id) {
-            ev_bus.trigger(entity+".put", id);
+            ev_bus.trigger(entity + ".put", id);
         },
 
-        do_it: function (actions) {
+        do_it: function(actions) {
             ev_bus.trigger("clear");
             if (null == app.token) {
-        		console.log("do login");
-        		ev_bus.trigger("login");
+                console.log("do login");
+                ev_bus.trigger("login");
             } else if (actions) {
-        		console.log("do " + actions);
-        		ev_bus.trigger(actions);
-        	}
+                console.log("do " + actions);
+                ev_bus.trigger(actions);
+            }
         },
     });
 

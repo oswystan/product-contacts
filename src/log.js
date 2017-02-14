@@ -21,38 +21,34 @@ var log_opts = {
 };
 
 module.exports = {
-    init: function () {
+    init: function() {
         var dir = __dirname + "/../logs";
         try {
             fs.accessSync(dir);
-        } catch (e){
+        } catch (e) {
             fs.mkdirSync(dir);
         }
         log4js.configure({
-            appenders:[
-                {
-                    type: 'console'
-                },
-                {
-                    type: 'file',
-                    filename: 'logs/contacts.log',
-                    category: 'contacts',
-                    maxLogSize: 1*1024*1024,
-                    backups: 10
-                }
-            ]
+            appenders: [{
+                type: 'console'
+            }, {
+                type: 'file',
+                filename: 'logs/contacts.log',
+                category: 'contacts',
+                maxLogSize: 1 * 1024 * 1024,
+                backups: 10
+            }]
         });
         logger = log4js.getLogger("contacts");
 
         return;
     },
-    express: function () {
+    express: function() {
         return log4js.connectLogger(logger, log_opts);
     },
-    log: function () {
+    log: function() {
         return logger;
     }
 };
 
 /************************************* END **************************************/
-

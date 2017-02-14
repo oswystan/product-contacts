@@ -14,20 +14,20 @@ var dberr = require('./error');
 var checker = require('./checker');
 var util = require('./utils');
 
-exports = module.exports = function (cli) {
+exports = module.exports = function(cli) {
     this.client = cli;
     var cfg = cli.cfg;
 
     function check_values(obj) {
         var c = new checker();
         var err =
-        c.begin()
+            c.begin()
             .val(obj.name, 'name').not_null().is_string().not_empty()
             .val(obj.department, 'department').is_number()
             .val(obj.tel, 'tel').is_phone()
             .val(obj.mail, 'mail').is_mail()
             .val(obj.mobile, 'mobile').is_mobile()
-        .end();
+            .end();
         delete c;
         return err;
     }
@@ -35,7 +35,7 @@ exports = module.exports = function (cli) {
     //=====
     // sql + where + order + limit
     //=====
-    this.list = function (req, res) {
+    this.list = function(req, res) {
         var sql = "select * from employees";
         var sqlc = "select count(id) as cnt from employees";
         var limit = " offset $1 limit $2";
@@ -83,18 +83,24 @@ exports = module.exports = function (cli) {
         ];
 
         if (val[0] == 0) {
-            util.do_query(cli, {text: sql, values: val}, sqlc, res);
+            util.do_query(cli, {
+                text: sql,
+                values: val
+            }, sqlc, res);
         } else {
-            util.do_query(cli, {text: sql, values: val}, res);
+            util.do_query(cli, {
+                text: sql,
+                values: val
+            }, res);
         }
     };
 
-    this.get = function (req, res) {
+    this.get = function(req, res) {
         var sql = 'select * from employees where id=' + req.params.id;
         util.do_query(cli, sql, res);
     };
 
-    this.post = function (req, res) {
+    this.post = function(req, res) {
         var p = req.body;
         var err = check_values(p);
         if (err) {
@@ -115,10 +121,13 @@ exports = module.exports = function (cli) {
             p.position || '',
             p.role || ''
         ];
-        util.do_query(cli, {text: sql, values: val}, res);
+        util.do_query(cli, {
+            text: sql,
+            values: val
+        }, res);
     };
 
-    this.put = function (req, res) {
+    this.put = function(req, res) {
         var p = req.body;
         var err = check_values(p);
         if (err) {
@@ -140,16 +149,22 @@ exports = module.exports = function (cli) {
             req.body.id
         ];
 
-        util.do_query(cli, {text: sql, values: val}, res);
+        util.do_query(cli, {
+            text: sql,
+            values: val
+        }, res);
     };
 
-    this.del = function (req, res) {
+    this.del = function(req, res) {
         var sql = `delete from employees where id=$1 returning *;`;
         var val = [
             req.body.id
         ];
 
-        util.do_query(cli, {text: sql, values: val}, res);
+        util.do_query(cli, {
+            text: sql,
+            values: val
+        }, res);
     };
 };
 

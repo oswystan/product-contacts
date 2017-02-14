@@ -11,27 +11,27 @@
  */
 
 
-module.exports = function () {
+module.exports = function() {
 
     var reg_date = /^([0-9]{4})([\/.-])([0][1-9]|[1][0-2])([\/.-])([0-2][1-9]|[3][0-1])$/g;
     var reg_mail = /^([\w-.])+@([\w-])+\.(\w)+$/g;
     var reg_mobile = /^[+]*(\d){6,}$/g;
     var reg_phone = /^(\d){6,}$/g;
 
-    this.begin = function () {
+    this.begin = function() {
         this.ret = true;
         this.err = null;
         return this;
     };
 
-    this.val = function (v, tag) {
+    this.val = function(v, tag) {
         this.v = v;
         this.tag = tag;
         return this;
     };
 
-    this.not_null = function () {
-        if ( this.ret && (typeof this.v == 'undefined' || this.v == null)) {
+    this.not_null = function() {
+        if (this.ret && (typeof this.v == 'undefined' || this.v == null)) {
             this.ret = false;
             this.err = this.tag + " is null";
         }
@@ -48,7 +48,7 @@ module.exports = function () {
         return this;
     };
 
-    this.is_phone = function () {
+    this.is_phone = function() {
         if (this.ret && this.v) {
             if (typeof this.v != "string" || !reg_phone.test(this.v)) {
                 this.ret = false;
@@ -58,7 +58,7 @@ module.exports = function () {
         return this;
     };
 
-    this.is_mobile = function () {
+    this.is_mobile = function() {
         if (this.ret && this.v) {
             if (typeof this.v != "string" || !reg_mobile.test(this.v)) {
                 this.ret = false;
@@ -68,7 +68,7 @@ module.exports = function () {
         return this;
     };
 
-    this.is_mail = function () {
+    this.is_mail = function() {
         if (this.ret && this.v) {
             if (typeof this.v != "string" || !reg_mail.test(this.v)) {
                 this.ret = false;
@@ -78,7 +78,7 @@ module.exports = function () {
         return this;
     }
 
-    this.is_number = function () {
+    this.is_number = function() {
         if (this.ret && this.v && typeof this.v != 'number') {
             this.ret = false;
             this.err = this.tag + " is not a number";
@@ -86,7 +86,7 @@ module.exports = function () {
         return this;
     };
 
-    this.is_string = function () {
+    this.is_string = function() {
         if (this.ret && typeof this.v != 'string') {
             this.ret = false;
             this.err = this.tag + " is not a string";
@@ -94,7 +94,7 @@ module.exports = function () {
         return this;
     };
 
-    this.is_bool = function () {
+    this.is_bool = function() {
         if (this.ret && this.v && typeof this.v != 'boolean') {
             this.ret = false;
             this.err = this.tag + " is not a bool";
@@ -102,8 +102,8 @@ module.exports = function () {
         return this;
     };
 
-    this.end = function () {
-       return this.err;
+    this.end = function() {
+        return this.err;
     }
 };
 

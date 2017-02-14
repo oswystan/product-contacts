@@ -8,13 +8,15 @@ define(function() {
         username: "",
         password: ""
     };
-    function ajax_fail () {
+
+    function ajax_fail() {
         var res = {
             err: -1,
             desc: "pls check the network !",
         };
         mod.bus.trigger("error", res);
     };
+
     function hint(s) {
         mod.bus.trigger("hint", s);
     }
@@ -48,7 +50,7 @@ define(function() {
         mod.render(false);
     };
 
-    mod.render = function (clear) {
+    mod.render = function(clear) {
         var main = $('#main');
         if (clear) {
             main.html("");

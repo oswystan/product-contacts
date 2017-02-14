@@ -15,21 +15,21 @@ var logger = require('../log');
 var log = null;
 
 module.exports = Util = {
-    min: function (a, b) {
+    min: function(a, b) {
         return a > b ? b : a;
     },
 
-    trim_result: function (rows) {
+    trim_result: function(rows) {
         for (var i = 0, l = rows.length; i < l; i++) {
             var v = rows[i];
             for (var p in v) {
-                if(typeof v[p] == "string") {
+                if (typeof v[p] == "string") {
                     v[p] = v[p].trim();
                 }
             }
         }
     },
-    do_query: function (cli, sql, sqlc, res) {
+    do_query: function(cli, sql, sqlc, res) {
         log = logger.log();
         if (!res) {
             res = sqlc;
@@ -45,7 +45,7 @@ module.exports = Util = {
                 }
                 var total = result.rows[0].cnt;
 
-                cli.query(sql, function (err, result) {
+                cli.query(sql, function(err, result) {
                     if (err) {
                         log.error("=====================");
                         log.error(err.message);
@@ -58,7 +58,7 @@ module.exports = Util = {
                 });
             });
         } else {
-            cli.query(sql, function (err, result) {
+            cli.query(sql, function(err, result) {
                 if (err) {
                     log.error("=====================");
                     log.error(err.message);

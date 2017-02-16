@@ -25,10 +25,10 @@ define(function() {
     //==========================
     // utils
     //==========================
-    function ajax_fail() {
+    function ajax_fail(status, desc) {
         var res = {
             err: -1,
-            desc: "pls check the network !",
+            desc: status == 0 ? "network error" : desc
         };
         mod.bus.trigger("error", res);
     };
@@ -87,8 +87,8 @@ define(function() {
                     mod.bus.trigger("error", res);
                 }
             },
-        }).fail(function(xhr, status) {
-            ajax_fail();
+        }).fail(function(xhr, status, err) {
+            ajax_fail(xhr.status, err);
         });
     };
     mod.do_list = function() {

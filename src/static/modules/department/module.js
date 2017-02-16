@@ -33,10 +33,10 @@ define(function() {
         mod.token = t;
     }
 
-    function ajax_fail() {
+    function ajax_fail(status, desc) {
         var res = {
             err: -1,
-            desc: "pls check the network !",
+            desc: status == 0 ? "network error" : desc
         };
         mod.bus.trigger("error", res);
     };
@@ -100,8 +100,8 @@ define(function() {
                     mod.bus.trigger("error", res);
                 }
             },
-        }).fail(function(xhr, status) {
-            ajax_fail();
+        }).fail(function(xhr, status, err) {
+            ajax_fail(xhr.status, err);
         });
     };
     mod.db_get = function(url) {
@@ -121,7 +121,7 @@ define(function() {
                 }
             },
         }).fail(function(xhr, status) {
-            ajax_fail();
+            ajax_fail(xhr.status, err);
         });
     };
     mod.db_post = function(data) {
@@ -143,7 +143,7 @@ define(function() {
                 }
             },
         }).fail(function(xhr, status) {
-            ajax_fail();
+            ajax_fail(xhr.status, err);
         });
     };
     mod.db_put = function(data) {
@@ -165,7 +165,7 @@ define(function() {
                 }
             },
         }).fail(function(xhr, status) {
-            ajax_fail();
+            ajax_fail(xhr.status, err);
         });
     };
     mod.db_del = function(data) {

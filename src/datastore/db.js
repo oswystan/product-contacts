@@ -26,7 +26,7 @@ exports = module.exports = function (){
         var c = new checker();
         var err =
             c.begin()
-            .val(obj.tab, 'tab').not_null().is_string()
+            .val(obj.tab, 'tab').not_null().is_string().not_empty()
             .val(obj.fields, 'fields').not_null().is_string()
             .val(obj.where, 'where').is_string()
             .val(obj.orderby, 'orderby').is_string()

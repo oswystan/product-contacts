@@ -31,8 +31,6 @@ module.exports = {
         }
         log4js.configure({
             appenders: [{
-                type: 'console'
-            }, {
                 type: 'file',
                 filename: 'logs/contacts.log',
                 category: 'contacts',
@@ -40,12 +38,14 @@ module.exports = {
                 backups: 10
             }]
         });
-        logger = log4js.getLogger("contacts");
-        if (process.env.NODE_ENV === "production") {
-            logger.setLevel('ERROR');
-        } else {
-            logger.setLevel('DEBUG');
+        var level = 'ERROR';
+        if (process.env.NODE_ENV === "development") {
+            level = 'DEBUG';
+            log4js.loadAppender('console');
+            log4js.addAppender(log4js.appenders.console());
         }
+        logger = log4js.getLogger("contacts");
+        logger.setLevel(level);
 
         return;
     },

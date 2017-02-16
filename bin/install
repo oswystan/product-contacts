@@ -12,6 +12,19 @@
 abs_path=""
 conf="contacts.conf"
 
+function check_preinstall() {
+    where=`which psql`
+    if [ "#$where" = "#" ]; then
+        echo "pls install postgresql first !!"
+        exit 1
+    fi
+    where=`which node`
+    if [ "#$where" = "#" ]; then
+        echo "pls install node first !!"
+        exit 1
+    fi
+}
+
 function check_root() {
     if [ $USER != "root" ]; then
         echo "pls run this by root"
@@ -77,6 +90,7 @@ function install_db() {
 
 
 function main() {
+    check_preinstall
     check_root
     check_node
     get_abs_path

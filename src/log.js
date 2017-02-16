@@ -10,6 +10,7 @@
  *********************************************************************************
  */
 var fs = require('fs');
+var process = require('process');
 var log4js = require('log4js');
 
 var logger = null;
@@ -40,6 +41,11 @@ module.exports = {
             }]
         });
         logger = log4js.getLogger("contacts");
+        if (process.env.NODE_ENV === "production") {
+            logger.setLevel('ERROR');
+        } else {
+            logger.setLevel('DEBUG');
+        }
 
         return;
     },

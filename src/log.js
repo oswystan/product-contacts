@@ -32,7 +32,7 @@ module.exports = {
         log4js.configure({
             appenders: [{
                 type: 'file',
-                filename: 'logs/contacts.log',
+                filename: dir + '/contacts.log',
                 category: 'contacts',
                 maxLogSize: 1 * 1024 * 1024,
                 backups: 10

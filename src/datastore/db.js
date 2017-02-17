@@ -64,7 +64,7 @@ exports = module.exports = function (){
         var p = req.body;
         var err = check_query(p);
         if (err) {
-            log.error(p);
+            log.error(err);
             res.send(dberr.invalid_input(err));
             return;
         }

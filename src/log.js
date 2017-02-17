@@ -38,7 +38,7 @@ module.exports = {
                 backups: 10
             }]
         });
-        var level = 'ERROR';
+        var level = 'INFO';
         if (process.env.NODE_ENV === "development") {
             level = 'DEBUG';
             log4js.loadAppender('console');

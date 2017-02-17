@@ -311,7 +311,7 @@ define(function() {
         var html = template("employee", m);
         var main = $("#main");
         main.html(html);
-        main.find('input[type="text"]').unbind('blur').blur(function() {
+        main.find('input[type="text"]').unbind('change').change(function() {
             m[this.name] = this.value;
         });
 

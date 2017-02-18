@@ -317,6 +317,10 @@ define(function() {
             main.find('input[type="text"]').prop("disabled", false);
         });
 
+        main.find('input[name="select_leader"]').unbind('click').click(function() {
+            mod.bus.trigger("diag_employee");
+        });
+
         last_model = m;
     };
 

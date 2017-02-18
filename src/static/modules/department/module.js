@@ -124,7 +124,7 @@ define(function() {
                     ajax_fail(res.err, res.desc);
                 }
             },
-        }).fail(function(xhr, status) {
+        }).fail(function(xhr, status, err) {
             ajax_fail(xhr.status, err);
         });
     };
@@ -146,7 +146,7 @@ define(function() {
                     ajax_fail(res.err, res.desc);
                 }
             },
-        }).fail(function(xhr, status) {
+        }).fail(function(xhr, status, err) {
             ajax_fail(xhr.status, err);
         });
     };
@@ -168,7 +168,7 @@ define(function() {
                     ajax_fail(res.err, res.desc);
                 }
             },
-        }).fail(function(xhr, status) {
+        }).fail(function(xhr, status, err) {
             ajax_fail(xhr.status, err);
         });
     };
@@ -194,8 +194,8 @@ define(function() {
                         ajax_fail(res.err, res.desc);
                     }
                 },
-            }).fail(function(xhr, status) {
-                console.log(xhr);
+            }).fail(function(xhr, status, err) {
+                ajax_fail(xhr.status, err);
             });
         }
 
@@ -209,7 +209,6 @@ define(function() {
     //================================
     mod.do_list = function() {
         console.log("do list");
-        console.log(search);
         var url = "/api/d?offset=" + pagination.offset + "&limit=" + pagination.limit;
         if (search.type == "name" && search.val != "") {
             url += "&name=" + search.val;
@@ -221,7 +220,6 @@ define(function() {
     mod.do_get = function() {};
     mod.do_post = function() {
         console.log("department=> do post");
-        console.log(new_model);
         change_dt(new_model);
         mod.db_post(new_model);
         return false;
@@ -229,13 +227,11 @@ define(function() {
     mod.do_put = function() {
         console.log("department=> do put");
         change_dt(last_model);
-        console.log(last_model);
         mod.db_put(last_model);
         return false;
     };
     mod.do_del = function(dl) {
         console.log("department=> do del");
-        console.log(dl);
         if (dl.length == 0) {
             mod.bus.trigger("hint", "no records selected!");
         }

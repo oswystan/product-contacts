@@ -97,7 +97,6 @@ define(function() {
     };
     mod.do_list = function() {
         console.log("advance=> do list");
-        console.log(search);
         mod.db_list();
         return false;
     };

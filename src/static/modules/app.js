@@ -14,10 +14,6 @@ define(deps, function() {
     _.extend(ev_bus, Backbone.Events);
     _.extend(app, Backbone.Events);
 
-    app.render_error = function(res) {
-        console.log(res);
-    };
-
     function token(data) {
         app.token = data;
     }

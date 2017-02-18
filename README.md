@@ -61,6 +61,7 @@ exec /path/to/contacts/bin/start
 - [x] automated test case
 - [x] https supported
 - [ ] gz compress support for data transfer
+- [ ] support refreshed jwt.
 
 ## issues
 - [x] beautify the json output

@@ -1,5 +1,6 @@
 var deps = [
     "modules/hint.js",
+    "modules/header.js",
     "modules/login/module.js",
     "modules/advance/module.js",
     "modules/department/module.js",

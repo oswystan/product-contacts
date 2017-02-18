@@ -32,13 +32,13 @@ module.exports = {
         log4js.configure({
             appenders: [{
                 type: 'file',
-                filename: 'logs/contacts.log',
+                filename: dir + '/contacts.log',
                 category: 'contacts',
                 maxLogSize: 1 * 1024 * 1024,
                 backups: 10
             }]
         });
-        var level = 'ERROR';
+        var level = 'INFO';
         if (process.env.NODE_ENV === "development") {
             level = 'DEBUG';
             log4js.loadAppender('console');

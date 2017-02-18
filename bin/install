@@ -87,7 +87,22 @@ function install_db() {
     fi
 }
 
+function show_help() {
+    cat <<!EOF
 
+---------------------------------------------------------------
+for daily maintance, you can use the following commands:
+
+    sudo status contacts    - check the web server status
+    sudo start contacts     - start web server
+    sudo stop contacts      - stop web server
+    sudo restart contacts   - restart web server
+
+for runing logs, pls check logs/contacts.log
+---------------------------------------------------------------
+
+!EOF
+}
 
 function main() {
     check_preinstall
@@ -97,8 +112,10 @@ function main() {
     gen_conf
     install_db
     install_conf
+    show_help
 }
 
 ###########################################################################
 main
+
 

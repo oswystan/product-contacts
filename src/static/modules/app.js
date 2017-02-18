@@ -35,10 +35,8 @@ define(deps, function() {
         do_it: function(actions) {
             ev_bus.trigger("clear");
             if (null == app.token) {
-                console.log("do login");
                 ev_bus.trigger("login");
             } else if (actions) {
-                console.log("do " + actions);
                 ev_bus.trigger(actions);
             }
         },

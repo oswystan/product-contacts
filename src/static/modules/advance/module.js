@@ -30,7 +30,11 @@ define(function() {
             err: -1,
             desc: status == 0 ? "network error" : desc
         };
-        mod.bus.trigger("error", res);
+        if (status == 401) {
+            mod.bus.trigger("login");
+        } else {
+            mod.bus.trigger("error", res);
+        }
     };
 
     function hint(s) {
@@ -84,7 +88,7 @@ define(function() {
                     mod.render_list(res);
                     hint("success");
                 } else {
-                    mod.bus.trigger("error", res);
+                    ajax_fail(res.err, res.desc);
                 }
             },
         }).fail(function(xhr, status, err) {

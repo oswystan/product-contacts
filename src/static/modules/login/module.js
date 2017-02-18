@@ -56,6 +56,7 @@ define(function() {
             main.html("");
             return;
         }
+        mod.bus.trigger('token', null);
 
         var html = template("login");
         main.html(html);

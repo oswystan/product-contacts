@@ -38,7 +38,11 @@ define(function() {
             err: -1,
             desc: status == 0 ? "network error" : desc
         };
-        mod.bus.trigger("error", res);
+        if (status == 401) {
+            mod.bus.trigger("login");
+        } else {
+            mod.bus.trigger("error", res);
+        }
     };
 
     function hint(s) {
@@ -97,7 +101,7 @@ define(function() {
                 if (res.err == 0) {
                     mod.render_list(res);
                 } else {
-                    mod.bus.trigger("error", res);
+                    ajax_fail(res.err, res.desc);
                 }
             },
         }).fail(function(xhr, status, err) {
@@ -117,7 +121,7 @@ define(function() {
                         mod.render(res.data[0]);
                     }
                 } else {
-                    mod.bus.trigger("error", res);
+                    ajax_fail(res.err, res.desc);
                 }
             },
         }).fail(function(xhr, status) {
@@ -139,7 +143,7 @@ define(function() {
                     mod.render(res.data[0]);
                     new_model = new model();
                 } else {
-                    mod.bus.trigger("error", res);
+                    ajax_fail(res.err, res.desc);
                 }
             },
         }).fail(function(xhr, status) {
@@ -161,7 +165,7 @@ define(function() {
                     hint("success");
                     mod.render(res.data[0]);
                 } else {
-                    mod.bus.trigger("error", res);
+                    ajax_fail(res.err, res.desc);
                 }
             },
         }).fail(function(xhr, status) {
@@ -187,7 +191,7 @@ define(function() {
                     if (res.err == 0 && res.data.length > 0) {
                         dl.push(res.data[0].id);
                     } else {
-                        mod.bus.trigger('error', res);
+                        ajax_fail(res.err, res.desc);
                     }
                 },
             }).fail(function(xhr, status) {

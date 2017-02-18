@@ -65,6 +65,8 @@ exec /path/to/contacts/bin/start
 
 ## issues
 - [x] beautify the json output
+- [ ] refactor and reduce code size
+- [ ] different tab color after click it
 
 
 ## reference

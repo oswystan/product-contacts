@@ -21,6 +21,7 @@ define(function () {
         var diag = $('#diag_employee');
         mask.show();
         diag.show();
+        diag.find('input[name="key_val"]').val('');
         diag.find('[autofocus="autofocus"]').focus().select();
 
         diag.find('input[name="confirm"]').unbind('click').click(function(event) {
@@ -43,6 +44,7 @@ define(function () {
         init: function (eb) {
             mod.bus = eb;
             mod.listenTo(eb, "diag_employee", render);
+            mod.listenTo(eb, "diag_department", render);
         },
     };
 });

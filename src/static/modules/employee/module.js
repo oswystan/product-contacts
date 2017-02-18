@@ -324,6 +324,10 @@ define(function() {
             main.find('input[type="text"]').prop("disabled", false);
         });
 
+        main.find('input[name="select_department"]').unbind('click').click(function() {
+            mod.bus.trigger("diag_department");
+        });
+
         last_model = m;
     };
 

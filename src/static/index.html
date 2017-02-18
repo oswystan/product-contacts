@@ -265,7 +265,7 @@
                     <th>DEPARTMENT</th>
                     <td>
                         <input type="text" name="department" value="{{department}}" {{if id != "#"}} disabled {{/if}}>
-                        <input type="button" value="SELECT..." normal>
+                        <input name="select_department" type="button" value="SELECT..." normal>
                     </td>
                 </tr>
                 <tr>
@@ -478,7 +478,7 @@
                 <tr>
                     <td>
                     <form>
-                        <input type="text" placeholder="NAME..." autofocus="autofocus"></input>
+                        <input name="key_val" type="text" placeholder="input name ..." value="" autofocus="autofocus"></input>
                         <input name="search" type="submit" value="SEARCH" normal></input>
                         <input name="confirm" type="button" value="  OK  " perfer></input>
                         <input name="cancel" type="button" value="CANCEL"></input>

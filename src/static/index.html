@@ -232,7 +232,7 @@
         -->
         <script type="text/html" id="employee">
             <form action="" method="post">
-            <table horizontal>
+            <table horizontal style="min-width: 900px">
                 <tr>
                     <th>ID</th>
                     <td> {{id}} </td>
@@ -282,7 +282,7 @@
 
         <script type="text/html" id="list-employee">
             <form action="" method="post">
-            <table search="1">
+            <table search="1" style="min-width: 900px">
                 <tr>
                     <td>
                         <input type="radio" name="search_by" value="ID" {{if _search_.type == "ID"}} checked {{/if}}>ID
@@ -295,7 +295,7 @@
                 </tr>
             </table>
             </form>
-            <table cellspacing="0" cellpadding="0">
+            <table cellspacing="0" cellpadding="0" style="min-width: 900px">
                 <tr>
                     <th><input type="checkbox" name="select_all"></th>
                     <th>ID</th>
@@ -338,7 +338,7 @@
         -->
         <script type="text/html" id="department">
             <form action="" method="post">
-            <table horizontal>
+            <table horizontal  style="min-width: 800px">
                 <tr>
                     <th>ID</th>
                     <td> {{id}} </td>
@@ -368,7 +368,7 @@
 
         <script type="text/html" id="list-department">
             <form action="" method="post">
-            <table search="1">
+            <table search="1"  style="min-width: 800px">
                 <tr>
                     <td>
                         <input type="radio" name="search_by" value="ID" {{if _search_.type == "ID"}} checked {{/if}}>ID
@@ -381,7 +381,7 @@
                 </tr>
             </table>
             </form>
-            <table cellspacing="0" cellpadding="0">
+            <table cellspacing="0" cellpadding="0" style="min-width: 800px">
                 <tr>
                     <th><input type="checkbox" name="select_all"></th>
                     <th>ID</th>
@@ -419,7 +419,7 @@
         -->
         <script type="text/html" id="advance">
             <form action="" method="post">
-            <table search="1">
+            <table search="1"  style="min-width: 1240px">
                 <tr>
                     <td>
                         SELECT
@@ -436,7 +436,7 @@
             </table>
             </form>
             {{if _headers_.length > 0}}
-            <table cellspacing="0" cellpadding="0">
+            <table cellspacing="0" cellpadding="0"  style="min-width: 1240px">
                 <tr>
                     {{each _headers_ as value idx}}
                     <th>{{value}}</th>

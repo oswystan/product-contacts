@@ -22,6 +22,8 @@ define(deps, function (db) {
 
     var search = {
         name: "",
+        tab:"",
+        event: "",
     };
     var pagination = null;
     var get_pages = mod.db.pagination.get_pages;
@@ -31,7 +33,7 @@ define(deps, function (db) {
         if (search.name !== "") {
             url += "&name=" + search.name;
         }
-        mod.db.employees.list(url, function(data) {
+        mod.db[search.tab].list(url, function(data) {
             render_list(data);
         });
     }
@@ -48,10 +50,10 @@ define(deps, function (db) {
         res._search_ = search;
         res._pg_ = pagination;
 
-        var html = template('diag_employees', res);
+        var html = template('diag', res);
 
         var mask = $('#diag_mask');
-        var diag = $('#diag_employee');
+        var diag = $('#diag_selector');
         mask.show();
         diag.html(html).show();
         diag.find('input[name="key_val"]').unbind('change').change(function(){
@@ -72,7 +74,7 @@ define(deps, function (db) {
             }
             diag.hide();
             mask.hide();
-            mod.bus.trigger("employee_selected", val);
+            mod.bus.trigger(search.event, val);
         });
 
         diag.find('input[name="cancel"]').unbind('click').click(function() {
@@ -95,15 +97,22 @@ define(deps, function (db) {
         });
     }
 
-    function render() {
+    function render_employee() {
+        search.tab = "employees";
+        search.event = "employee_selected";
+        render_list(null);
+    }
+    function render_department() {
+        search.tab = "departments";
+        search.event = "department_selected";
         render_list(null);
     }
 
     return {
         init: function (eb) {
             mod.bus = eb;
-            mod.listenTo(eb, "diag_employee", render);
-            mod.listenTo(eb, "diag_department", render);
+            mod.listenTo(eb, "diag_employee", render_employee);
+            mod.listenTo(eb, "diag_department", render_department);
             pagination = new mod.db.pagination();
         },
     };

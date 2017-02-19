@@ -5,7 +5,7 @@ var deps = [
     "modules/advance/module.js",
     "modules/department/module.js",
     "modules/employee/module.js",
-    "modules/employee/selector.js"
+    "modules/selector.js"
 ];
 
 define(deps, function() {

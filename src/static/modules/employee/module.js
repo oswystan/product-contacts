@@ -103,6 +103,10 @@ define(deps, function(db) {
             mod.do_list();
         });
     };
+    mod.department_selected = function(id) {
+        last_model.department = id;
+        mod.render(last_model);
+    }
 
     //===============================
     // view render
@@ -196,6 +200,7 @@ define(deps, function(db) {
             mod.listenTo(eb, "employee.list", mod.list);
             mod.listenTo(eb, "employee.post", mod.post);
             mod.listenTo(eb, "employee.put", mod.put);
+            mod.listenTo(eb, "department_selected", mod.department_selected);
             mod.listenTo(eb, "token", token);
             mod.db.init(eb);
             pagination = new mod.db.pagination();

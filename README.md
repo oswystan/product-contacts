@@ -34,7 +34,7 @@
 		- admin: all that needed
 	- [ ] import data from file: json, csv
 	- [ ] multi-language support
-	- [ ] select a existing leader or department when create a new department / employee.
+	- [x] select a existing leader or department when create a new department / employee.
 
 - [x] forever running
 

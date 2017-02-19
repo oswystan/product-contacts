@@ -22,14 +22,8 @@ define(deps, function(db) {
         type: "name",
         val: "",
     };
-    var pagination = {
-        total: 0,
-        offset: 0,
-        limit: 10,
-        cur_pg: 1,
-        pages: [],
-        max: 5,
-    };
+    var pagination = null;
+    var get_pages = mod.db.pagination.get_pages;
 
     //=================================
     // utils
@@ -42,24 +36,6 @@ define(deps, function(db) {
         if (typeof m.leader == "string") {
             m.leader = Number.parseInt(m.leader);
         }
-    }
-
-    function get_pages() {
-        var pg = [];
-        var half = Math.floor(pagination.max / 2);
-        var start = 1;
-        if (pagination.cur_pg - half > 0) {
-            start = pagination.cur_pg - half;
-        }
-
-        var cnt = pagination.max;
-        if (pagination.total - start + 1 < pagination.max) {
-            cnt = pagination.total - start + 1;
-        }
-        for (var i = 0; i < cnt; i++) {
-            pg.push(start + i);
-        }
-        return pg;
     }
 
     //=================================
@@ -129,7 +105,7 @@ define(deps, function(db) {
         if (res.total) {
             pagination.total = Math.ceil(res.total / pagination.limit);
         }
-        pagination.pages = get_pages();
+        pagination.pages = get_pages.call(pagination);
         res._search_ = search;
         res._pg_ = pagination;
         last_list = res;
@@ -216,6 +192,7 @@ define(deps, function(db) {
             mod.listenTo(eb, "department.put", mod.put);
             mod.listenTo(eb, "token", token);
             mod.db.init(eb);
+            pagination = new mod.db.pagination();
         }
     };
 });

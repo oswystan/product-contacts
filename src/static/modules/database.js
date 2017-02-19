@@ -207,6 +207,35 @@ define(function() {
         db_post("/api/query", data, succ_cb);
     };
 
+    //==========================================
+    // pagation
+    //==========================================
+    function pagination() {
+        this.total = 0;
+        this.offset = 0;
+        this.limit = 10;
+        this.cur_pg = 1;
+        this.pages = [];
+        this.max = 5;
+    }
+    pagination.get_pages = function() {
+        var pg = [];
+        var half = Math.floor(this.max / 2);
+        var start = 1;
+        if (this.cur_pg - half > 0) {
+            start = this.cur_pg - half;
+        }
+
+        var cnt = this.max;
+        if (this.total - start + 1 < this.max) {
+            cnt = this.total - start + 1;
+        }
+        for (var i = 0; i < cnt; i++) {
+            pg.push(start + i);
+        }
+        return pg;
+    }
+
     return {
         init: function(eb) {
             mod.bus = eb;
@@ -216,6 +245,7 @@ define(function() {
         employees: employees,
         departments: departments,
         advance: advance,
+        pagination: pagination,
     };
 });
 

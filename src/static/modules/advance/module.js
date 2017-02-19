@@ -19,34 +19,13 @@ define(deps, function(db) {
         offset: 0,
         limit: 10,
     };
-    var pagination = {
-        total: 0,
-        cur_pg: 1,
-        pages: [],
-        max: 5,
-    };
+    var pagination = null;
+    var get_pages = db.pagination.get_pages;
     _.extend(mod, Backbone.Events);
 
     //==========================
     // utils
     //==========================
-    function get_pages() {
-        var pg = [];
-        var half = Math.floor(pagination.max / 2);
-        var start = 1;
-        if (pagination.cur_pg - half > 0) {
-            start = pagination.cur_pg - half;
-        }
-
-        var cnt = pagination.max;
-        if (pagination.total - start + 1 < pagination.max) {
-            cnt = pagination.total - start + 1;
-        }
-        for (var i = 0; i < cnt; i++) {
-            pg.push(start + i);
-        }
-        return pg;
-    }
     template.helper('get_val', function(obj, p) {
         if (p in obj) {
             return obj[p];
@@ -81,7 +60,7 @@ define(deps, function(db) {
         if ('total' in res) {
             pagination.total = Math.ceil(res.total / search.limit);
         }
-        pagination.pages = get_pages();
+        pagination.pages = get_pages.call(pagination);
         res._pg_ = pagination;
         last_list = res;
         var html = template("advance", res);
@@ -121,6 +100,7 @@ define(deps, function(db) {
             mod.listenTo(eb, "adv.list", mod.list);
             mod.listenTo(eb, "token", token);
             mod.db.init(eb);
+            pagination = new db.pagination();
         },
     };
 });

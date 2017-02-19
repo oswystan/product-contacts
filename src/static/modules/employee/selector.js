@@ -37,7 +37,6 @@ define(function () {
             diag.hide();
             mask.hide();
         });
-
     }
 
     return {

@@ -1,7 +1,12 @@
-define(function() {
+var deps = [
+    "modules/database.js",
+];
+
+define(deps, function(db) {
     var mod = {
         bus: null,
-        token: null
+        token: null,
+        db: db,
     };
     var last_list = {
         data: [],
@@ -73,31 +78,11 @@ define(function() {
     mod.list = function() {
         mod.render_list(last_list);
     };
-    mod.db_list = function() {
-        var url = "/api/query"
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(search),
-            headers: {
-                "Authorization": "Bearer " + mod.token,
-            },
-            contentType: "application/json",
-            success: function(res, status, xhr) {
-                if (res.err == 0) {
-                    mod.render_list(res);
-                    hint("success");
-                } else {
-                    ajax_fail(res.err, res.desc);
-                }
-            },
-        }).fail(function(xhr, status, err) {
-            ajax_fail(xhr.status, err);
-        });
-    };
     mod.do_list = function() {
         console.log("advance=> do list");
-        mod.db_list();
+        mod.db.advance.query(search, function (data) {
+            mod.render_list(data);
+        });
         return false;
     };
 
@@ -151,6 +136,7 @@ define(function() {
             mod.bus = eb;
             mod.listenTo(eb, "adv.list", mod.list);
             mod.listenTo(eb, "token", token);
-        }
+            mod.db.init(eb);
+        },
     };
 });

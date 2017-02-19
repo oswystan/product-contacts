@@ -1,7 +1,12 @@
-define(function() {
+var deps = [
+    "modules/database.js",
+];
+
+define(deps, function(db) {
     var mod = {
         bus: null,
-        token: null
+        token: null,
+        db: db,
     };
     _.extend(mod, Backbone.Events);
 
@@ -83,125 +88,7 @@ define(function() {
         mod.render(new_model);
     };
     mod.put = function(id) {
-        var url = "/api/d/" + id;
-        mod.db_get(url);
-    };
-
-    //=================================
-    // back-end database operation
-    //=================================
-    mod.db_list = function(url) {
-        $.get({
-            url: url,
-            data: null,
-            headers: {
-                "Authorization": "Bearer " + mod.token,
-            },
-            success: function(res, status, xhr) {
-                if (res.err == 0) {
-                    mod.render_list(res);
-                } else {
-                    ajax_fail(res.err, res.desc);
-                }
-            },
-        }).fail(function(xhr, status, err) {
-            ajax_fail(xhr.status, err);
-        });
-    };
-    mod.db_get = function(url) {
-        $.get({
-            url: url,
-            data: null,
-            headers: {
-                "Authorization": "Bearer " + mod.token,
-            },
-            success: function(res, status, xhr) {
-                if (res.err == 0) {
-                    if (res.data.length > 0) {
-                        mod.render(res.data[0]);
-                    }
-                } else {
-                    ajax_fail(res.err, res.desc);
-                }
-            },
-        }).fail(function(xhr, status, err) {
-            ajax_fail(xhr.status, err);
-        });
-    };
-    mod.db_post = function(data) {
-        var url = "/api/d";
-        $.post({
-            url: url,
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            headers: {
-                "Authorization": "Bearer " + mod.token,
-            },
-            success: function(res, status, xhr) {
-                if (res.err == 0 && res.data.length > 0) {
-                    hint("success");
-                    mod.render(res.data[0]);
-                    new_model = new model();
-                } else {
-                    ajax_fail(res.err, res.desc);
-                }
-            },
-        }).fail(function(xhr, status, err) {
-            ajax_fail(xhr.status, err);
-        });
-    };
-    mod.db_put = function(data) {
-        var url = "/api/d";
-        $.ajax({
-            url: url,
-            type: "PUT",
-            data: JSON.stringify(data),
-            contentType: "application/json",
-            headers: {
-                "Authorization": "Bearer " + mod.token,
-            },
-            success: function(res, status, xhr) {
-                if (res.err == 0 && res.data.length > 0) {
-                    hint("success");
-                    mod.render(res.data[0]);
-                } else {
-                    ajax_fail(res.err, res.desc);
-                }
-            },
-        }).fail(function(xhr, status, err) {
-            ajax_fail(xhr.status, err);
-        });
-    };
-    mod.db_del = function(data) {
-        var url = "/api/d";
-        var dl = [];
-        for (var i = 0; i < data.length; i++) {
-            $.ajax({
-                url: url,
-                type: "DELETE",
-                async: false,
-                data: JSON.stringify({
-                    "id": data[i]
-                }),
-                contentType: "application/json",
-                headers: {
-                    "Authorization": "Bearer " + mod.token,
-                },
-                success: function(res, status, xhr) {
-                    if (res.err == 0 && res.data.length > 0) {
-                        dl.push(res.data[0].id);
-                    } else {
-                        ajax_fail(res.err, res.desc);
-                    }
-                },
-            }).fail(function(xhr, status, err) {
-                ajax_fail(xhr.status, err);
-            });
-        }
-
-        if (dl.length == data.length) {
-            mod.do_list();
-        }
+        mod.do_get(id);
     };
 
     //================================
@@ -209,25 +96,36 @@ define(function() {
     //================================
     mod.do_list = function() {
         console.log("do list");
-        var url = "/api/d?offset=" + pagination.offset + "&limit=" + pagination.limit;
+        var url = "offset=" + pagination.offset + "&limit=" + pagination.limit;
         if (search.type == "name" && search.val != "") {
             url += "&name=" + search.val;
         } else if (search.type == "ID" && search.val != "") {
             url += "&id=" + search.val;
         }
-        mod.db_list(url);
+        mod.db.departments.list(url, function (data) {
+            mod.render_list(data);
+        });
     };
-    mod.do_get = function() {};
+    mod.do_get = function (id) {
+        mod.db.departments.get(id, function (data) {
+            mod.render(data.data[0]);
+        });
+    }
     mod.do_post = function() {
         console.log("department=> do post");
         change_dt(new_model);
-        mod.db_post(new_model);
+        mod.db.departments.post(new_model, function (data) {
+            mod.render(data.data[0]);
+            new_model = new model();
+        });
         return false;
     };
     mod.do_put = function() {
         console.log("department=> do put");
         change_dt(last_model);
-        mod.db_put(last_model);
+        mod.db.departments.put(last_model, function (data) {
+            mod.render(data.data[0]);
+        });
         return false;
     };
     mod.do_del = function(dl) {
@@ -235,7 +133,9 @@ define(function() {
         if (dl.length == 0) {
             mod.bus.trigger("hint", "no records selected!");
         }
-        mod.db_del(dl);
+        mod.db.departments.del(dl, function () {
+            mod.do_list();
+        });
     };
 
     //===============================
@@ -331,6 +231,7 @@ define(function() {
             mod.listenTo(eb, "department.post", mod.post);
             mod.listenTo(eb, "department.put", mod.put);
             mod.listenTo(eb, "token", token);
+            mod.db.init(eb);
         }
     };
 });

@@ -188,9 +188,9 @@
                 top: 50%;
                 left: 50%;
                 margin-left: -330px;
-                margin-top: -280px;
+                margin-top: -300px;
                 width: 660px;
-                height: 560px;
+                height: 600px;
                 background-color: white;
                 z-index: 1002;
                 position: absolute;
@@ -472,13 +472,12 @@
             >
         </div>
 
-        <div id="diag_mask"> </div>
-        <div id="diag_employee">
+        <script type="text/html" id="diag_employees">
             <table >
                 <tr>
                     <td>
                     <form>
-                        <input name="key_val" type="text" placeholder="input name ..." value="" autofocus="autofocus"></input>
+                        <input name="key_val" type="text" placeholder="input name ..." value="{{_search_.name}}" autofocus="autofocus"></input>
                         <input name="search" type="submit" value="SEARCH" normal></input>
                         <input name="confirm" type="button" value="  OK  " perfer></input>
                         <input name="cancel" type="button" value="CANCEL"></input>
@@ -487,34 +486,36 @@
                 </tr>
             </table>
 
+            {{if _pg_.total > 0}}
             <table>
                 <tr>
                     <th>...</th>
                     <th>ID</th>
                     <th>NAME</th>
                 </tr>
+                {{each data as val idx}}
                 <tr>
-                    <td><input type="radio"  name="sel_id"></input></td>
-                    <td>1</td>
-                    <td>wystan</td>
+                    <td><input type="radio"  name="sel_id" value="{{val.id}}"></input></td>
+                    <td>{{val.id}}</td>
+                    <td>{{val.name}}</td>
                 </tr>
-                <tr>
-                    <td><input type="radio" name="sel_id"></input></td>
-                    <td>2</td>
-                    <td>sab</td>
-                </tr>
+                {{/each}}
                 <tr>
                     <td colspan="3"  last paging>
-                        <a name="page" href="#">|<</a>
-                        <a name="page" href="#">1</a>
-                        <a name="page" href="#">2</a>
-                        <a name="page" href="#">3</a>
-                        <a name="page" href="#">4</a>
-                        <a name="page" href="#">>|</a>
+                        <a href="javascript:void(0)" name="page" value="1">|<</a>
+                        {{each _pg_.pages as val idx}}
+                        <a href="javascript:void(0)" name="page" value="{{val}}" {{if _pg_.cur_pg == val}} current {{/if}}>{{val}}</a>
+                        {{/each}}
+                        <a href="javascript:void(0)" name="page" value="-1">>|</a>
                     </td>
                 </tr>
             </table>
-        </div>
+            {{/if}}
+        </script>
+
+        <div id="diag_mask"> </div>
+        <div id="diag_employee"></div>
+
         <!--
         ====================================================================
         = footer

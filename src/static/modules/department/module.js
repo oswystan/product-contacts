@@ -97,6 +97,10 @@ define(deps, function(db) {
             mod.do_list();
         });
     };
+    mod.leader_selected = function(id) {
+        last_model.leader = id;
+        mod.render(last_model);
+    };
 
     //===============================
     // view render
@@ -190,6 +194,7 @@ define(deps, function(db) {
             mod.listenTo(eb, "department.list", mod.list);
             mod.listenTo(eb, "department.post", mod.post);
             mod.listenTo(eb, "department.put", mod.put);
+            mod.listenTo(eb, "employee_selected", mod.leader_selected);
             mod.listenTo(eb, "token", token);
             mod.db.init(eb);
             pagination = new mod.db.pagination();

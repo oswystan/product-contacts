@@ -30,22 +30,6 @@ define(deps, function(db) {
     //==========================
     // utils
     //==========================
-    function ajax_fail(status, desc) {
-        var res = {
-            err: -1,
-            desc: status == 0 ? "network error" : desc
-        };
-        if (status == 401) {
-            mod.bus.trigger("login");
-        } else {
-            mod.bus.trigger("error", res);
-        }
-    };
-
-    function hint(s) {
-        mod.bus.trigger("hint", s);
-    }
-
     function get_pages() {
         var pg = [];
         var half = Math.floor(pagination.max / 2);

@@ -38,22 +38,6 @@ define(deps, function(db) {
         mod.token = t;
     }
 
-    function ajax_fail(status, desc) {
-        var res = {
-            err: -1,
-            desc: status == 0 ? "network error" : desc
-        };
-        if (status == 401) {
-            mod.bus.trigger("login");
-        } else {
-            mod.bus.trigger("error", res);
-        }
-    };
-
-    function hint(s) {
-        mod.bus.trigger("hint", s);
-    }
-
     function change_dt(m) {
         if (typeof m.leader == "string") {
             m.leader = Number.parseInt(m.leader);

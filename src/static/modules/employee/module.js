@@ -43,22 +43,6 @@ define(deps, function(db) {
         mod.token = t;
     }
 
-    function ajax_fail(status, desc) {
-        var res = {
-            err: -1,
-            desc: status == 0 ? "network error" : desc
-        };
-        if (status == 401) {
-            mod.bus.trigger("login");
-        } else {
-            mod.bus.trigger("error", res);
-        }
-    };
-
-    function hint(s) {
-        mod.bus.trigger("hint", s);
-    }
-
     function change_dt(m) {
         if (typeof m.department == "string") {
             m.department = Number.parseInt(m.department);
@@ -136,7 +120,7 @@ define(deps, function(db) {
     mod.do_del = function(dl) {
         console.log("employee=> do del");
         if (dl.length == 0) {
-            hint("NO records selected");
+            mod.bus.trigger("hint", "NO records selected");
             return;
         }
         mod.db.employees.del(dl, function () {

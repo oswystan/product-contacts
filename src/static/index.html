@@ -24,7 +24,7 @@
                 border-width: 0 0 2px 0;
                 border-bottom-color: #f9f9f9;
             }
-            #bar {
+            #hint_bar {
                 background: #e1e1e1;
                 color: #3985ff;
                 padding: 10px 14px;
@@ -32,10 +32,10 @@
                 border-width: 1px;
                 border-color: d9d9d9;
             }
-            #bar[error] {
+            #hint_bar[error] {
                 color:#ff0000;
             }
-            #bar:first-letter {
+            #hint_bar:first-letter {
                 font-size: 1.5em;
             }
             .container {
@@ -132,14 +132,14 @@
             }
             th {
                 background: #aaaaaa;
-                color: #eeeeee;
+                color: #fff;
             }
             td {
                 background: #eee;
                 color: #555;
             }
             table tr:hover {
-                background-color: #eaeaea;
+                background-color: #f4f4f4;
             }
             table tr:hover td {
                 background: none;
@@ -221,8 +221,6 @@
         = LOGIN
         ====================================================================
         -->
-
-
         <script id="login" type="text/html">
             <form action="/api/auth" method="post">
                 <input type="text" name="username" value="" placeholder="user name" autofocus="autofocus" />
@@ -335,7 +333,6 @@
                 </tr>
             </table>
         </script>
-
 
         <!--
         ====================================================================
@@ -470,14 +467,11 @@
             {{/if}}
         </script>
 
-        <script type="text/html" id="hints">
-            > {{desc}}
-        </script>
-
-        <div id="bar">
-            >
-        </div>
-
+        <!--
+        ====================================================================
+        = selector dialog
+        ====================================================================
+        -->
         <script type="text/html" id="diag">
             <table >
                 <tr>
@@ -521,6 +515,19 @@
 
         <div id="diag_mask"> </div>
         <div id="diag_selector"></div>
+
+        <!--
+        ====================================================================
+        = hint bar
+        ====================================================================
+        -->
+        <script type="text/html" id="hints">
+            > {{desc}}
+        </script>
+
+        <div id="hint_bar">
+            >
+        </div>
 
         <!--
         ====================================================================

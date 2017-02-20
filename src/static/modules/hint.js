@@ -4,13 +4,13 @@ define(function() {
 
     function render(err) {
         var html = template("hints", err);
-        var bar = $("#bar");
+        var bar = $("#hint_bar");
         if (err.err != 0) {
             bar.attr("error", true);
         } else {
             bar.removeAttr('error');
         }
-        $("#bar").html(html);
+        bar.html(html);
     }
 
     function clear() {
@@ -35,6 +35,6 @@ define(function() {
             mod.listenTo(eb, "error", render);
             mod.listenTo(eb, "clear", clear);
             mod.listenTo(eb, "hint", hint);
-        }
+        },
     };
 });

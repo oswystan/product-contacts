@@ -14,6 +14,7 @@ var https = require('https');
 var http = require('http');
 var fs = require('fs');
 var express = require('express');
+var process = require('process');
 var bodyparser = require("body-parser");
 var express_jwt = require('express-jwt');
 
@@ -47,9 +48,11 @@ function main() {
         requestProperty: "_auth_",
         secret: cfg.jwt.secret,
     };
+    if (process.env.NODE_ENV == "development") {
+        app.set('json spaces', 40);
+    }
 
     app.use(logger.express());
-    app.set('json spaces', 40);
     app.use(bodyparser.urlencoded({
         extended: true
     }));

@@ -42,6 +42,8 @@ define(deps, function (db) {
         if (res == null) {
             res = {total: 0};
             search.name = "";
+            pagination.cur_pg = 1;
+            pagination.offset = 0;
         }
         if ('total' in res) {
             pagination.total = Math.ceil(res.total / pagination.limit);

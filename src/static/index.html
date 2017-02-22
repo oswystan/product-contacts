@@ -211,6 +211,7 @@
                 <li><a href="#employee.list">EMPLOYEE</a></li>
                 <li><a href="#department.list">DEPARTMENT</a></li>
                 <li><a href="#adv.list">ADVANCED</a></li>
+                <li><a href="#import">IMPORT</a></li>
             </ul>
         </div>
 
@@ -465,6 +466,30 @@
                 </tr>
             </table>
             {{/if}}
+        </script>
+
+        <!--
+        ====================================================================
+        = import releated
+        ====================================================================
+        -->
+        <script type="text/html" id="import">
+            <form action="post">
+                <table horizontal>
+                    <tr>
+                        <th>department: </th>
+                        <td><input type="file" accept="text/csv" multiple="false"></input></td>
+                    </tr>
+                    <tr>
+                        <th>employee: </th>
+                        <td><input type="file" accept="text/csv" multiple="false"></input></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" operation><input type="submit" value="COMMIT" perfer></td>
+                    </tr>
+                </table>
+
+            </form>
         </script>
 
         <!--

@@ -5,6 +5,7 @@ var deps = [
     "modules/advance/module.js",
     "modules/department/module.js",
     "modules/employee/module.js",
+    "modules/import.js",
     "modules/selector.js"
 ];
 

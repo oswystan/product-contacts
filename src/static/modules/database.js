@@ -20,6 +20,7 @@ define(function() {
     var employees = {};
     var departments = {};
     var advance = {};
+    var upload = {};
 
     //==========================================
     // utils
@@ -162,6 +163,28 @@ define(function() {
             succ_cb();
         }
     };
+    function db_upload(base, data, succ_cb) {
+        var url = base;
+        $.post({
+            url: url,
+            data: data,
+            contentType: false,
+            processData: false,
+            headers: {
+                "Authorization": "Bearer " + mod.token,
+            },
+            success: function(res, status, xhr) {
+                if (res.err == 0 && res.data.length > 0) {
+                    succ_cb(res);
+                    hint('upload success');
+                } else {
+                    ajax_fail(res.err, res.desc);
+                }
+            },
+        }).fail(function(xhr, status, err) {
+            ajax_fail(xhr.status, err);
+        });
+    };
     //==========================================
     // employees back-end interaction
     //==========================================
@@ -208,6 +231,13 @@ define(function() {
     };
 
     //==========================================
+    // upload data file into database
+    //==========================================
+    upload.post = function(data, succ_cb) {
+        db_upload("/api/upload", data, succ_cb);
+    }
+
+    //==========================================
     // pagation
     //==========================================
     function pagination() {
@@ -246,6 +276,7 @@ define(function() {
         departments: departments,
         advance: advance,
         pagination: pagination,
+        upload: upload,
     };
 });
 

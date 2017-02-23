@@ -14,6 +14,7 @@ var https = require('https');
 var http = require('http');
 var fs = require('fs');
 var express = require('express');
+var file_upload = require('express-fileupload');
 var process = require('process');
 var bodyparser = require("body-parser");
 var express_jwt = require('express-jwt');
@@ -57,6 +58,7 @@ function main() {
         extended: true
     }));
     app.use(bodyparser.json());
+    app.use(file_upload());
     app.use(express.static(__dirname + "/static"));
     app.use("/api", express_jwt(jwt_opts).unless({
         path: ['/api/auth']

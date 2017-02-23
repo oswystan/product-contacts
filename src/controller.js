@@ -95,6 +95,25 @@ exports = module.exports = {
         }
         log.error("invalid auth info [" + p.username + ", " + p.password + "] from " + req.ip);
         res.send(dberr.unauth_usr());
+    },
+    upload: function (req, res) {
+        if (!req.files || !('employee_file' in req.files || 'department_file' in req.files)) {
+            log.warn("no files uploaded!");
+            res.send(dberr.error(-1, "no files uploaded"));
+            return;
+        }
+        if (req.files.employee_file) {
+            let f = req.files.employee_file;
+            f.mv(__dirname + "/../upload/tmp/" + f.name, function(err) {
+                if (err) {
+                    log.error(err);
+                    res.send(dberr.error(-1, err.message));
+                    return;
+                } else {
+                    res.send(dberr.succ([f.name]));
+                }
+            });
+        }
     }
 };
 

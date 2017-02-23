@@ -474,21 +474,21 @@
         ====================================================================
         -->
         <script type="text/html" id="import">
-            <form action="post">
+            <iframe name="upload_iframe" src="" frameborder="0" style="display:none"></iframe>
+            <form id="upload_form" action="/upload" method="post" encType="multipart/form-data" target="upload_iframe">
                 <table horizontal>
                     <tr>
                         <th>department: </th>
-                        <td><input type="file" accept="text/csv" multiple="false"></input></td>
+                        <td><input name="department_file" type="file" accept=".csv" multiple="false"></input></td>
                     </tr>
                     <tr>
                         <th>employee: </th>
-                        <td><input type="file" accept="text/csv" multiple="false"></input></td>
+                        <td><input name="employee_file" type="file" accept=".csv" multiple="false"></input></td>
                     </tr>
                     <tr>
                         <td colspan="2" operation><input type="submit" value="COMMIT" perfer></td>
                     </tr>
                 </table>
-
             </form>
         </script>
 

@@ -16,6 +16,10 @@ exports = module.exports = {
     init: function(app) {
         ctrl.init();
 
+        app.post("/api/upload", function (req, res) {
+            ctrl.upload(req, res);
+        });
+
         app.post("/api/auth", function(req, res) {
             ctrl.auth(req, res);
         });

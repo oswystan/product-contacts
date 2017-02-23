@@ -58,7 +58,7 @@ function main() {
         extended: true
     }));
     app.use(bodyparser.json());
-    app.use(file_upload());
+    app.use(file_upload({limits: {fileSize: cfg.upload.max_size}}));
     app.use(express.static(__dirname + "/static"));
     app.use("/api", express_jwt(jwt_opts).unless({
         path: ['/api/auth']

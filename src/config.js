@@ -28,11 +28,15 @@ module.exports = function () {
     var server_cfg = {
         port: 8000
     };
+    var upload_cfg = {
+        max_size: 1*1024*1024,
+    };
     return {
         user: user_db,
         db:   db_cfg,
         jwt:  jwt_cfg,
-        srv: server_cfg
+        srv: server_cfg,
+        upload: upload_cfg,
     };
 }
 

@@ -102,18 +102,35 @@ exports = module.exports = {
             res.send(dberr.error(-1, "no files uploaded"));
             return;
         }
+        var fl = [];
         if (req.files.employee_file) {
-            let f = req.files.employee_file;
-            f.mv(__dirname + "/../upload/tmp/" + f.name, function(err) {
+            fl.push(req.files.employee_file);
+        }
+        if (req.files.department_file) {
+            fl.push(req.files.department_file);
+        }
+
+        var op_list = [];
+        fl.forEach(function(v, idx) {
+            v.mv(__dirname + "/../upload/tmp/" + v.name, function(err) {
                 if (err) {
-                    log.error(err);
-                    res.send(dberr.error(-1, err.message));
-                    return;
-                } else {
-                    res.send(dberr.succ([f.name]));
+                    op_list.push(v.name);
+                }
+
+                if (idx >= fl.length - 1) {
+                    if (op_list.length == 0) {
+                        res.send(dberr.succ("upload success", op_list));
+                    } else {
+                        var names = "";
+                        op_list.forEach(function(f){
+                            names += f + ","
+                        });
+                        names = names.substr(0, names.length-1);
+                        res.send(dberr.error(-1, "upload [" + names + "] failed"));
+                    }
                 }
             });
-        }
+        });
     }
 };
 

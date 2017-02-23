@@ -18,6 +18,7 @@ var file_upload = require('express-fileupload');
 var process = require('process');
 var bodyparser = require("body-parser");
 var express_jwt = require('express-jwt');
+var maintain = require('./maintenance');
 
 var cfg = require("./config")();
 var logger = require('./log');
@@ -61,6 +62,9 @@ function main() {
     app.use(file_upload({limits: {fileSize: cfg.upload.max_size}}));
     app.use(express.static(__dirname + "/static"));
     app.use("/api", express_jwt(jwt_opts).unless({
+        path: ['/api/auth']
+    }));
+    app.use("/api/", maintain().unless({
         path: ['/api/auth']
     }));
     app.use(err_handler);

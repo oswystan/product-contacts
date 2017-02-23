@@ -15,6 +15,7 @@ var db = require('./datastore/db');
 var dberr = require('./datastore/error');
 var cfg = require("./config")();
 var logger = require("./log");
+var maintain = require("./maintenance");
 var database = new db();
 
 var log = null;
@@ -97,6 +98,11 @@ exports = module.exports = {
         res.send(dberr.unauth_usr());
     },
     upload: function (req, res) {
+        if (req._auth_.role != 1) {
+            res.send(dberr.denied("only avaliable for admin"));
+            return;
+        }
+        maintain.trigger(true);
         if (!req.files || !('employee_file' in req.files || 'department_file' in req.files)) {
             log.warn("no files uploaded!");
             res.send(dberr.error(-1, "no files uploaded"));

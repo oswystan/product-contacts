@@ -15,7 +15,7 @@ var maintaining = false;
 function maintenance(req, res, next) {
 	console.log(req._auth_.role, maintaining)
 	if (req._auth_.role != 1 && maintaining) {
-		res.send({err: -1, desc: "system is maintaining now!", data:[]});
+		res.send({err: -1, desc: "service is not avaliable now, pls try it later.", data:[]});
 	} else {
 		next();
 	}

@@ -28,6 +28,7 @@ define(deps, function(db) {
         });
         return false;
     }
+
     function render() {
         var html = template("import");
         $("#main").html(html);
@@ -42,9 +43,5 @@ define(deps, function(db) {
         },
     };
 });
-
-
-
-
 
 /************************************* END **************************************/

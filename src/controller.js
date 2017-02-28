@@ -12,6 +12,7 @@
 
 var jwt = require('jsonwebtoken');
 var db = require('./datastore/db');
+var dbimport = require('./datastore/import');
 var dberr = require('./datastore/error');
 var cfg = require("./config")();
 var logger = require("./log");
@@ -110,17 +111,18 @@ exports = module.exports = {
         }
         var fl = [];
         if (req.files.employee_file) {
-            fl.push(req.files.employee_file);
+            fl.push({tab: "employees", file: req.files.employee_file});
         }
         if (req.files.department_file) {
-            fl.push(req.files.department_file);
+            fl.push({tab: "departments", file: req.files.department_file});
         }
 
         var op_list = [];
         fl.forEach(function(v, idx) {
-            v.mv(__dirname + "/../upload/tmp/" + v.name, function(err) {
+            var fn = __dirname + "/../upload/tmp/" + v.file.name;
+            v.mv(fn, function(err) {
                 if (err) {
-                    op_list.push(v.name);
+                    op_list.push(v.file.name);
                 }
 
                 if (idx >= fl.length - 1) {

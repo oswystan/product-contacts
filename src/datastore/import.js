@@ -15,19 +15,25 @@ var EventEmitter = require('events').EventEmitter;
 var inherits = require('util').inherits;
 
 var imports = module.exports;
-inherits(imports, EventEmitter);
 
 imports = function (fl, db_client) {
     this.files = fl;
     this.cli = db_client;
 };
+inherits(imports, EventEmitter);
 
 imports.tabs = {};
 imports.tabs.employee = {
     validate: function(d) {
+        if ("id" in d) {
+            d.id = Number.parseInt(d.id);
+        }
+        if ("department" in d) {
+            d.department = Number.parseInt(d.department);
+        }
         return true;
     },
-    import: function(cli, d) {
+    import: function(cli, d, imp) {
     	var sql = `insert into employees (id, name, department, mobile, tel, mail, position, role)
     		values
     		($1, $2, $3, $4, $5, $6, $7, $8)`;
@@ -41,7 +47,13 @@ imports.tabs.employee = {
             d.position || '',
             d.role || ''
         ];
-        cli.query({text: sql, values: val});
+        cli.query({text: sql, values: val}, function(err){
+            if (err) {
+                imp.emit("import-error", err);
+            } else {
+                imp.emit("data-import", d);
+            }
+        });
         return true;
     },
     update_id: function(cli) {
@@ -52,7 +64,7 @@ imports.tabs.department = {
     validate: function(d) {
         return true;
     },
-    import: function(cli, d) {
+    import: function(cli, d, imp) {
         return true;
     },
     update_id: function(cli) {
@@ -62,27 +74,27 @@ imports.tabs.department = {
 
 imports.prototype.parse = function(fn, tab) {
     var self = this;
-    if (!(tab in imports.tabs) {
+    if (!(tab in imports.tabs)) {
         return false;
     }
     var table = imports.tabs[tab];
     fs.createReadStream(fn)
         .on('error', function(err) {
-            self.trigger('error', err);
+            self.emit('error', err);
         })
         .pipe(csv({headers: true}))
         .validate(function(data){
             return table.validate(data);
         })
         .on('data', function(data){
-            table.import(self.cli, data);
+            table.import(self.cli, data, self);
         })
         .on("data-invalid", function(data){
-            console.log("invalid data:" data);
+            self.emit("data-invalid", data);
         })
         .on('end', function(){
         	table.update_id(self.cli);
-            console.log("END");
+            self.emit("end", tab);
         });
 };
 

@@ -3,7 +3,7 @@
 ##                     Copyright (C) 2017 wystan
 ##
 ##       filename: db
-##    description: 
+##    description:
 ##        created: 2017-01-05 16:22:50
 ##         author: wystan
 ##
@@ -22,6 +22,10 @@ function do_backup() {
 
 function do_restore() {
     echo "start restore..."
+    if [ $# -ne 1 ]; then
+        echo "ERROR: invalid parameters [$*]"
+        return;
+    fi
     if [ ! -f $1 ]; then
         echo "ERROR: $1 does not exist, exit !!"
         return
@@ -39,7 +43,7 @@ function do_restore() {
 function usage() {
 cat << !EOF
 
-usage: 
+usage:
     - $me backup
     - $me restore <backup.sql>
 

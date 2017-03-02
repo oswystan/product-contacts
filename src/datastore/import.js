@@ -51,12 +51,29 @@ imports.tabs.employee = {
             if (err) {
                 imp.emit("import-error", err);
             } else {
-                imp.emit("data-import", d);
+                imp.emit("import-succ", d);
             }
         });
         return true;
     },
-    update_id: function(cli) {
+    update_id: function(cli, imp) {
+        var sql = `select max(id) as id from employees;`
+        cli.query(sql, function(err, res) {
+            if (err) {
+                imp.emit("error", err);
+                return;
+            }
+            var id = res.rows[0].id;
+            sql = `select setval('employees_id_seq', %1);`
+            cli.query({text: sql, values: [res.rows[0].id]}, function(err) {
+                if (err) {
+                    imp.emit("error", err);
+                    return;
+                }
+                imp.emit("update_id", "success");
+            });
+
+        });
     	return true;
     }
 };

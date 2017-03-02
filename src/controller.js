@@ -119,8 +119,8 @@ exports = module.exports = {
 
         var op_list = [];
         fl.forEach(function(v, idx) {
-            var fn = __dirname + "/../upload/tmp/" + v.file.name;
-            v.mv(fn, function(err) {
+            var fn = cfg.upload.path + "/" + v.file.name;
+            v.file.mv(fn, function(err) {
                 if (err) {
                     op_list.push(v.file.name);
                 }

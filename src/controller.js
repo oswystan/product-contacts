@@ -131,9 +131,11 @@ exports = module.exports = {
                         var dbloader = new loader(database.cli, fn, v.tab);
                         dbloader.on("error", function(err){
                             res.send(dberr.error(-1, err.message));
+                            maintain.trigger(false);
                         })
                         .on("done", function() {
                             res.send(dberr.succ("upload success", op_list));
+                            maintain.trigger(false);
                         })
                         .load();
                     } else {

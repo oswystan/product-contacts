@@ -28,6 +28,7 @@ inherits(loader, EventEmitter);
 var tabs = {};
 var employees = {};
 employees.load = function(cli, f, callback) {
+	callback({message: "NOT implemented yet, pls try later."}, null);
 };
 
 var departments = {};

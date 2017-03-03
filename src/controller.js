@@ -12,7 +12,7 @@
 
 var jwt = require('jsonwebtoken');
 var db = require('./datastore/db');
-var dbimport = require('./datastore/import');
+var loader = require('./datastore/loader');
 var dberr = require('./datastore/error');
 var cfg = require("./config")();
 var logger = require("./log");
@@ -127,7 +127,15 @@ exports = module.exports = {
 
                 if (idx >= fl.length - 1) {
                     if (op_list.length == 0) {
-                        res.send(dberr.succ("upload success", op_list));
+
+                        var dbloader = new loader(database.cli, fn, v.tab);
+                        dbloader.on("error", function(err){
+                            res.send(dberr.error(-1, err.message));
+                        })
+                        .on("done", function() {
+                            res.send(dberr.succ("upload success", op_list));
+                        })
+                        .load();
                     } else {
                         var names = "";
                         op_list.forEach(function(f){

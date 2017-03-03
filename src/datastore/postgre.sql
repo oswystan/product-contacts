@@ -2,10 +2,10 @@
 --                      Copyright (C) 2016 wystan
 --
 --        filename: postgre.sql
---     description: 
+--     description:
 --         created: 2016-12-31 14:26:52
 --          author: wystan
--- 
+--
 ---------------------------------------------------------------------------------
 
 drop database if exists contacts;
@@ -15,7 +15,7 @@ create database contacts;
 
 -- USER
 drop user if exists contacts_admin;
-create user contacts_admin with createdb login password '123456';
+create user contacts_admin with SUPERUSER createdb login password '123456';
 
 
 -- TABLE

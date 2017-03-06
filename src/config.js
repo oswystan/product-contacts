@@ -35,7 +35,7 @@ module.exports = function() {
     };
     var upload_cfg = {
         max_size: 1 * 1024 * 1024,
-        path: __dirname + "/../upload/tmp",
+        path: __dirname + "/../upload",
     };
     return {
         user: user_db,

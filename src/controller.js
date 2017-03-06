@@ -11,6 +11,7 @@
  */
 
 var jwt = require('jsonwebtoken');
+var fs = require('fs');
 var db = require('./datastore/db');
 var loader = require('./datastore/loader');
 var dberr = require('./datastore/error');
@@ -119,6 +120,15 @@ exports = module.exports = {
         if (fl.length > 1) {
             res.send(dberr.error(-1, "only upload one file for each request!"));
             return;
+        }
+        try{
+            fs.mkdirSync(cfg.upload.path + "/");
+        } catch(e) {
+            // check the error is not EEXIST;
+            if (e.errno != -17) {
+                res.send(dberr.error(-1, e.message));
+                return;
+            }
         }
 
         var f = fl[0].file;

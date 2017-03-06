@@ -116,38 +116,24 @@ exports = module.exports = {
         if (req.files.department_file) {
             fl.push({tab: "departments", file: req.files.department_file});
         }
+        if (fl.length > 1) {
+            res.send(dberr.error(-1, "only upload one file for each request!"));
+            return;
+        }
 
-        var op_list = [];
-        fl.forEach(function(v, idx) {
-            var fn = cfg.upload.path + "/" + v.file.name;
-            v.file.mv(fn, function(err) {
-                if (err) {
-                    op_list.push(v.file.name);
-                }
-
-                if (idx >= fl.length - 1) {
-                    if (op_list.length == 0) {
-
-                        var dbloader = new loader(database.cli, fn, v.tab);
-                        dbloader.on("error", function(err){
-                            res.send(dberr.error(-1, err.message));
-                            maintain.trigger(false);
-                        })
-                        .on("done", function() {
-                            res.send(dberr.succ("upload success", op_list));
-                            maintain.trigger(false);
-                        })
-                        .load();
-                    } else {
-                        var names = "";
-                        op_list.forEach(function(f){
-                            names += f + ","
-                        });
-                        names = names.substr(0, names.length-1);
-                        res.send(dberr.error(-1, "upload [" + names + "] failed"));
-                    }
-                }
-            });
+        var f = fl[0].file;
+        var fn = cfg.upload.path + "/" + f.name;
+        f.mv(fn, function(err) {
+            var dbloader = new loader(database.cli, fn, fl[0].tab);
+            dbloader.on("error", function(err){
+                res.send(dberr.error(-1, err.message));
+                maintain.trigger(false);
+            })
+            .on("done", function() {
+                res.send(dberr.succ("upload success", f.name));
+                maintain.trigger(false);
+            })
+            .load();
         });
     }
 };

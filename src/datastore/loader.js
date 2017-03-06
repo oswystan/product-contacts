@@ -25,33 +25,22 @@ var loader = module.exports = function (cli, f, tab) {
 };
 inherits(loader, EventEmitter);
 
-var tabs = {};
-var employees = {};
-employees.load = function(cli, f, callback) {
-	callback({message: "NOT implemented yet, pls try later."}, null);
-};
 
-var departments = {};
-departments.load = function(cli, f, callback) {
+function load(cli, f, t, callback) {
 	var now = new Date();
-	var bk_file = cfg.upload.path + "/departments_backup" + ".csv";
+	var bk_file = cfg.upload.path + "/backup_" + t + ".csv";
 	var sql_load = [
-		"copy departments to '" + bk_file + "' csv header delimiter ',';",
-		"alter table departments disable trigger all;",
-		"copy departments from '" + f + "' csv header delimiter ',';",
-		"alter table departments enable trigger all;",
+		"copy " + t + " to '" + bk_file + "' csv header delimiter ',';",
+		"alter table " + t + " disable trigger all;",
+		"copy "+ t + " from '" + f + "' csv header delimiter ',';",
+		"alter table " + t + " enable trigger all;",
 	];
 
 	var sql_rollback = [
-		"delete from departments;",
-		"alter table departments disable trigger all;",
-		"copy departments from '" + bk_file + "' csv header delimiter ',';",
-		"alter table departments enable trigger all;",
-	];
-
-	var sql_update_seq = [
-		"select max(id) as max_id from departments",
-		"select setval('departments_id_seq', %d)",
+		"delete from " + t,
+		"alter table " + t + " disable trigger all;",
+		"copy " + t + " from '" + bk_file + "' csv header delimiter ',';",
+		"alter table " + t + " enable trigger all;",
 	];
 
 	function do_rollback() {
@@ -74,7 +63,7 @@ departments.load = function(cli, f, callback) {
 		var max_id = 0;
 		async.series([
 			function(cb) {
-				cli.query("select max(id) as max_id from departments", function(err, result){
+				cli.query("select max(id) as max_id from " + t, function(err, result){
 					if (!err) {
 						max_id = result.rows[0].max_id;
 					}
@@ -82,7 +71,7 @@ departments.load = function(cli, f, callback) {
 				});
 			},
 			function(cb) {
-				cli.query("select setval('departments_id_seq', " + max_id + ");", function(err, result){
+				cli.query("select setval('" + t + "_id_seq', " + max_id + ");", function(err, result){
 					cb(err, null);
 				});
 			},
@@ -108,6 +97,16 @@ departments.load = function(cli, f, callback) {
 		});
 	};
 	do_load();
+}
+var tabs = {};
+var employees = {};
+employees.load = function(cli, f, callback) {
+	load(cli, f, "employees", callback);
+};
+
+var departments = {};
+departments.load = function(cli, f, callback) {
+	load(cli, f, "departments", callback);
 	//backup data
 	//disable trigger
 	//load data

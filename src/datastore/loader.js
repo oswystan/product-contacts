@@ -28,7 +28,7 @@ inherits(loader, EventEmitter);
 
 function load(cli, f, t, callback) {
 	var now = new Date();
-	var bk_file = cfg.upload.path + "/backup_" + t + "_" + now.toISOString() + ".csv";
+	var bk_file = cfg.upload.db_path + "/backup_" + t + "_" + now.toISOString() + ".csv";
 	var sql_load = [
 		"copy " + t + " to '" + bk_file + "' csv header delimiter ',';",
 		"alter table " + t + " disable trigger all;",

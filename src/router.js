@@ -16,8 +16,12 @@ exports = module.exports = {
     init: function(app) {
         ctrl.init();
 
-        app.post("/api/upload", function (req, res) {
+        app.post("/api/upload/db", function (req, res) {
             ctrl.upload(req, res);
+        });
+
+        app.post("/api/upload/avatar", function (req, res) {
+            ctrl.avatar(req, res);
         });
 
         app.post("/api/auth", function(req, res) {

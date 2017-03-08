@@ -12,6 +12,7 @@
 
 var jwt = require('jsonwebtoken');
 var fs = require('fs');
+var fx = require('mkdir-recursive');
 var db = require('./datastore/db');
 var loader = require('./datastore/loader');
 var dberr = require('./datastore/error');
@@ -122,7 +123,7 @@ exports = module.exports = {
             return;
         }
         try{
-            fs.mkdirSync(cfg.upload.path + "/");
+            fx.mkdirSync(cfg.upload.db_path + "/");
         } catch(e) {
             // check the error is not EEXIST;
             if (e.errno != -17) {
@@ -132,7 +133,7 @@ exports = module.exports = {
         }
 
         var f = fl[0].file;
-        var fn = cfg.upload.path + "/" + f.name;
+        var fn = cfg.upload.db_path + "/" + f.name;
         f.mv(fn, function(err) {
             var dbloader = new loader(database.cli, fn, fl[0].tab);
             dbloader.on("error", function(err){
@@ -145,7 +146,10 @@ exports = module.exports = {
             })
             .load();
         });
-    }
+    },
+    avatar: function(req, res) {
+        res.send(dberr.error(-1, "NOT implemented yet!"));
+    },
 };
 
 /************************************* END **************************************/

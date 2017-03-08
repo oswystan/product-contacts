@@ -30,11 +30,12 @@
 	- [x] add / modify information
 	- [x] login:
 		- jwt auth only
-		- guest: only query
+		- guest: only query and add
 		- admin: all that needed
-	- [ ] import data from file: json, csv
+	- [x] import data from file: csv
 	- [ ] multi-language support
 	- [x] select a existing leader or department when create a new department / employee.
+	- [ ] avatar for each employee.
 
 - [x] forever running
 
@@ -88,6 +89,7 @@ http://$server_ip:8000/api/e/$id   [GET]                  #NEED AUTH
 http://$server_ip:8000/api/d       [GET|POST|PUT|DELETE]  #NEED AUTH
 http://$server_ip:8000/api/d/$id   [GET]                  #NEED AUTH
 http://$server_ip:8000/api/query   [GET]                  #NEED AUTH
+http://$server_ip:8000/api/upload  [POST]                 #NEED AUTH
 http://$server_ip:8000/api/auth    [POST]
 http://$server_ip:8000/            [GET]                  
 ````

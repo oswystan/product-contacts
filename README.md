@@ -93,3 +93,9 @@ http://$server_ip:8000/api/upload  [POST]                 #NEED AUTH
 http://$server_ip:8000/api/auth    [POST]
 http://$server_ip:8000/            [GET]                  
 ````
+
+- start postgresql daemon on OSX
+
+```
+pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+```

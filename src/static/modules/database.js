@@ -234,7 +234,7 @@ define(function() {
     // upload data file into database
     //==========================================
     upload.post = function(data, succ_cb) {
-        db_upload("/api/upload", data, succ_cb);
+        db_upload("/api/upload/db", data, succ_cb);
     }
 
     //==========================================

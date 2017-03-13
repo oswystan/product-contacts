@@ -129,5 +129,32 @@ create index idx_employees_depart on employees (department);
 create unique index idx_departments_id on departments (id);
 create index idx_departments_name on departments (name);
 
+create function get_employee_name(user_id int) returns varchar as $$
+declare
+    ret varchar;
+begin
+    select name from employees where id = user_id into ret;
+    if not found then
+        ret = '';
+    end if;
+    return ret;
+end;
+$$ language plpgsql;
+
+create function get_department_name(dep_id int) returns varchar as $$
+declare
+    ret varchar;
+begin
+    select name from departments where id = dep_id into ret;
+    if not found then
+        ret = '';
+    end if;
+    return ret;
+end;
+$$ language plpgsql;
+
+create view employees_v as select *, get_department_name(department) as department_name from employees;
+create view departments_v as select *, get_employee_name(leader) as leader_name from departments;
+
 \q
 ---------------------------------------------------------------------------------

@@ -29,7 +29,7 @@ exports = module.exports = function(cli) {
     }
 
     this.list = function(req, res) {
-        var sql = `select * from departments`;
+        var sql = `select * from departments_v`;
         var sqlc = "select count(id) as cnt from departments";
         var limit = " offset $1 limit $2";
         var where = null;

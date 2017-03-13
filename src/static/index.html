@@ -397,6 +397,7 @@
                     <th>ID</th>
                     <th>NAME</th>
                     <th>LEADER</th>
+                    <th>LEADER_NAME</th>
                 </tr>
                 {{if data && data.length > 0}}
                 {{each data as val idx}}
@@ -405,6 +406,7 @@
                     <td>{{val.id}}</td>
                     <td><a href="#department.put/{{val.id}}">{{val.name}}</a></td>
                     <td>{{val.leader}}</td>
+                    <td>{{val.leader_name}}</td>
                 </tr>
                 {{/each}}
                 {{/if}}
